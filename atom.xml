@@ -5,9 +5,9 @@
   
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://yoursite.com/"/>
-  <updated>2019-07-02T19:34:13.655Z</updated>
-  <id>http://yoursite.com/</id>
+  <link href="https://dreamingwell.com/"/>
+  <updated>2019-07-05T12:47:28.164Z</updated>
+  <id>https://dreamingwell.com/</id>
   
   <author>
     <name>Travis Collins</name>
@@ -18,10 +18,10 @@
   
   <entry>
     <title>What to expect when you are expecting software</title>
-    <link href="http://yoursite.com/blog/expecting-software/"/>
-    <id>http://yoursite.com/blog/expecting-software/</id>
+    <link href="https://dreamingwell.com/blog/expecting-software/"/>
+    <id>https://dreamingwell.com/blog/expecting-software/</id>
     <published>2019-06-05T23:26:31.740Z</published>
-    <updated>2019-07-02T19:34:13.655Z</updated>
+    <updated>2019-07-05T12:47:28.164Z</updated>
     
     <summary type="html">
     
@@ -35,17 +35,17 @@
     
     </summary>
     
-      <category term="management" scheme="http://yoursite.com/categories/management/"/>
+      <category term="management" scheme="https://dreamingwell.com/categories/management/"/>
     
     
   </entry>
   
   <entry>
     <title>On-site vs. remote teams - how do I choose?</title>
-    <link href="http://yoursite.com/blog/onsite-vs-remote/"/>
-    <id>http://yoursite.com/blog/onsite-vs-remote/</id>
+    <link href="https://dreamingwell.com/blog/onsite-vs-remote/"/>
+    <id>https://dreamingwell.com/blog/onsite-vs-remote/</id>
     <published>2019-06-05T13:56:36.267Z</published>
-    <updated>2019-07-02T19:07:14.630Z</updated>
+    <updated>2019-07-05T12:30:49.602Z</updated>
     
     <summary type="html">
     
@@ -59,7 +59,7 @@
     
     </summary>
     
-      <category term="management" scheme="http://yoursite.com/categories/management/"/>
+      <category term="management" scheme="https://dreamingwell.com/categories/management/"/>
     
     
   </entry>

@@ -623,8 +623,10 @@ img[src*="#headshot"] {
 .post-container {
   width: 100%;
   height: max-content;
-  display: flex;
   flex-direction: column;
+}
+.post-container a {
+  display: inline;
 }
 .post-container .post-title {
   width: 100%;
@@ -671,6 +673,7 @@ img[src*="#headshot"] {
 }
 .post-content a {
   color: #8ba6e4;
+  display: inline;
 }
 .post-content p {
   color: white;
