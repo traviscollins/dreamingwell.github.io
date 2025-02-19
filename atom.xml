@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Travis Collins is DreamingWell</title>
+  
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://dreamingwell.com/"/>
+  <updated>2019-07-05T12:47:28.164Z</updated>
+  <id>https://dreamingwell.com/</id>
+  
+  <author>
+    <name>Travis Collins</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>What to expect when you are expecting software</title>
+    <link href="https://dreamingwell.com/blog/expecting-software/"/>
+    <id>https://dreamingwell.com/blog/expecting-software/</id>
+    <published>2019-06-05T23:26:31.740Z</published>
+    <updated>2019-07-05T12:47:28.164Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;What-qualifies-me-to-pontificate-on-this-topic&quot;&gt;&lt;a href=&quot;#What-qualifies-me-to-pontificate-on-this-topic&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+      <category term="management" scheme="https://dreamingwell.com/categories/management/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>On-site vs. remote teams - how do I choose?</title>
+    <link href="https://dreamingwell.com/blog/onsite-vs-remote/"/>
+    <id>https://dreamingwell.com/blog/onsite-vs-remote/</id>
+    <published>2019-06-05T13:56:36.267Z</published>
+    <updated>2019-07-05T12:30:49.602Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h1 id=&quot;Create-a-sense-of-belonging&quot;&gt;&lt;a href=&quot;#Create-a-sense-of-belonging&quot; class=&quot;headerlink&quot; title=&quot;Create a sense of
+        
+      
+    
+    </summary>
+    
+      <category term="management" scheme="https://dreamingwell.com/categories/management/"/>
+    
+    
+  </entry>
+  
+</feed>
