@@ -98,7 +98,8 @@
   .verdict.v-toolarge { color: var(--low); border-color: var(--line); background: var(--surface-2); }
   .model.v-toolarge .model-head { border-top-color: var(--low); }
   .index { margin: 0 0 2.75rem; }
-  .ix-top { display: flex; flex-direction: column; align-items: flex-start; gap: .5rem; }
+  .ix-top { display: flex; flex-direction: column; align-items: flex-start; gap: .5rem;
+    margin-bottom: .85rem; }
   .uc-f { display: flex; align-items: baseline; gap: .5rem; }
   .uc-f > span { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .64rem;
     letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
@@ -144,8 +145,8 @@
     .ix-size, .ix-meta { text-align: left; }
     .ix-eng { order: 5; }
   }
-  .model { margin-bottom: 2.5rem; scroll-margin-top: 1.25rem; }
-  .nofit-row { scroll-margin-top: 1.25rem; }
+  .model { margin-bottom: 2.5rem; scroll-margin-top: 5.75rem; }
+  .nofit-row { scroll-margin-top: 5.75rem; }
   .model-head { background: var(--surface); border: 1px solid var(--line);
     border-top: 3px solid var(--medium); border-radius: 10px 10px 0 0; padding: 1.35rem 1.5rem 1.15rem; }
   .model.v-degraded .model-head { border-top-color: var(--warn); }
@@ -374,7 +375,7 @@
     <h1>Apple LLM Compatibility Tracker</h1>
     <p class="sub">Select your Mac CPU model, RAM, and machine count below. Then view what AI models
     should run well on it &mdash; and those that won&rsquo;t.
-    <span class="sub-stamp">Updated <time class="ago" datetime="2026-08-26T09:11:05-04:00">2026-08-26 09:11</time>.</span></p>
+    <span class="sub-stamp">Updated <time class="ago" datetime="2026-08-26T09:13:43-04:00">2026-08-26 09:13</time>.</span></p>
   </header>
 
   <div id="rig-sentinel" aria-hidden="true"></div>
