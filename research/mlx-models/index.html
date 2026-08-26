@@ -375,7 +375,7 @@
     <h1>Apple LLM Performance Tracker</h1>
     <p class="sub">Select your Mac CPU model, RAM, and machine count below. Then view what AI models
     should run well on it &mdash; and those that won&rsquo;t.
-    <span class="sub-stamp">Updated <time class="ago" datetime="2026-08-26T09:34:08-04:00">2026-08-26 09:34</time>.</span></p>
+    <span class="sub-stamp">Updated <time class="ago" datetime="2026-08-26T09:40:59-04:00">2026-08-26 09:40</time>.</span></p>
   </header>
 
   <div id="rig-sentinel" aria-hidden="true"></div>
@@ -516,12 +516,12 @@
           <span class="ix-size">72 GB</span>
           <span class="ix-meta fit"></span>
         </a>
-        <a class="ix-row v-blocked" href="#qwenmax" data-model="qwenmax"
-           data-sw="blocked" data-swlabel="No weights" data-payload="{&quot;engines&quot;: [], &quot;kv&quot;: {&quot;bpt&quot;: null, &quot;maxctx&quot;: 1048576, &quot;why&quot;: &quot;geometry not published - the repo is gated&quot;}, &quot;params&quot;: 2400}">
+        <a class="ix-row v-ready" href="#qwenmax" data-model="qwenmax"
+           data-sw="ready" data-swlabel="Runs" data-payload="{&quot;engines&quot;: [{&quot;id&quot;: &quot;llamacpp&quot;, &quot;name&quot;: &quot;llama.cpp&quot;, &quot;s&quot;: &quot;ready&quot;, &quot;label&quot;: &quot;Runs&quot;, &quot;fam&quot;: &quot;gguf&quot;, &quot;note&quot;: &quot;Nothing on this ladder is comfortable. The smallest unpruned build is 1.30 bits per weight, and the first tier that clears 2 bits is 656.6 GB. The REAP-256GB and REAP-512GB builds are expert-pruned to hit those memory targets, which trades capacity for fit rather than precision.&quot;, &quot;ladder&quot;: [{&quot;bpw&quot;: 16.0, &quot;gb&quot;: 4893.2, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-BF16&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: 8.5, &quot;gb&quot;: 2600.2, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-Q8_0&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: 4.29, &quot;gb&quot;: 1310.9, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-UD-IQ4_XS&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: 2.39, &quot;gb&quot;: 730.7, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-UD-IQ2_XS&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: 2.15, &quot;gb&quot;: 656.6, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-UD-IQ2_XXS&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: 1.84, &quot;gb&quot;: 564.0, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-UD-IQ1_M&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: null, &quot;gb&quot;: 404.2, &quot;kind&quot;: &quot;pruned&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-REAP-512GB-IQ2_XXS&quot;, &quot;repo&quot;: &quot;hellohazime/Qwen3.8-2.4T-A95B-REAP-512GB-GGUF&quot;}, {&quot;bpw&quot;: 1.3, &quot;gb&quot;: 397.3, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-UD-Q1_0&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: null, &quot;gb&quot;: 246.2, &quot;kind&quot;: &quot;pruned&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-REAP-256GB-IQ1_S&quot;, &quot;repo&quot;: &quot;hellohazime/Qwen3.8-2.4T-A95B-REAP-256GB-GGUF&quot;}]}, {&quot;id&quot;: &quot;lmstudio&quot;, &quot;name&quot;: &quot;LM Studio&quot;, &quot;s&quot;: &quot;ready&quot;, &quot;label&quot;: &quot;Runs&quot;, &quot;fam&quot;: &quot;gguf&quot;, &quot;note&quot;: &quot;Nothing on this ladder is comfortable. The smallest unpruned build is 1.30 bits per weight, and the first tier that clears 2 bits is 656.6 GB. The REAP-256GB and REAP-512GB builds are expert-pruned to hit those memory targets, which trades capacity for fit rather than precision.&quot;, &quot;ladder&quot;: [{&quot;bpw&quot;: 16.0, &quot;gb&quot;: 4893.2, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-BF16&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: 8.5, &quot;gb&quot;: 2600.2, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-Q8_0&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: 4.29, &quot;gb&quot;: 1310.9, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-UD-IQ4_XS&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: 2.39, &quot;gb&quot;: 730.7, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-UD-IQ2_XS&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: 2.15, &quot;gb&quot;: 656.6, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-UD-IQ2_XXS&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: 1.84, &quot;gb&quot;: 564.0, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-UD-IQ1_M&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: null, &quot;gb&quot;: 404.2, &quot;kind&quot;: &quot;pruned&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-REAP-512GB-IQ2_XXS&quot;, &quot;repo&quot;: &quot;hellohazime/Qwen3.8-2.4T-A95B-REAP-512GB-GGUF&quot;}, {&quot;bpw&quot;: 1.3, &quot;gb&quot;: 397.3, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-UD-Q1_0&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: null, &quot;gb&quot;: 246.2, &quot;kind&quot;: &quot;pruned&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-REAP-256GB-IQ1_S&quot;, &quot;repo&quot;: &quot;hellohazime/Qwen3.8-2.4T-A95B-REAP-256GB-GGUF&quot;}]}, {&quot;id&quot;: &quot;omlx&quot;, &quot;name&quot;: &quot;oMLX&quot;, &quot;s&quot;: &quot;degraded&quot;, &quot;label&quot;: &quot;Pruned builds only&quot;, &quot;fam&quot;: &quot;mlx&quot;, &quot;note&quot;: &quot;Only one published MLX build is not expert-pruned, and it is 805.6 GB. Everything that fits a realistic Mac cluster has had between half and three quarters of its experts deleted.&quot;, &quot;ladder&quot;: [{&quot;bpw&quot;: 2.63, &quot;gb&quot;: 805.6, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-3bit-UVMAX&quot;, &quot;repo&quot;: &quot;kernelpool/Qwen3.8-2.4T-A95B-3bit-UVMAX&quot;}, {&quot;bpw&quot;: null, &quot;gb&quot;: 540.3, &quot;kind&quot;: &quot;pruned&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-MLX-reap50-3bit&quot;, &quot;repo&quot;: &quot;pipenetwork/Qwen3.8-2.4T-A95B-MLX-reap50-3bit&quot;}, {&quot;bpw&quot;: null, &quot;gb&quot;: 436.9, &quot;kind&quot;: &quot;pruned&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-MLX-reap60-3bit&quot;, &quot;repo&quot;: &quot;pipenetwork/Qwen3.8-2.4T-A95B-MLX-reap60-3bit&quot;}, {&quot;bpw&quot;: null, &quot;gb&quot;: 360.9, &quot;kind&quot;: &quot;pruned&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-MLX-reap75-4bit&quot;, &quot;repo&quot;: &quot;pipenetwork/Qwen3.8-2.4T-A95B-MLX-reap75-4bit&quot;}]}, {&quot;id&quot;: &quot;vllmmlx&quot;, &quot;name&quot;: &quot;vllm-mlx&quot;, &quot;s&quot;: &quot;degraded&quot;, &quot;label&quot;: &quot;Pruned builds only&quot;, &quot;fam&quot;: &quot;mlx&quot;, &quot;note&quot;: &quot;Only one published MLX build is not expert-pruned, and it is 805.6 GB. Everything that fits a realistic Mac cluster has had between half and three quarters of its experts deleted.&quot;, &quot;ladder&quot;: [{&quot;bpw&quot;: 2.63, &quot;gb&quot;: 805.6, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-3bit-UVMAX&quot;, &quot;repo&quot;: &quot;kernelpool/Qwen3.8-2.4T-A95B-3bit-UVMAX&quot;}, {&quot;bpw&quot;: null, &quot;gb&quot;: 540.3, &quot;kind&quot;: &quot;pruned&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-MLX-reap50-3bit&quot;, &quot;repo&quot;: &quot;pipenetwork/Qwen3.8-2.4T-A95B-MLX-reap50-3bit&quot;}, {&quot;bpw&quot;: null, &quot;gb&quot;: 436.9, &quot;kind&quot;: &quot;pruned&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-MLX-reap60-3bit&quot;, &quot;repo&quot;: &quot;pipenetwork/Qwen3.8-2.4T-A95B-MLX-reap60-3bit&quot;}, {&quot;bpw&quot;: null, &quot;gb&quot;: 360.9, &quot;kind&quot;: &quot;pruned&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-MLX-reap75-4bit&quot;, &quot;repo&quot;: &quot;pipenetwork/Qwen3.8-2.4T-A95B-MLX-reap75-4bit&quot;}]}, {&quot;id&quot;: &quot;mlxlm&quot;, &quot;name&quot;: &quot;mlx-lm&quot;, &quot;s&quot;: &quot;degraded&quot;, &quot;label&quot;: &quot;Pruned builds only&quot;, &quot;fam&quot;: &quot;mlx&quot;, &quot;note&quot;: &quot;Only one published MLX build is not expert-pruned, and it is 805.6 GB. Everything that fits a realistic Mac cluster has had between half and three quarters of its experts deleted.&quot;, &quot;ladder&quot;: [{&quot;bpw&quot;: 2.63, &quot;gb&quot;: 805.6, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-3bit-UVMAX&quot;, &quot;repo&quot;: &quot;kernelpool/Qwen3.8-2.4T-A95B-3bit-UVMAX&quot;}, {&quot;bpw&quot;: null, &quot;gb&quot;: 540.3, &quot;kind&quot;: &quot;pruned&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-MLX-reap50-3bit&quot;, &quot;repo&quot;: &quot;pipenetwork/Qwen3.8-2.4T-A95B-MLX-reap50-3bit&quot;}, {&quot;bpw&quot;: null, &quot;gb&quot;: 436.9, &quot;kind&quot;: &quot;pruned&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-MLX-reap60-3bit&quot;, &quot;repo&quot;: &quot;pipenetwork/Qwen3.8-2.4T-A95B-MLX-reap60-3bit&quot;}, {&quot;bpw&quot;: null, &quot;gb&quot;: 360.9, &quot;kind&quot;: &quot;pruned&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-MLX-reap75-4bit&quot;, &quot;repo&quot;: &quot;pipenetwork/Qwen3.8-2.4T-A95B-MLX-reap75-4bit&quot;}]}, {&quot;id&quot;: &quot;ollama&quot;, &quot;name&quot;: &quot;Ollama&quot;, &quot;s&quot;: &quot;blocked&quot;, &quot;label&quot;: &quot;Not in library&quot;, &quot;fam&quot;: &quot;gguf&quot;, &quot;note&quot;: &quot;Nothing on this ladder is comfortable. The smallest unpruned build is 1.30 bits per weight, and the first tier that clears 2 bits is 656.6 GB. The REAP-256GB and REAP-512GB builds are expert-pruned to hit those memory targets, which trades capacity for fit rather than precision.&quot;, &quot;ladder&quot;: [{&quot;bpw&quot;: 16.0, &quot;gb&quot;: 4893.2, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-BF16&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: 8.5, &quot;gb&quot;: 2600.2, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-Q8_0&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: 4.29, &quot;gb&quot;: 1310.9, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-UD-IQ4_XS&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: 2.39, &quot;gb&quot;: 730.7, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-UD-IQ2_XS&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: 2.15, &quot;gb&quot;: 656.6, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-UD-IQ2_XXS&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: 1.84, &quot;gb&quot;: 564.0, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-UD-IQ1_M&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: null, &quot;gb&quot;: 404.2, &quot;kind&quot;: &quot;pruned&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-REAP-512GB-IQ2_XXS&quot;, &quot;repo&quot;: &quot;hellohazime/Qwen3.8-2.4T-A95B-REAP-512GB-GGUF&quot;}, {&quot;bpw&quot;: 1.3, &quot;gb&quot;: 397.3, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-UD-Q1_0&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: null, &quot;gb&quot;: 246.2, &quot;kind&quot;: &quot;pruned&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-REAP-256GB-IQ1_S&quot;, &quot;repo&quot;: &quot;hellohazime/Qwen3.8-2.4T-A95B-REAP-256GB-GGUF&quot;}]}], &quot;kv&quot;: {&quot;bpt&quot;: 94208, &quot;maxctx&quot;: 262144, &quot;why&quot;: &quot;23 of 92 layers are full attention, one in every 4; the other 69 are linear&quot;}, &quot;params&quot;: 2446}">
           <span class="ix-name">Qwen3.8-Max</span>
-          <span class="ix-status v-blocked">No weights</span>
+          <span class="ix-status v-ready">Runs</span>
           <span class="ix-eng">llama.cpp</span>
-          <span class="ix-size">1200 GB</span>
+          <span class="ix-size">246 GB</span>
           <span class="ix-meta fit"></span>
         </a>
     </div>
@@ -3751,143 +3751,191 @@
         </div>
       </div>
     </section>
-    <section class="model v-blocked" id="qwenmax" data-model="qwenmax" data-sw="blocked"
-             data-swlabel="No weights" data-payload="{&quot;engines&quot;: [], &quot;kv&quot;: {&quot;bpt&quot;: null, &quot;maxctx&quot;: 1048576, &quot;why&quot;: &quot;geometry not published - the repo is gated&quot;}, &quot;params&quot;: 2400}">
+    <section class="model v-ready" id="qwenmax" data-model="qwenmax" data-sw="ready"
+             data-swlabel="Runs" data-payload="{&quot;engines&quot;: [{&quot;id&quot;: &quot;llamacpp&quot;, &quot;name&quot;: &quot;llama.cpp&quot;, &quot;s&quot;: &quot;ready&quot;, &quot;label&quot;: &quot;Runs&quot;, &quot;fam&quot;: &quot;gguf&quot;, &quot;note&quot;: &quot;Nothing on this ladder is comfortable. The smallest unpruned build is 1.30 bits per weight, and the first tier that clears 2 bits is 656.6 GB. The REAP-256GB and REAP-512GB builds are expert-pruned to hit those memory targets, which trades capacity for fit rather than precision.&quot;, &quot;ladder&quot;: [{&quot;bpw&quot;: 16.0, &quot;gb&quot;: 4893.2, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-BF16&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: 8.5, &quot;gb&quot;: 2600.2, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-Q8_0&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: 4.29, &quot;gb&quot;: 1310.9, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-UD-IQ4_XS&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: 2.39, &quot;gb&quot;: 730.7, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-UD-IQ2_XS&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: 2.15, &quot;gb&quot;: 656.6, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-UD-IQ2_XXS&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: 1.84, &quot;gb&quot;: 564.0, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-UD-IQ1_M&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: null, &quot;gb&quot;: 404.2, &quot;kind&quot;: &quot;pruned&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-REAP-512GB-IQ2_XXS&quot;, &quot;repo&quot;: &quot;hellohazime/Qwen3.8-2.4T-A95B-REAP-512GB-GGUF&quot;}, {&quot;bpw&quot;: 1.3, &quot;gb&quot;: 397.3, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-UD-Q1_0&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: null, &quot;gb&quot;: 246.2, &quot;kind&quot;: &quot;pruned&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-REAP-256GB-IQ1_S&quot;, &quot;repo&quot;: &quot;hellohazime/Qwen3.8-2.4T-A95B-REAP-256GB-GGUF&quot;}]}, {&quot;id&quot;: &quot;lmstudio&quot;, &quot;name&quot;: &quot;LM Studio&quot;, &quot;s&quot;: &quot;ready&quot;, &quot;label&quot;: &quot;Runs&quot;, &quot;fam&quot;: &quot;gguf&quot;, &quot;note&quot;: &quot;Nothing on this ladder is comfortable. The smallest unpruned build is 1.30 bits per weight, and the first tier that clears 2 bits is 656.6 GB. The REAP-256GB and REAP-512GB builds are expert-pruned to hit those memory targets, which trades capacity for fit rather than precision.&quot;, &quot;ladder&quot;: [{&quot;bpw&quot;: 16.0, &quot;gb&quot;: 4893.2, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-BF16&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: 8.5, &quot;gb&quot;: 2600.2, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-Q8_0&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: 4.29, &quot;gb&quot;: 1310.9, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-UD-IQ4_XS&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: 2.39, &quot;gb&quot;: 730.7, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-UD-IQ2_XS&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: 2.15, &quot;gb&quot;: 656.6, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-UD-IQ2_XXS&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: 1.84, &quot;gb&quot;: 564.0, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-UD-IQ1_M&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: null, &quot;gb&quot;: 404.2, &quot;kind&quot;: &quot;pruned&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-REAP-512GB-IQ2_XXS&quot;, &quot;repo&quot;: &quot;hellohazime/Qwen3.8-2.4T-A95B-REAP-512GB-GGUF&quot;}, {&quot;bpw&quot;: 1.3, &quot;gb&quot;: 397.3, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-UD-Q1_0&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: null, &quot;gb&quot;: 246.2, &quot;kind&quot;: &quot;pruned&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-REAP-256GB-IQ1_S&quot;, &quot;repo&quot;: &quot;hellohazime/Qwen3.8-2.4T-A95B-REAP-256GB-GGUF&quot;}]}, {&quot;id&quot;: &quot;omlx&quot;, &quot;name&quot;: &quot;oMLX&quot;, &quot;s&quot;: &quot;degraded&quot;, &quot;label&quot;: &quot;Pruned builds only&quot;, &quot;fam&quot;: &quot;mlx&quot;, &quot;note&quot;: &quot;Only one published MLX build is not expert-pruned, and it is 805.6 GB. Everything that fits a realistic Mac cluster has had between half and three quarters of its experts deleted.&quot;, &quot;ladder&quot;: [{&quot;bpw&quot;: 2.63, &quot;gb&quot;: 805.6, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-3bit-UVMAX&quot;, &quot;repo&quot;: &quot;kernelpool/Qwen3.8-2.4T-A95B-3bit-UVMAX&quot;}, {&quot;bpw&quot;: null, &quot;gb&quot;: 540.3, &quot;kind&quot;: &quot;pruned&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-MLX-reap50-3bit&quot;, &quot;repo&quot;: &quot;pipenetwork/Qwen3.8-2.4T-A95B-MLX-reap50-3bit&quot;}, {&quot;bpw&quot;: null, &quot;gb&quot;: 436.9, &quot;kind&quot;: &quot;pruned&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-MLX-reap60-3bit&quot;, &quot;repo&quot;: &quot;pipenetwork/Qwen3.8-2.4T-A95B-MLX-reap60-3bit&quot;}, {&quot;bpw&quot;: null, &quot;gb&quot;: 360.9, &quot;kind&quot;: &quot;pruned&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-MLX-reap75-4bit&quot;, &quot;repo&quot;: &quot;pipenetwork/Qwen3.8-2.4T-A95B-MLX-reap75-4bit&quot;}]}, {&quot;id&quot;: &quot;vllmmlx&quot;, &quot;name&quot;: &quot;vllm-mlx&quot;, &quot;s&quot;: &quot;degraded&quot;, &quot;label&quot;: &quot;Pruned builds only&quot;, &quot;fam&quot;: &quot;mlx&quot;, &quot;note&quot;: &quot;Only one published MLX build is not expert-pruned, and it is 805.6 GB. Everything that fits a realistic Mac cluster has had between half and three quarters of its experts deleted.&quot;, &quot;ladder&quot;: [{&quot;bpw&quot;: 2.63, &quot;gb&quot;: 805.6, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-3bit-UVMAX&quot;, &quot;repo&quot;: &quot;kernelpool/Qwen3.8-2.4T-A95B-3bit-UVMAX&quot;}, {&quot;bpw&quot;: null, &quot;gb&quot;: 540.3, &quot;kind&quot;: &quot;pruned&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-MLX-reap50-3bit&quot;, &quot;repo&quot;: &quot;pipenetwork/Qwen3.8-2.4T-A95B-MLX-reap50-3bit&quot;}, {&quot;bpw&quot;: null, &quot;gb&quot;: 436.9, &quot;kind&quot;: &quot;pruned&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-MLX-reap60-3bit&quot;, &quot;repo&quot;: &quot;pipenetwork/Qwen3.8-2.4T-A95B-MLX-reap60-3bit&quot;}, {&quot;bpw&quot;: null, &quot;gb&quot;: 360.9, &quot;kind&quot;: &quot;pruned&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-MLX-reap75-4bit&quot;, &quot;repo&quot;: &quot;pipenetwork/Qwen3.8-2.4T-A95B-MLX-reap75-4bit&quot;}]}, {&quot;id&quot;: &quot;mlxlm&quot;, &quot;name&quot;: &quot;mlx-lm&quot;, &quot;s&quot;: &quot;degraded&quot;, &quot;label&quot;: &quot;Pruned builds only&quot;, &quot;fam&quot;: &quot;mlx&quot;, &quot;note&quot;: &quot;Only one published MLX build is not expert-pruned, and it is 805.6 GB. Everything that fits a realistic Mac cluster has had between half and three quarters of its experts deleted.&quot;, &quot;ladder&quot;: [{&quot;bpw&quot;: 2.63, &quot;gb&quot;: 805.6, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-3bit-UVMAX&quot;, &quot;repo&quot;: &quot;kernelpool/Qwen3.8-2.4T-A95B-3bit-UVMAX&quot;}, {&quot;bpw&quot;: null, &quot;gb&quot;: 540.3, &quot;kind&quot;: &quot;pruned&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-MLX-reap50-3bit&quot;, &quot;repo&quot;: &quot;pipenetwork/Qwen3.8-2.4T-A95B-MLX-reap50-3bit&quot;}, {&quot;bpw&quot;: null, &quot;gb&quot;: 436.9, &quot;kind&quot;: &quot;pruned&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-MLX-reap60-3bit&quot;, &quot;repo&quot;: &quot;pipenetwork/Qwen3.8-2.4T-A95B-MLX-reap60-3bit&quot;}, {&quot;bpw&quot;: null, &quot;gb&quot;: 360.9, &quot;kind&quot;: &quot;pruned&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-MLX-reap75-4bit&quot;, &quot;repo&quot;: &quot;pipenetwork/Qwen3.8-2.4T-A95B-MLX-reap75-4bit&quot;}]}, {&quot;id&quot;: &quot;ollama&quot;, &quot;name&quot;: &quot;Ollama&quot;, &quot;s&quot;: &quot;blocked&quot;, &quot;label&quot;: &quot;Not in library&quot;, &quot;fam&quot;: &quot;gguf&quot;, &quot;note&quot;: &quot;Nothing on this ladder is comfortable. The smallest unpruned build is 1.30 bits per weight, and the first tier that clears 2 bits is 656.6 GB. The REAP-256GB and REAP-512GB builds are expert-pruned to hit those memory targets, which trades capacity for fit rather than precision.&quot;, &quot;ladder&quot;: [{&quot;bpw&quot;: 16.0, &quot;gb&quot;: 4893.2, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-BF16&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: 8.5, &quot;gb&quot;: 2600.2, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-Q8_0&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: 4.29, &quot;gb&quot;: 1310.9, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-UD-IQ4_XS&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: 2.39, &quot;gb&quot;: 730.7, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-UD-IQ2_XS&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: 2.15, &quot;gb&quot;: 656.6, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-UD-IQ2_XXS&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: 1.84, &quot;gb&quot;: 564.0, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-UD-IQ1_M&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: null, &quot;gb&quot;: 404.2, &quot;kind&quot;: &quot;pruned&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-REAP-512GB-IQ2_XXS&quot;, &quot;repo&quot;: &quot;hellohazime/Qwen3.8-2.4T-A95B-REAP-512GB-GGUF&quot;}, {&quot;bpw&quot;: 1.3, &quot;gb&quot;: 397.3, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-UD-Q1_0&quot;, &quot;repo&quot;: &quot;unsloth/Qwen3.8-2.4T-A95B-GGUF&quot;}, {&quot;bpw&quot;: null, &quot;gb&quot;: 246.2, &quot;kind&quot;: &quot;pruned&quot;, &quot;label&quot;: &quot;Qwen3.8-2.4T-A95B-REAP-256GB-IQ1_S&quot;, &quot;repo&quot;: &quot;hellohazime/Qwen3.8-2.4T-A95B-REAP-256GB-GGUF&quot;}]}], &quot;kv&quot;: {&quot;bpt&quot;: 94208, &quot;maxctx&quot;: 262144, &quot;why&quot;: &quot;23 of 92 layers are full attention, one in every 4; the other 69 are linear&quot;}, &quot;params&quot;: 2446}">
       <div class="model-head">
         <div class="model-id">
           <h2>Qwen3.8-Max</h2>
-          <span class="verdict v-blocked">No weights</span>
+          <span class="verdict v-ready">Runs</span>
         </div>
         <dl class="spec">
-          <div><dt>Architecture</dt><dd>MoE 2.4T total / 95B active</dd></div>
-          <div><dt>License</dt><dd>Qwen (gated repo)</dd></div>
-          <div><dt>Context</dt><dd>1M</dd></div>
+          <div><dt>Architecture</dt><dd>MoE 2.45T total / 95B active · hybrid GDN (23 full-attn + 69 linear of 92)</dd></div>
+          <div><dt>License</dt><dd>Qwen3.8-Max (custom)</dd></div>
+          <div><dt>Context</dt><dd>262k</dd></div>
         </dl>
         <p class="model-fit"></p>
         <div class="scores">
-          <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">Open weights</span><span class="score-v">shipped 2026-08-12</span></div></div>
-          <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">Scores</span><span class="score-v">not independently verified</span></div></div>
+          <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">Terminal-Bench 2.1</span><span class="score-v">86.6</span></div><div class="score"><span class="score-k">CoWorkBench</span><span class="score-v">74.8</span></div><div class="score"><span class="score-k">Toolathlon Verified</span><span class="score-v">72.5</span></div><div class="score"><span class="score-k">JobBench</span><span class="score-v">53.4</span></div></div>
+          <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Pro</span><span class="score-v">67.7</span></div><div class="score"><span class="score-k">QwenSWEBench</span><span class="score-v">80.7</span></div><div class="score"><span class="score-k">FrontierSWE</span><span class="score-v">73.5</span></div><div class="score"><span class="score-k">DeepSWE 1.1</span><span class="score-v">56.6</span></div></div>
         </div>
-        <p class="model-note">No longer API-only, but the repo is gated - HTTP 401 without granted access - so nobody has been able to publish a conversion for any engine. The architecture families are registered in both llama.cpp and mlx-lm, so this is an access problem rather than a support problem, and the status should be read as unknown rather than blocked.</p>
-        <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/Qwen/Qwen3.8-Max" target="_blank" rel="noopener">Qwen/Qwen3.8-Max</a><a class="src" href="https://www.explainx.ai/blog/qwen3-8-max-open-weights-live-hugging-face-august-2026" target="_blank" rel="noopener">Release coverage</a></div>
+        <p class="model-note">The weights are public at Qwen/Qwen3.8-2.4T-A95B and the architecture is already supported - this is the same qwen3_5_moe family as Qwen3.8-27B, so llama.cpp and mlx-lm both load it. Terminal-Bench 2.1 of 86.6 is second only to Kimi K3 on this page, and its SWE-bench Pro of 67.7 leads it outright. What stops it is arithmetic: 2.45T parameters means the smallest unpruned build is 397 GB at 1.30 bits per weight, and the first tier clearing 2 bits is 656 GB. Everything that fits a realistic Mac has either been quantised past the point its own quantiser warns about, or had most of its experts deleted.</p>
+        <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B" target="_blank" rel="noopener">Qwen/Qwen3.8-2.4T-A95B</a><a class="src" href="https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B" target="_blank" rel="noopener">Model card with full tables</a></div>
       </div>
       
       <div class="eng" data-model="qwenmax">
         <div class="eng-tabs" role="tablist" aria-label="Engines for Qwen3.8-Max">
-          <button type="button" role="tab" class="eng-tab s-blocked" data-eng="llamacpp"
+          <button type="button" role="tab" class="eng-tab s-ready" data-eng="llamacpp"
                   aria-selected="true" aria-controls="qwenmax-llamacpp" id="qwenmax-llamacpp-tab">
             <span class="eng-tab-n">llama.cpp</span>
-            <span class="eng-tab-s s-blocked">No weights</span>
+            <span class="eng-tab-s s-ready">Runs</span>
           </button>
           <button type="button" role="tab" class="eng-tab s-blocked" data-eng="ollama"
                   aria-selected="false" aria-controls="qwenmax-ollama" id="qwenmax-ollama-tab">
             <span class="eng-tab-n">Ollama</span>
-            <span class="eng-tab-s s-blocked">No weights</span>
+            <span class="eng-tab-s s-blocked">Not in library</span>
           </button>
-          <button type="button" role="tab" class="eng-tab s-blocked" data-eng="lmstudio"
+          <button type="button" role="tab" class="eng-tab s-ready" data-eng="lmstudio"
                   aria-selected="false" aria-controls="qwenmax-lmstudio" id="qwenmax-lmstudio-tab">
             <span class="eng-tab-n">LM Studio</span>
-            <span class="eng-tab-s s-blocked">No weights</span>
+            <span class="eng-tab-s s-ready">Runs</span>
           </button>
-          <button type="button" role="tab" class="eng-tab s-blocked" data-eng="omlx"
+          <button type="button" role="tab" class="eng-tab s-degraded" data-eng="omlx"
                   aria-selected="false" aria-controls="qwenmax-omlx" id="qwenmax-omlx-tab">
             <span class="eng-tab-n">oMLX</span>
-            <span class="eng-tab-s s-blocked">No weights</span>
+            <span class="eng-tab-s s-degraded">Pruned builds only</span>
           </button>
-          <button type="button" role="tab" class="eng-tab s-blocked" data-eng="vllmmlx"
+          <button type="button" role="tab" class="eng-tab s-degraded" data-eng="vllmmlx"
                   aria-selected="false" aria-controls="qwenmax-vllmmlx" id="qwenmax-vllmmlx-tab">
             <span class="eng-tab-n">vllm-mlx</span>
-            <span class="eng-tab-s s-blocked">No weights</span>
+            <span class="eng-tab-s s-degraded">Pruned builds only</span>
           </button>
-          <button type="button" role="tab" class="eng-tab s-blocked" data-eng="mlxlm"
+          <button type="button" role="tab" class="eng-tab s-degraded" data-eng="mlxlm"
                   aria-selected="false" aria-controls="qwenmax-mlxlm" id="qwenmax-mlxlm-tab">
             <span class="eng-tab-n">mlx-lm</span>
-            <span class="eng-tab-s s-blocked">No weights</span>
+            <span class="eng-tab-s s-degraded">Pruned builds only</span>
           </button>
         </div>
         <div class="eng-pane" id="qwenmax-llamacpp" role="tabpanel" aria-labelledby="qwenmax-llamacpp-tab"
              data-eng="llamacpp">
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + llama-server</dd></div><div><dt>Format</dt><dd>GGUF</dd></div><div><dt>API</dt><dd>OpenAI-compatible</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-blocked"></div>
-          <div class="eng-build none"><span class="eng-build-k">Build</span><span>gated repo, no GGUF published</span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
+          <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
             <tbody></tbody></table>
             <p class="ctx-why"></p></div>
-          <p class="eng-note">The architecture family is present in llama.cpp - <code>qwen35moe</code> is registered - so conversion would most likely work. Nobody has been able to publish one: the repo is gated and returns 401 without granted access. This is an access problem, not a support problem.</p>
+          <p class="eng-note">The weights are public at <code>Qwen/Qwen3.8-2.4T-A95B</code> and the architecture is <code>qwen3_5_moe</code>, which llama.cpp already implements as <code>qwen35moe</code> - the same family as Qwen3.8-27B. So this is purely a capacity problem, not a support one. The ladder is brutal: UD-IQ4_XS is 1.31 TB, UD-IQ2_XXS is 656.6 GB, and the smallest unpruned build is UD-Q1_0 at 397.3 GB. Someone has also published REAP-pruned GGUFs sized deliberately for 256 GB and 512 GB Macs.</p>
           <p class="blockers-label">0 open of 0 tracked on this engine</p>
           <p class="eng-clear">Nothing open tracked against this engine for this model.</p>
         </div>
         <div class="eng-pane" id="qwenmax-ollama" role="tabpanel" aria-labelledby="qwenmax-ollama-tab"
              data-eng="ollama" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Background server + CLI</dd></div><div><dt>Format</dt><dd>MLX on Apple Silicon, GGUF elsewhere</dd></div><div><dt>API</dt><dd>OpenAI-compatible, plus its own /api</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-blocked"></div>
-          <div class="eng-build none"><span class="eng-build-k">Build</span><span>not in the library</span></div>
+          <div class="eng-fit s-blocked" data-has-ladder="1"></div>
+          <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
             <tbody></tbody></table>
             <p class="ctx-why"></p></div>
-          <p class="eng-note">No library entry, for the same reason.</p>
+          <p class="eng-note">The <code>qwen3.8</code> library entry carries only 27B tags. Nothing at this size is published, which is reasonable - a 397 GB minimum does not suit a one-command pull.</p>
           <p class="blockers-label">0 open of 0 tracked on this engine</p>
           <p class="eng-clear">Nothing open tracked against this engine for this model.</p>
         </div>
         <div class="eng-pane" id="qwenmax-lmstudio" role="tabpanel" aria-labelledby="qwenmax-lmstudio-tab"
              data-eng="lmstudio" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Desktop app + `lms` CLI + server</dd></div><div><dt>Format</dt><dd>GGUF and MLX</dd></div><div><dt>API</dt><dd>OpenAI-compatible on :1234</dd></div><div><dt>License</dt><dd>Proprietary, free to use</dd></div></dl>
-          <div class="eng-fit s-blocked"></div>
-          <div class="eng-build none"><span class="eng-build-k">Build</span><span>no curated build</span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
+          <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
             <tbody></tbody></table>
             <p class="ctx-why"></p></div>
-          <p class="eng-note">Nothing to curate until the weights are open.</p>
+          <p class="eng-note">Through the llama.cpp engine on the GGUF ladder. Nothing curated under lmstudio-community at this size, so you are pointing it at a community repo.</p>
           <p class="blockers-label">0 open of 0 tracked on this engine</p>
           <p class="eng-clear">Nothing open tracked against this engine for this model.</p>
         </div>
         <div class="eng-pane" id="qwenmax-omlx" role="tabpanel" aria-labelledby="qwenmax-omlx-tab"
              data-eng="omlx" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Menu-bar app + server</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>Apache-2.0</dd></div></dl>
-          <div class="eng-fit s-blocked"></div>
-          <div class="eng-build none"><span class="eng-build-k">Build</span><span>no MLX conversion</span></div>
+          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
+          <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
             <tbody></tbody></table>
             <p class="ctx-why"></p></div>
-          <p class="eng-note">No conversion exists, and whether qwen3_5_moe covers this checkpoint is untested.</p>
-          <p class="blockers-label">0 open of 0 tracked on this engine</p>
-          <p class="eng-clear">Nothing open tracked against this engine for this model.</p>
+          <p class="eng-note">mlx-lm&#x27;s <code>qwen3_5_moe</code> class covers the architecture, so this loads - but every published MLX build except one is REAP expert-pruned, and the one that is not is 805.6 GB. At these sizes the load-time watchdog on &gt;300 GB checkpoints is also in play.</p>
+          <p class="blockers-label">2 open of 2 tracked on this engine</p>
+          <ul class="rows">
+        <li class="row sev-high">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/jundot/omlx/issues/2307" target="_blank" rel="noopener">oMLX&thinsp;#2307</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">High</span>
+          </div>
+          <h4>A model-discovery race orphans a loaded engine - 404 GB unreclaimable, restart only</h4>
+          <p>Server-wide, not per model. Discovery racing an in-flight load leaks the whole resident model; on a 256 GB machine that is the entire budget gone until you restart.</p>
+        </li>
+        <li class="row sev-high">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/ml-explore/mlx-lm/issues/1572" target="_blank" rel="noopener">mlx-lm&thinsp;#1572</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">High</span>
+          </div>
+          <h4>&gt;300GB models trip the GPU watchdog at load</h4>
+          <p>load_model() ends with one mx.eval(model.parameters()), building a single enormous Metal command buffer. At ~390GB it hits kIOGPUCommandBufferCallbackErrorTimeout and the error escapes uncaught, hard-aborting the process. GLM-5.2 at 4-bit is 372-475GB.</p>
+        </li>
+          </ul>
         </div>
         <div class="eng-pane" id="qwenmax-vllmmlx" role="tabpanel" aria-labelledby="qwenmax-vllmmlx-tab"
              data-eng="vllmmlx" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Server</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>Apache-2.0</dd></div></dl>
-          <div class="eng-fit s-blocked"></div>
-          <div class="eng-build none"><span class="eng-build-k">Build</span><span>no MLX conversion</span></div>
+          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
+          <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
             <tbody></tbody></table>
             <p class="ctx-why"></p></div>
-          <p class="eng-note">Untested rather than known-broken. Treat the status as unknown.</p>
-          <p class="blockers-label">0 open of 0 tracked on this engine</p>
-          <p class="eng-clear">Nothing open tracked against this engine for this model.</p>
+          <p class="eng-note">Same picture as oMLX: the class exists, the unpruned MLX build is 805.6 GB, and everything smaller has had experts deleted.</p>
+          <p class="blockers-label">1 open of 1 tracked on this engine</p>
+          <ul class="rows">
+        <li class="row sev-high">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/ml-explore/mlx-lm/issues/1572" target="_blank" rel="noopener">mlx-lm&thinsp;#1572</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">High</span>
+          </div>
+          <h4>&gt;300GB models trip the GPU watchdog at load</h4>
+          <p>load_model() ends with one mx.eval(model.parameters()), building a single enormous Metal command buffer. At ~390GB it hits kIOGPUCommandBufferCallbackErrorTimeout and the error escapes uncaught, hard-aborting the process. GLM-5.2 at 4-bit is 372-475GB.</p>
+        </li>
+          </ul>
         </div>
         <div class="eng-pane" id="qwenmax-mlxlm" role="tabpanel" aria-labelledby="qwenmax-mlxlm-tab"
              data-eng="mlxlm" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + `mlx_lm.server`</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI-compatible, minimal</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-blocked"></div>
-          <div class="eng-build none"><span class="eng-build-k">Build</span><span>no MLX conversion</span></div>
+          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
+          <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
             <tbody></tbody></table>
             <p class="ctx-why"></p></div>
-          <p class="eng-note"><code>qwen3_5_moe.py</code> exists and may well cover it. Nobody can check without the weights.</p>
-          <p class="blockers-label">0 open of 0 tracked on this engine</p>
-          <p class="eng-clear">Nothing open tracked against this engine for this model.</p>
+          <p class="eng-note"><code>qwen3_5_moe.py</code> handles it. The constraint is what has been published: pruned builds from 360.9 GB up, or 805.6 GB unpruned.</p>
+          <p class="blockers-label">2 open of 2 tracked on this engine</p>
+          <ul class="rows">
+        <li class="row sev-high">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/ml-explore/mlx-lm/issues/1572" target="_blank" rel="noopener">mlx-lm&thinsp;#1572</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">High</span>
+          </div>
+          <h4>&gt;300GB models trip the GPU watchdog at load</h4>
+          <p>load_model() ends with one mx.eval(model.parameters()), building a single enormous Metal command buffer. At ~390GB it hits kIOGPUCommandBufferCallbackErrorTimeout and the error escapes uncaught, hard-aborting the process. GLM-5.2 at 4-bit is 372-475GB.</p>
+        </li>
+        <li class="row sev-medium">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/ml-explore/mlx-lm/issues/1446" target="_blank" rel="noopener">mlx-lm&thinsp;#1446</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">Medium</span>
+          </div>
+          <h4>ArraysCache is not trimmable</h4>
+          <p>The structural reason the k=1 cap exists — GDN state layers cannot be rolled back on draft rejection. Same root cause as #730.</p>
+        </li>
+          </ul>
         </div>
       </div>
     </section>
@@ -4376,7 +4424,7 @@
     m5ultra:  { label: "M5 Ultra", gen: "M5", bw: 1200, mem: [96, 256, 512],         tb: "Thunderbolt 5", link: 80, tb5: true,  ports: 6 }
   };
   var GENS = ["M5", "M4", "M3", "M2", "M1"];
-  var USE_CASES = [{"id": "agentic", "label": "Agentic & tool use", "gate": "mild", "axis": "Tool-use and agent benchmarks. Scores are from different suites - they justify each placement rather than being directly comparable.", "rank": [["kimik3", "MCPMark-Verified", "94.5"], ["glm52", "Terminal-Bench 2.1", "81.0"], ["glm47", "τ²-Bench", "87.4"], ["gemma4", "τ²-Bench", "86.4"], ["qwen38", "Terminal-Bench 2.1", "73.0"], ["glimmer", "MCP Atlas", "75.5"], ["m3", "MCP Atlas", "74.2"], ["glm47f", "τ²-Bench", "79.5"], ["gptoss", "τ-Bench Retail", "67.8"], ["v4pro", "GDPval-AA", "1554"], ["v4flash", "GDPval-AA max effort", "1388"], ["nemolight", "MMLU Pro", "81.94"]]}, {"id": "coding", "label": "Coding", "gate": "mild", "axis": "Ordered on SWE-bench Verified where published, since it is the one coding benchmark most of these models report.", "rank": [["v4pro", "SWE-bench Verified", "80.6%"], ["m3", "SWE-bench Verified", "80.5%"], ["glimmer", "SWE-bench Verified", "76.0"], ["glm47", "SWE-bench Verified", "73.8%"], ["gptoss", "SWE-bench Verified", "62.4%"], ["glm52", "SWE-bench Pro", "62.1%"], ["qwen38", "SWE-bench Pro", "61.7"], ["glm47f", "SWE-bench Verified", "59.2%"], ["gemma4", "SWE-bench Verified", "52.0%"], ["nemolight", "SWE-bench Verified", "51.56"], ["kimik3", "LiveBench Coding", "81.45"]]}, {"id": "terminal", "label": "Terminal & CLI work", "gate": "mild", "axis": "Terminal-Bench 2.1 only, so these are directly comparable. GLM-4.7 is excluded because its 41.0 is on v2.0, a different benchmark.", "rank": [["kimik3", "Terminal-Bench 2.1", "88.3"], ["glm52", "Terminal-Bench 2.1", "81.0"], ["qwen38", "Terminal-Bench 2.1", "73.0"], ["m3", "Terminal-Bench 2.1", "66.0"], ["glimmer", "Terminal-Bench 2.1", "51.7"]]}, {"id": "computer", "label": "Computer use (GUI)", "gate": "mild", "axis": "OSWorld and AndroidWorld. Only a handful of these models report computer-use numbers at all.", "rank": [["kimik3", "OSWorld-Verified", "84.8"], ["qwen38", "OSWorld", "84.3"], ["glimmer", "OSWorld-Verified", "65.9"]]}, {"id": "concurrency", "label": "Many parallel streams", "gate": "mild", "axis": "Ranked by active parameters and KV cost per token, because at concurrency those decide throughput far more than the benchmark scores do.", "rank": [["glm47f", "3B active, 53 KiB/token", "cheapest"], ["nemolight", "3B active, 6 KiB/token", "cheapest KV"], ["gptoss", "5.1B active, 36 KiB/token", "strong"], ["glimmer", "dense 30B, 13 KiB/token", "cheap KV"], ["qwen38", "dense 27.8B, 64 KiB/token", "good"], ["v4flash", "13B active, 48 KiB/token", "large but cheap"], ["m3", "23B active, 120 KiB/token", "expensive KV"], ["glm47", "32B active, 368 KiB/token", "KV-bound"]]}, {"id": "longctx", "label": "Long context", "gate": "mild", "axis": "Ranked by KV bytes per token against the advertised ceiling - the models with a 1M window and latent attention are the only ones where a long context is affordable.", "rank": [["kimik3", "1M ctx at 27 KiB/token", "29 GB full"], ["v4flash", "1M ctx at 48 KiB/token", "52 GB full"], ["v4pro", "1M ctx at 69 KiB/token", "74 GB full"], ["glm52", "1M ctx at 88 KiB/token", "94 GB full"], ["m3", "1M ctx at 120 KiB/token", "129 GB full"], ["qwen38", "262k ctx at 64 KiB/token", "17 GB full"], ["glm47f", "203k ctx at 53 KiB/token", "11 GB full"], ["gemma4", "262k ctx at 160 KiB/token", "43 GB full"]]}];
+  var USE_CASES = [{"id": "agentic", "label": "Agentic & tool use", "gate": "mild", "axis": "Tool-use and agent benchmarks. Scores are from different suites - they justify each placement rather than being directly comparable.", "rank": [["kimik3", "MCPMark-Verified", "94.5"], ["qwenmax", "Terminal-Bench 2.1", "86.6"], ["glm52", "Terminal-Bench 2.1", "81.0"], ["q38fnext", "CoWorkBench", "73.9"], ["glm47", "\u03c4\u00b2-Bench", "87.4"], ["gemma4", "\u03c4\u00b2-Bench", "86.4"], ["qwen38", "Terminal-Bench 2.1", "73.0"], ["glimmer", "MCP Atlas", "75.5"], ["m3", "MCP Atlas", "74.2"], ["qcnext", "Terminal-Bench 2.0", "36.2"], ["glm47f", "\u03c4\u00b2-Bench", "79.5"], ["gptoss", "\u03c4-Bench Retail", "67.8"], ["v4pro", "GDPval-AA", "1554"], ["v4flash", "GDPval-AA max effort", "1388"], ["nemolight", "MMLU Pro", "81.94"]]}, {"id": "coding", "label": "Coding", "gate": "mild", "axis": "Ordered on SWE-bench Verified where published, since it is the one coding benchmark most of these models report.", "rank": [["v4pro", "SWE-bench Verified", "80.6%"], ["m3", "SWE-bench Verified", "80.5%"], ["qwenmax", "SWE-bench Pro", "67.7"], ["glimmer", "SWE-bench Verified", "76.0"], ["qcnext", "SWE-bench Verified", "74.2%"], ["glm47", "SWE-bench Verified", "73.8%"], ["gptoss", "SWE-bench Verified", "62.4%"], ["q38fnext", "SWE-bench Pro", "62.5"], ["glm52", "SWE-bench Pro", "62.1%"], ["qwen38", "SWE-bench Pro", "61.7"], ["glm47f", "SWE-bench Verified", "59.2%"], ["gemma4", "SWE-bench Verified", "52.0%"], ["nemolight", "SWE-bench Verified", "51.56"], ["kimik3", "LiveBench Coding", "81.45"]]}, {"id": "terminal", "label": "Terminal & CLI work", "gate": "mild", "axis": "Terminal-Bench 2.1 only, so these are directly comparable. GLM-4.7 is excluded because its 41.0 is on v2.0, a different benchmark.", "rank": [["kimik3", "Terminal-Bench 2.1", "88.3"], ["qwenmax", "Terminal-Bench 2.1", "86.6"], ["glm52", "Terminal-Bench 2.1", "81.0"], ["qwen38", "Terminal-Bench 2.1", "73.0"], ["m3", "Terminal-Bench 2.1", "66.0"], ["glimmer", "Terminal-Bench 2.1", "51.7"]]}, {"id": "computer", "label": "Computer use (GUI)", "gate": "mild", "axis": "OSWorld and AndroidWorld, which are different suites - AndroidWorld figures are comparable to each other, OSWorld ones are not comparable to OSWorld-Verified. Only a handful of these models report computer-use numbers at all.", "rank": [["kimik3", "OSWorld-Verified", "84.8"], ["q38fnext", "AndroidWorld", "84.5"], ["qwen38", "AndroidWorld", "81.9"], ["glimmer", "OSWorld-Verified", "65.9"]]}, {"id": "concurrency", "label": "Many parallel streams", "gate": "mild", "axis": "Ranked by active parameters and KV cost per token, because at concurrency those decide throughput far more than the benchmark scores do.", "rank": [["qcnext", "3B active, 24 KiB/token", "cheapest overall"], ["q38fnext", "6B active, 24 KiB/token", "cheap but blocked"], ["glm47f", "3B active, 53 KiB/token", "cheapest"], ["nemolight", "3B active, 6 KiB/token", "cheapest KV"], ["gptoss", "5.1B active, 36 KiB/token", "strong"], ["glimmer", "dense 30B, 13 KiB/token", "cheap KV"], ["qwen38", "dense 27.8B, 64 KiB/token", "good"], ["v4flash", "13B active, 48 KiB/token", "large but cheap"], ["m3", "23B active, 120 KiB/token", "expensive KV"], ["glm47", "32B active, 368 KiB/token", "KV-bound"]]}, {"id": "longctx", "label": "Long context", "gate": "mild", "axis": "Ranked by KV bytes per token against the advertised ceiling - the models with a 1M window and latent attention are the only ones where a long context is affordable.", "rank": [["kimik3", "1M ctx at 27 KiB/token", "29 GB full"], ["v4flash", "1M ctx at 48 KiB/token", "52 GB full"], ["v4pro", "1M ctx at 69 KiB/token", "74 GB full"], ["glm52", "1M ctx at 88 KiB/token", "94 GB full"], ["m3", "1M ctx at 120 KiB/token", "129 GB full"], ["qcnext", "262k ctx at 24 KiB/token", "6 GB full"], ["q38fnext", "262k ctx at 24 KiB/token", "6 GB full"], ["qwen38", "262k ctx at 64 KiB/token", "17 GB full"], ["glm47f", "203k ctx at 53 KiB/token", "11 GB full"], ["gemma4", "262k ctx at 160 KiB/token", "43 GB full"]]}];
   var BAND_RANK = { full: 0, mild: 1, low: 2, pruned: 2, unusable: 3 };
   var ORDER = Object.keys(MACHINES);
   var MAX_UNITS = 6, PRACTICAL_UNITS = 4, OVERHEAD = 10, WIRED = 0.90;
@@ -4671,6 +4719,7 @@
     });
     if (!uc) {
       if (ucOut) ucOut.innerHTML = "";
+      document.querySelectorAll(".ix-row").forEach(function (r) { r.style.order = ""; });
     } else {
       var inScope = {};
       uc.rank.forEach(function (r) { inScope[r[0]] = true; });
@@ -4682,8 +4731,19 @@
         winner = { row: row, entry: uc.rank[ri] };
         break;
       }
+      // Rank order for the chosen job, then everything that does not fit or does
+      // not publish a number for it. The container is a flex column, so `order`
+      // re-sequences without touching the DOM.
+      var pos = {};
+      uc.rank.forEach(function (r, i) { pos[r[0]] = i; });
       document.querySelectorAll(".ix-row").forEach(function (r) {
-        if (!inScope[r.getAttribute("data-model")]) r.classList.add("uc-out-of-scope");
+        var mid = r.getAttribute("data-model");
+        var ranked = pos[mid] !== undefined;
+        if (!ranked) r.classList.add("uc-out-of-scope");
+        var usable = ranked && r.__pick && !r.__pick.tooBig &&
+                     BAND_RANK[r.__pick.band] <= BAND_RANK[uc.gate];
+        // three tiers: usable in rank order, then ranked-but-unusable, then unranked
+        r.style.order = usable ? pos[mid] : (ranked ? 200 + pos[mid] : 400);
       });
       if (winner) {
         winner.row.classList.add("uc-best");
