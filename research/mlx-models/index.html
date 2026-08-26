@@ -66,7 +66,7 @@
   .sub { color: var(--muted); margin: 0; max-width: 48rem; }
   .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr)); gap: 1px;
     background: var(--line); border: 1px solid var(--line); border-radius: 10px;
-    overflow: hidden; margin: 2rem 0 2.75rem; }
+    overflow: hidden; margin: 0 0 2.75rem; }
   .stat { background: var(--surface); padding: 1.05rem 1.2rem; display: flex; flex-direction: column; gap: .18rem; }
   .stat .n { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 1.85rem;
     font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
@@ -79,7 +79,7 @@
   html { scroll-behavior: smooth; }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
   .rig { background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
-    padding: 1.1rem 1.3rem; margin: 0 0 1.6rem; }
+    padding: 1.1rem 1.3rem; margin: 0 0 1.25rem; }
   .rig-controls { display: flex; gap: 1.1rem; flex-wrap: wrap; align-items: flex-end; }
   .rig-f { display: flex; flex-direction: column; gap: .28rem; min-width: 0; }
   .rig-f > span { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .64rem;
@@ -244,20 +244,9 @@
   <header>
     <span class="eyebrow">vllm-mlx on Apple Silicon</span>
     <h1>Apple LLM Compatibility Tracker</h1>
-    <p class="sub">What stands between each top-tier open-weight model and running well on a Mac Studio
-    M5 Ultra 256GB under vllm-mlx. VRAM figures are measured from the actual quantised repositories.
-    mlx-lm items appear only where they propagate &mdash; vllm-mlx wraps mlx-lm's model classes,
-    so its bugs arrive here.</p>
+    <p class="sub">Select your Mac Studio model, RAM, and machine count below. Then view what AI models
+    should run well on it &mdash; and those that won&rsquo;t.</p>
   </header>
-
-  <div class="summary">
-    <div class="stat good"><span class="n">5</span><span class="k">Recommended</span></div>
-    <div class="stat mid"><span class="n">1</span><span class="k">Runs, degraded</span></div>
-    <div class="stat bad"><span class="n">6</span><span class="k">Blocked</span></div>
-    <div class="stat"><span class="n">31</span><span class="k">Open items</span></div>
-    <div class="stat time"><time class="n ago" datetime="2026-08-25T23:09:20-04:00">2026-08-25 23:09</time><span class="k">Since last change</span></div>
-  </div>
-
 
   <form class="rig" id="rig" aria-label="Cluster configuration">
     <div class="rig-controls">
@@ -274,6 +263,15 @@
     <p class="rig-out" id="rig-out"></p>
     <p class="rig-warn" id="rig-warn" hidden></p>
   </form>
+
+  <div class="summary">
+    <div class="stat good"><span class="n">5</span><span class="k">Recommended</span></div>
+    <div class="stat mid"><span class="n">1</span><span class="k">Runs, degraded</span></div>
+    <div class="stat bad"><span class="n">6</span><span class="k">Blocked</span></div>
+    <div class="stat"><span class="n">31</span><span class="k">Open items</span></div>
+    <div class="stat time"><time class="n ago" datetime="2026-08-25T23:26:04-04:00">2026-08-25 23:26</time><span class="k">Since last change</span></div>
+  </div>
+
 
   <nav class="index" aria-label="Model index">
     <h2 class="ix-head">Models at a glance</h2>
