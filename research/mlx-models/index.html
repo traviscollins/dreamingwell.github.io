@@ -98,6 +98,23 @@
   .verdict.v-toolarge { color: var(--low); border-color: var(--line); background: var(--surface-2); }
   .model.v-toolarge .model-head { border-top-color: var(--low); }
   .index { margin: 0 0 2.75rem; }
+  .ix-top { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+    gap: .6rem 1.2rem; }
+  .uc-f { display: flex; align-items: baseline; gap: .5rem; }
+  .uc-f > span { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .64rem;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .uc-f select { font-family: inherit; font-size: .84rem; font-weight: 500; color: var(--ink);
+    background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: .3rem .5rem; }
+  .uc-f select:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .uc-out { margin: 0 0 .9rem; font-size: .87rem; color: var(--ink-2); }
+  .uc-out strong { color: var(--ink); font-weight: 600; }
+  .uc-out .uc-why { display: block; margin-top: .2rem; font-size: .78rem; color: var(--muted); }
+  .ix-row.uc-best { background: var(--surface-2); box-shadow: inset 3px 0 0 0 var(--accent); }
+  .ix-row.uc-best .ix-name::after { content: "best here"; margin-left: .5rem;
+    font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .58rem; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent);
+    border-radius: 3px; padding: .1em .3em; vertical-align: .1em; }
+  .ix-row.uc-out-of-scope { opacity: .5; }
   .ix-head { font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: var(--accent);
     margin: 0 0 .7rem; font-weight: 600; font-family: "IBM Plex Mono", ui-monospace, monospace; }
   .ix-rows { display: flex; flex-direction: column; gap: 1px; background: var(--line);
@@ -357,7 +374,7 @@
     <h1>Apple LLM Compatibility Tracker</h1>
     <p class="sub">Select your Mac Studio model, RAM, and machine count below. Then view what AI models
     should run well on it &mdash; and those that won&rsquo;t.
-    <span class="sub-stamp">Updated <time class="ago" datetime="2026-08-26T08:51:40-04:00">2026-08-26 08:51</time>.</span></p>
+    <span class="sub-stamp">Updated <time class="ago" datetime="2026-08-26T09:02:38-04:00">2026-08-26 09:02</time>.</span></p>
   </header>
 
   <div id="rig-sentinel" aria-hidden="true"></div>
@@ -378,7 +395,13 @@
   </form>
 
   <nav class="index" aria-label="Model index">
-    <h2 class="ix-head">Models at a glance</h2>
+    <div class="ix-top">
+      <h2 class="ix-head">Models at a glance</h2>
+      <label class="uc-f"><span>What for?</span>
+        <select id="uc-sel"></select>
+      </label>
+    </div>
+    <p class="uc-out" id="uc-out"></p>
     <div class="ix-rows">
         <a class="ix-row v-ready" href="#v4flash" data-model="v4flash"
            data-sw="ready" data-swlabel="Best path" data-payload="{&quot;engines&quot;: [{&quot;id&quot;: &quot;ds4&quot;, &quot;name&quot;: &quot;DwarfStar (ds4)&quot;, &quot;s&quot;: &quot;ready&quot;, &quot;label&quot;: &quot;Best path&quot;, &quot;fam&quot;: &quot;ds4&quot;, &quot;note&quot;: &quot;ds4&#x27;s 2-bit builds are the exception to the usual warning. Only the routed experts are quantised - up and gate at IQ2_XXS, down at Q2_K - while shared experts, projections and routing are left untouched, and the result is scored against a 100-case fixture of official DeepSeek continuations. The project states these behave well under coding agents and call tools reliably, which is a stronger claim than anyone makes for a generic 2-bit GGUF.&quot;, &quot;ladder&quot;: [{&quot;bpw&quot;: 4.64, &quot;gb&quot;: 164.6, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-Q4KExperts-F16HC-F16Compressor-F16Indexer-Q8Attn-Q8Shared-Q8Out-chat-v2&quot;, &quot;repo&quot;: &quot;antirez/deepseek-v4-gguf&quot;}, {&quot;bpw&quot;: 4.39, &quot;gb&quot;: 156.0, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-MXFP4Experts-F16HC-F16Compressor-F16Indexer-Q8Attn-Q8Shared-Q8Out-chat-v2-mxfp4-0731&quot;, &quot;repo&quot;: &quot;antirez/deepseek-v4-gguf&quot;}, {&quot;bpw&quot;: 2.44, &quot;gb&quot;: 86.7, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-IQ2XXS-w2Q2K-AProjQ8-SExpQ8-OutQ8-chat-v2&quot;, &quot;repo&quot;: &quot;antirez/deepseek-v4-gguf&quot;}]}, {&quot;id&quot;: &quot;ollama&quot;, &quot;name&quot;: &quot;Ollama&quot;, &quot;s&quot;: &quot;ready&quot;, &quot;label&quot;: &quot;Runs&quot;, &quot;fam&quot;: &quot;gguf&quot;, &quot;note&quot;: &quot;DeepSeek released these experts in MXFP4, so the ladder tops out near 4.5 bits rather than 8. The Q8 build is not eight-bit weights; it is the native 4-bit experts in a wider container.&quot;, &quot;ladder&quot;: [{&quot;bpw&quot;: 4.56, &quot;gb&quot;: 161.9, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-0731-UD-Q8_K_XL&quot;, &quot;repo&quot;: &quot;unsloth/DeepSeek-V4-Flash-0731-GGUF&quot;}, {&quot;bpw&quot;: 4.37, &quot;gb&quot;: 155.1, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-0731-UD-Q4_K_XL&quot;, &quot;repo&quot;: &quot;unsloth/DeepSeek-V4-Flash-0731-GGUF&quot;}, {&quot;bpw&quot;: 3.85, &quot;gb&quot;: 136.7, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-0731-UD-IQ4_NL&quot;, &quot;repo&quot;: &quot;unsloth/DeepSeek-V4-Flash-0731-GGUF&quot;}, {&quot;bpw&quot;: 3.61, &quot;gb&quot;: 128.2, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-0731-UD-Q3_K_XL&quot;, &quot;repo&quot;: &quot;unsloth/DeepSeek-V4-Flash-0731-GGUF&quot;}, {&quot;bpw&quot;: 3.27, &quot;gb&quot;: 116.1, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-0731-UD-IQ3_S&quot;, &quot;repo&quot;: &quot;unsloth/DeepSeek-V4-Flash-0731-GGUF&quot;}, {&quot;bpw&quot;: 2.73, &quot;gb&quot;: 96.8, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-0731-UD-Q2_K_XL&quot;, &quot;repo&quot;: &quot;unsloth/DeepSeek-V4-Flash-0731-GGUF&quot;}, {&quot;bpw&quot;: 2.56, &quot;gb&quot;: 90.9, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-0731-UD-IQ2_M&quot;, &quot;repo&quot;: &quot;unsloth/DeepSeek-V4-Flash-0731-GGUF&quot;}, {&quot;bpw&quot;: 2.45, &quot;gb&quot;: 86.9, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-0731-UD-IQ1_M&quot;, &quot;repo&quot;: &quot;unsloth/DeepSeek-V4-Flash-0731-GGUF&quot;}, {&quot;bpw&quot;: 2.33, &quot;gb&quot;: 82.5, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-0731-UD-IQ1_S&quot;, &quot;repo&quot;: &quot;unsloth/DeepSeek-V4-Flash-0731-GGUF&quot;}]}, {&quot;id&quot;: &quot;lmstudio&quot;, &quot;name&quot;: &quot;LM Studio&quot;, &quot;s&quot;: &quot;ready&quot;, &quot;label&quot;: &quot;Runs&quot;, &quot;fam&quot;: &quot;gguf&quot;, &quot;note&quot;: &quot;DeepSeek released these experts in MXFP4, so the ladder tops out near 4.5 bits rather than 8. The Q8 build is not eight-bit weights; it is the native 4-bit experts in a wider container.&quot;, &quot;ladder&quot;: [{&quot;bpw&quot;: 4.56, &quot;gb&quot;: 161.9, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-0731-UD-Q8_K_XL&quot;, &quot;repo&quot;: &quot;unsloth/DeepSeek-V4-Flash-0731-GGUF&quot;}, {&quot;bpw&quot;: 4.37, &quot;gb&quot;: 155.1, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-0731-UD-Q4_K_XL&quot;, &quot;repo&quot;: &quot;unsloth/DeepSeek-V4-Flash-0731-GGUF&quot;}, {&quot;bpw&quot;: 3.85, &quot;gb&quot;: 136.7, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-0731-UD-IQ4_NL&quot;, &quot;repo&quot;: &quot;unsloth/DeepSeek-V4-Flash-0731-GGUF&quot;}, {&quot;bpw&quot;: 3.61, &quot;gb&quot;: 128.2, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-0731-UD-Q3_K_XL&quot;, &quot;repo&quot;: &quot;unsloth/DeepSeek-V4-Flash-0731-GGUF&quot;}, {&quot;bpw&quot;: 3.27, &quot;gb&quot;: 116.1, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-0731-UD-IQ3_S&quot;, &quot;repo&quot;: &quot;unsloth/DeepSeek-V4-Flash-0731-GGUF&quot;}, {&quot;bpw&quot;: 2.73, &quot;gb&quot;: 96.8, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-0731-UD-Q2_K_XL&quot;, &quot;repo&quot;: &quot;unsloth/DeepSeek-V4-Flash-0731-GGUF&quot;}, {&quot;bpw&quot;: 2.56, &quot;gb&quot;: 90.9, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-0731-UD-IQ2_M&quot;, &quot;repo&quot;: &quot;unsloth/DeepSeek-V4-Flash-0731-GGUF&quot;}, {&quot;bpw&quot;: 2.45, &quot;gb&quot;: 86.9, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-0731-UD-IQ1_M&quot;, &quot;repo&quot;: &quot;unsloth/DeepSeek-V4-Flash-0731-GGUF&quot;}, {&quot;bpw&quot;: 2.33, &quot;gb&quot;: 82.5, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-0731-UD-IQ1_S&quot;, &quot;repo&quot;: &quot;unsloth/DeepSeek-V4-Flash-0731-GGUF&quot;}]}, {&quot;id&quot;: &quot;omlx&quot;, &quot;name&quot;: &quot;oMLX&quot;, &quot;s&quot;: &quot;degraded&quot;, &quot;label&quot;: &quot;Runs, degraded&quot;, &quot;fam&quot;: &quot;mlx&quot;, &quot;note&quot;: &quot;&quot;, &quot;ladder&quot;: [{&quot;bpw&quot;: 8.51, &quot;gb&quot;: 302.3, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;deepseek-ai-DeepSeek-V4-Flash-8bit&quot;, &quot;repo&quot;: &quot;mlx-community/deepseek-ai-DeepSeek-V4-Flash-8bit&quot;}, {&quot;bpw&quot;: 4.27, &quot;gb&quot;: 151.5, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-4bit&quot;, &quot;repo&quot;: &quot;mlx-community/DeepSeek-V4-Flash-4bit&quot;}, {&quot;bpw&quot;: 2.88, &quot;gb&quot;: 102.2, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-MLX-Q2.8-INF&quot;, &quot;repo&quot;: &quot;inferencerlabs/DeepSeek-V4-Flash-MLX-Q2.8-INF&quot;}, {&quot;bpw&quot;: 2.72, &quot;gb&quot;: 96.5, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-2bit-DQ&quot;, &quot;repo&quot;: &quot;mlx-community/DeepSeek-V4-Flash-2bit-DQ&quot;}]}, {&quot;id&quot;: &quot;llamacpp&quot;, &quot;name&quot;: &quot;llama.cpp&quot;, &quot;s&quot;: &quot;degraded&quot;, &quot;label&quot;: &quot;Runs, degraded&quot;, &quot;fam&quot;: &quot;gguf&quot;, &quot;note&quot;: &quot;DeepSeek released these experts in MXFP4, so the ladder tops out near 4.5 bits rather than 8. The Q8 build is not eight-bit weights; it is the native 4-bit experts in a wider container.&quot;, &quot;ladder&quot;: [{&quot;bpw&quot;: 4.56, &quot;gb&quot;: 161.9, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-0731-UD-Q8_K_XL&quot;, &quot;repo&quot;: &quot;unsloth/DeepSeek-V4-Flash-0731-GGUF&quot;}, {&quot;bpw&quot;: 4.37, &quot;gb&quot;: 155.1, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-0731-UD-Q4_K_XL&quot;, &quot;repo&quot;: &quot;unsloth/DeepSeek-V4-Flash-0731-GGUF&quot;}, {&quot;bpw&quot;: 3.85, &quot;gb&quot;: 136.7, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-0731-UD-IQ4_NL&quot;, &quot;repo&quot;: &quot;unsloth/DeepSeek-V4-Flash-0731-GGUF&quot;}, {&quot;bpw&quot;: 3.61, &quot;gb&quot;: 128.2, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-0731-UD-Q3_K_XL&quot;, &quot;repo&quot;: &quot;unsloth/DeepSeek-V4-Flash-0731-GGUF&quot;}, {&quot;bpw&quot;: 3.27, &quot;gb&quot;: 116.1, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-0731-UD-IQ3_S&quot;, &quot;repo&quot;: &quot;unsloth/DeepSeek-V4-Flash-0731-GGUF&quot;}, {&quot;bpw&quot;: 2.73, &quot;gb&quot;: 96.8, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-0731-UD-Q2_K_XL&quot;, &quot;repo&quot;: &quot;unsloth/DeepSeek-V4-Flash-0731-GGUF&quot;}, {&quot;bpw&quot;: 2.56, &quot;gb&quot;: 90.9, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-0731-UD-IQ2_M&quot;, &quot;repo&quot;: &quot;unsloth/DeepSeek-V4-Flash-0731-GGUF&quot;}, {&quot;bpw&quot;: 2.45, &quot;gb&quot;: 86.9, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-0731-UD-IQ1_M&quot;, &quot;repo&quot;: &quot;unsloth/DeepSeek-V4-Flash-0731-GGUF&quot;}, {&quot;bpw&quot;: 2.33, &quot;gb&quot;: 82.5, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-0731-UD-IQ1_S&quot;, &quot;repo&quot;: &quot;unsloth/DeepSeek-V4-Flash-0731-GGUF&quot;}]}, {&quot;id&quot;: &quot;vllmmlx&quot;, &quot;name&quot;: &quot;vllm-mlx&quot;, &quot;s&quot;: &quot;blocked&quot;, &quot;label&quot;: &quot;Blocked&quot;, &quot;fam&quot;: &quot;mlx&quot;, &quot;note&quot;: &quot;&quot;, &quot;ladder&quot;: [{&quot;bpw&quot;: 8.51, &quot;gb&quot;: 302.3, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;deepseek-ai-DeepSeek-V4-Flash-8bit&quot;, &quot;repo&quot;: &quot;mlx-community/deepseek-ai-DeepSeek-V4-Flash-8bit&quot;}, {&quot;bpw&quot;: 4.27, &quot;gb&quot;: 151.5, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-4bit&quot;, &quot;repo&quot;: &quot;mlx-community/DeepSeek-V4-Flash-4bit&quot;}, {&quot;bpw&quot;: 2.88, &quot;gb&quot;: 102.2, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-MLX-Q2.8-INF&quot;, &quot;repo&quot;: &quot;inferencerlabs/DeepSeek-V4-Flash-MLX-Q2.8-INF&quot;}, {&quot;bpw&quot;: 2.72, &quot;gb&quot;: 96.5, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-2bit-DQ&quot;, &quot;repo&quot;: &quot;mlx-community/DeepSeek-V4-Flash-2bit-DQ&quot;}]}, {&quot;id&quot;: &quot;mlxlm&quot;, &quot;name&quot;: &quot;mlx-lm&quot;, &quot;s&quot;: &quot;blocked&quot;, &quot;label&quot;: &quot;Blocked&quot;, &quot;fam&quot;: &quot;mlx&quot;, &quot;note&quot;: &quot;&quot;, &quot;ladder&quot;: [{&quot;bpw&quot;: 8.51, &quot;gb&quot;: 302.3, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;deepseek-ai-DeepSeek-V4-Flash-8bit&quot;, &quot;repo&quot;: &quot;mlx-community/deepseek-ai-DeepSeek-V4-Flash-8bit&quot;}, {&quot;bpw&quot;: 4.27, &quot;gb&quot;: 151.5, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-4bit&quot;, &quot;repo&quot;: &quot;mlx-community/DeepSeek-V4-Flash-4bit&quot;}, {&quot;bpw&quot;: 2.88, &quot;gb&quot;: 102.2, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-MLX-Q2.8-INF&quot;, &quot;repo&quot;: &quot;inferencerlabs/DeepSeek-V4-Flash-MLX-Q2.8-INF&quot;}, {&quot;bpw&quot;: 2.72, &quot;gb&quot;: 96.5, &quot;kind&quot;: &quot;quant&quot;, &quot;label&quot;: &quot;DeepSeek-V4-Flash-2bit-DQ&quot;, &quot;repo&quot;: &quot;mlx-community/DeepSeek-V4-Flash-2bit-DQ&quot;}]}], &quot;kv&quot;: {&quot;bpt&quot;: 49536, &quot;maxctx&quot;: 1048576, &quot;why&quot;: &quot;43 layers of DSA latent attention, 512 + 64 rope&quot;}, &quot;params&quot;: 284}">
@@ -3984,6 +4007,8 @@
     m5ultra:  { label: "M5 Ultra", gen: "M5", bw: 1200, mem: [96, 256, 512],         tb5: true,  ports: 6 }
   };
   var GENS = ["M5", "M4", "M3", "M2", "M1"];
+  var USE_CASES = [{"id": "agentic", "label": "Agentic & tool use", "gate": "mild", "axis": "Tool-use and agent benchmarks. Scores are from different suites - they justify each placement rather than being directly comparable.", "rank": [["kimik3", "MCPMark-Verified", "94.5"], ["glm52", "Terminal-Bench 2.1", "81.0"], ["glm47", "τ²-Bench", "87.4"], ["gemma4", "τ²-Bench", "86.4"], ["qwen38", "Terminal-Bench 2.1", "73.0"], ["glimmer", "MCP Atlas", "75.5"], ["m3", "MCP Atlas", "74.2"], ["glm47f", "τ²-Bench", "79.5"], ["gptoss", "τ-Bench Retail", "67.8"], ["v4pro", "GDPval-AA", "1554"], ["v4flash", "GDPval-AA max effort", "1388"], ["nemolight", "MMLU Pro", "81.94"]]}, {"id": "coding", "label": "Coding", "gate": "mild", "axis": "Ordered on SWE-bench Verified where published, since it is the one coding benchmark most of these models report.", "rank": [["v4pro", "SWE-bench Verified", "80.6%"], ["m3", "SWE-bench Verified", "80.5%"], ["glimmer", "SWE-bench Verified", "76.0"], ["glm47", "SWE-bench Verified", "73.8%"], ["gptoss", "SWE-bench Verified", "62.4%"], ["glm52", "SWE-bench Pro", "62.1%"], ["qwen38", "SWE-bench Pro", "61.7"], ["glm47f", "SWE-bench Verified", "59.2%"], ["gemma4", "SWE-bench Verified", "52.0%"], ["nemolight", "SWE-bench Verified", "51.56"], ["kimik3", "LiveBench Coding", "81.45"]]}, {"id": "terminal", "label": "Terminal & CLI work", "gate": "mild", "axis": "Terminal-Bench 2.1 only, so these are directly comparable. GLM-4.7 is excluded because its 41.0 is on v2.0, a different benchmark.", "rank": [["kimik3", "Terminal-Bench 2.1", "88.3"], ["glm52", "Terminal-Bench 2.1", "81.0"], ["qwen38", "Terminal-Bench 2.1", "73.0"], ["m3", "Terminal-Bench 2.1", "66.0"], ["glimmer", "Terminal-Bench 2.1", "51.7"]]}, {"id": "computer", "label": "Computer use (GUI)", "gate": "mild", "axis": "OSWorld and AndroidWorld. Only a handful of these models report computer-use numbers at all.", "rank": [["kimik3", "OSWorld-Verified", "84.8"], ["qwen38", "OSWorld", "84.3"], ["glimmer", "OSWorld-Verified", "65.9"]]}, {"id": "concurrency", "label": "Many parallel streams", "gate": "mild", "axis": "Ranked by active parameters and KV cost per token, because at concurrency those decide throughput far more than the benchmark scores do.", "rank": [["glm47f", "3B active, 53 KiB/token", "cheapest"], ["nemolight", "3B active, 6 KiB/token", "cheapest KV"], ["gptoss", "5.1B active, 36 KiB/token", "strong"], ["glimmer", "dense 30B, 13 KiB/token", "cheap KV"], ["qwen38", "dense 27.8B, 64 KiB/token", "good"], ["v4flash", "13B active, 48 KiB/token", "large but cheap"], ["m3", "23B active, 120 KiB/token", "expensive KV"], ["glm47", "32B active, 368 KiB/token", "KV-bound"]]}, {"id": "longctx", "label": "Long context", "gate": "mild", "axis": "Ranked by KV bytes per token against the advertised ceiling - the models with a 1M window and latent attention are the only ones where a long context is affordable.", "rank": [["kimik3", "1M ctx at 27 KiB/token", "29 GB full"], ["v4flash", "1M ctx at 48 KiB/token", "52 GB full"], ["v4pro", "1M ctx at 69 KiB/token", "74 GB full"], ["glm52", "1M ctx at 88 KiB/token", "94 GB full"], ["m3", "1M ctx at 120 KiB/token", "129 GB full"], ["qwen38", "262k ctx at 64 KiB/token", "17 GB full"], ["glm47f", "203k ctx at 53 KiB/token", "11 GB full"], ["gemma4", "262k ctx at 160 KiB/token", "43 GB full"]]}];
+  var BAND_RANK = { full: 0, mild: 1, low: 2, pruned: 2, unusable: 3 };
   var ORDER = Object.keys(MACHINES);
   var MAX_UNITS = 6, PRACTICAL_UNITS = 4, OVERHEAD = 10, WIRED = 0.90;
   var BANDS = [[4.0, "full", "Full fidelity", "At or above 4 bits per weight, which is where measured KL divergence stays low and arithmetic and tool calling hold up."], [3.0, "mild", "Reduced fidelity", "3 to 4 bits per weight. Reasoning survives this range well, but arithmetic and long tool-calling chains start to drift. Fine for drafting, worth verifying for agent work."], [2.0, "low", "Degraded", "2 to 3 bits per weight. Measured KL divergence here is roughly 7x the 4-bit tier. Expect weaker instruction adherence and less reliable tool calls; keep tool schemas small."], [0.0, "unusable", "Below agentic-usable", "Under 2 bits per weight. Unsloth's own guidance is that 1-bit builds should not be used for agentic use-cases: tool calling breaks down, generations loop without a high presence penalty, and responses can come back empty. It loads. That is the most that should be claimed for it."]];
@@ -4176,6 +4201,9 @@
       }
 
       if (el.classList.contains("ix-row")) {
+        el.__pick = { model: el.querySelector(".ix-name").textContent.trim(), engine: chosen.name,
+                      engineId: chosen.id, gb: rung.gb, bpw: rung.bpw, band: bd.k,
+                      tooBig: f.tooBig || bd.k === "unusable" || chosen.s === "blocked" };
         el.className = "ix-row v-" + cls;
         var st = el.querySelector(".ix-status");
         st.className = "ix-status v-" + cls;
@@ -4187,6 +4215,20 @@
       }
 
       el.className = "model v-" + cls;
+      // Open the card on the engine the glance row names for this cluster, so the
+      // two never disagree - unless the reader has already picked a tab by hand.
+      var grp = el.querySelector(".eng");
+      if (grp && !grp.hasAttribute("data-user-picked")) {
+        var want = grp.querySelector('.eng-tab[data-eng="' + chosen.id + '"]');
+        if (want && want.getAttribute("aria-selected") !== "true") {
+          grp.querySelectorAll(".eng-tab").forEach(function (t) {
+            t.setAttribute("aria-selected", t === want ? "true" : "false");
+          });
+          grp.querySelectorAll(".eng-pane").forEach(function (pa) {
+            pa.hidden = pa.getAttribute("data-eng") !== chosen.id;
+          });
+        }
+      }
       var vb = el.querySelector(".verdict");
       vb.className = "verdict v-" + cls;
       vb.textContent = label;
@@ -4255,9 +4297,69 @@
       });
     });
 
+    // The winner for the selected job: walk the curated ranking and take the
+    // first model that both fits and clears that job's fidelity gate. Ranking is
+    // fixed at build time because the benchmarks are not mutually comparable;
+    // what changes with the cluster is only which entries are reachable.
+    var ucId = ucSel ? ucSel.value : "";
+    var uc = null;
+    for (var ui = 0; ui < USE_CASES.length; ui++) {
+      if (USE_CASES[ui].id === ucId) { uc = USE_CASES[ui]; break; }
+    }
+    document.querySelectorAll(".ix-row").forEach(function (r) {
+      r.classList.remove("uc-best", "uc-out-of-scope");
+    });
+    if (!uc) {
+      if (ucOut) ucOut.innerHTML = "";
+    } else {
+      var inScope = {};
+      uc.rank.forEach(function (r) { inScope[r[0]] = true; });
+      var winner = null;
+      for (var ri = 0; ri < uc.rank.length; ri++) {
+        var row = document.querySelector('.ix-row[data-model="' + uc.rank[ri][0] + '"]');
+        if (!row || !row.__pick || row.__pick.tooBig) continue;
+        if (BAND_RANK[row.__pick.band] > BAND_RANK[uc.gate]) continue;
+        winner = { row: row, entry: uc.rank[ri] };
+        break;
+      }
+      document.querySelectorAll(".ix-row").forEach(function (r) {
+        if (!inScope[r.getAttribute("data-model")]) r.classList.add("uc-out-of-scope");
+      });
+      if (winner) {
+        winner.row.classList.add("uc-best");
+        var pk = winner.row.__pick;
+        ucOut.innerHTML = "Best for <strong>" + uc.label.toLowerCase() + "</strong> on this cluster: " +
+          "<strong>" + pk.model + "</strong> via " + pk.engine + ", " + fmt(pk.gb) + " at " +
+          (pk.band === "pruned" ? "expert-pruned precision" : pk.bpw.toFixed(2) + " bits/weight") +
+          " &mdash; " + winner.entry[1] + " " + winner.entry[2] + "." +
+          "<span class='uc-why'>" + uc.axis + " Dimmed rows publish no number for this job.</span>";
+      } else {
+        ucOut.innerHTML = "<strong>Nothing suitable fits this cluster.</strong>" +
+          "<span class='uc-why'>Every model ranked for " + uc.label.toLowerCase() +
+          " is either too large here, or only fits at a precision below what this job tolerates. " +
+          "Add memory, add a machine, or pick a different job.</span>";
+      }
+    }
+
     var p = new URLSearchParams();
     p.set("chip", chip); p.set("mem", g); p.set("n", n);
+    if (ucId) p.set("uc", ucId);
     history.replaceState(null, "", location.pathname + "?" + p.toString());
+  }
+
+  var ucSel = document.getElementById("uc-sel"), ucOut = document.getElementById("uc-out");
+  if (ucSel) {
+    var o0 = document.createElement("option");
+    o0.value = ""; o0.textContent = "Anything - just show me the list";
+    ucSel.appendChild(o0);
+    USE_CASES.forEach(function (u) {
+      var o = document.createElement("option");
+      o.value = u.id; o.textContent = u.label;
+      ucSel.appendChild(o);
+    });
+    var uc0 = q.get("uc");
+    if (uc0 && USE_CASES.some(function (u) { return u.id === uc0; })) ucSel.value = uc0;
+    ucSel.addEventListener("change", apply);
   }
 
   var sentinel = document.getElementById("rig-sentinel");
@@ -4289,7 +4391,7 @@
         panes.forEach(function (p) { p.hidden = p.getAttribute("data-eng") !== id; });
       }
       tabs.forEach(function (t, i) {
-        t.addEventListener("click", function () { show(t); });
+        t.addEventListener("click", function () { grp.setAttribute("data-user-picked", "1"); show(t); });
         t.addEventListener("keydown", function (ev) {
           var d = ev.key === "ArrowRight" ? 1 : ev.key === "ArrowLeft" ? -1 : 0;
           if (!d) return;
