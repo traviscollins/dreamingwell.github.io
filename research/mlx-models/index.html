@@ -226,11 +226,11 @@
   </header>
 
   <div class="summary">
-    <div class="stat good"><span class="n">2</span><span class="k">Recommended</span></div>
+    <div class="stat good"><span class="n">5</span><span class="k">Recommended</span></div>
     <div class="stat mid"><span class="n">1</span><span class="k">Runs, degraded</span></div>
-    <div class="stat bad"><span class="n">5</span><span class="k">Blocked</span></div>
-    <div class="stat"><span class="n">26</span><span class="k">Open items</span></div>
-    <div class="stat time"><time class="n ago" datetime="2026-08-25T22:26:21-04:00">2026-08-25 22:26</time><span class="k">Since last change</span></div>
+    <div class="stat bad"><span class="n">6</span><span class="k">Blocked</span></div>
+    <div class="stat"><span class="n">31</span><span class="k">Open items</span></div>
+    <div class="stat time"><time class="n ago" datetime="2026-08-25T22:33:56-04:00">2026-08-25 22:33</time><span class="k">Since last change</span></div>
   </div>
 
 
@@ -264,6 +264,30 @@
           <span class="ix-status v-ready">Fast lane</span>
           <span class="ix-size">17 GB</span>
           <span class="ix-meta fit">1 open item</span>
+        </a>
+        <a class="ix-row v-ready" href="#glimmer" data-w="19.4" data-sw="ready" data-swlabel="Recommended">
+          <span class="ix-name">Muse Glimmer 30B</span>
+          <span class="ix-status v-ready">Recommended</span>
+          <span class="ix-size">19 GB</span>
+          <span class="ix-meta fit">clear</span>
+        </a>
+        <a class="ix-row v-ready" href="#nemolight" data-w="17.8" data-sw="ready" data-swlabel="Fast lane">
+          <span class="ix-name">Nemotron 3.5 Lightning</span>
+          <span class="ix-status v-ready">Fast lane</span>
+          <span class="ix-size">18 GB</span>
+          <span class="ix-meta fit">clear</span>
+        </a>
+        <a class="ix-row v-ready" href="#gptoss" data-w="65.8" data-sw="ready" data-swlabel="Solid">
+          <span class="ix-name">gpt-oss-120b</span>
+          <span class="ix-status v-ready">Solid</span>
+          <span class="ix-size">66 GB</span>
+          <span class="ix-meta fit">clear</span>
+        </a>
+        <a class="ix-row v-blocked" href="#gemma4" data-w="17.5" data-sw="blocked" data-swlabel="Blocked">
+          <span class="ix-name">Gemma 4 31B</span>
+          <span class="ix-status v-blocked">Blocked</span>
+          <span class="ix-size">18 GB*</span>
+          <span class="ix-meta fit">5 open items</span>
         </a>
         <a class="ix-row v-degraded" href="#qwen38" data-w="20.7" data-sw="degraded" data-swlabel="Runs, degraded">
           <span class="ix-name">Qwen3.8-27B</span>
@@ -379,6 +403,159 @@
           </div>
           <h4>PR: GLM-4.7 thinking streams into content, not reasoning_content</h4>
           <p>With --reasoning-parser glm4 the entire thinking block lands in content. Non-streaming is unaffected, so it is easy to miss - an agent frontend renders the model&#x27;s reasoning as the visible reply.</p>
+        </li>
+      </ul>
+    </section>
+    <section class="model v-ready" id="glimmer" data-w="19.4" data-sw="ready" data-swlabel="Recommended">
+      <div class="model-head">
+        <div class="model-id">
+          <h2>Muse Glimmer 30B</h2>
+          <span class="verdict v-ready">Recommended</span>
+        </div>
+        <dl class="spec">
+          <div><dt>Architecture</dt><dd>Dense 30B · multimodal (text + image)</dd></div>
+          <div><dt>License</dt><dd>Apache-2.0</dd></div>
+          <div><dt>Context</dt><dd>131k</dd></div>
+        </dl>
+        <div class="vram">
+          <span class="vram-k">VRAM required</span>
+          <span class="vram-v">~29 GB resident · leaves ~201 GB for KV on a 256 GB machine</span>
+        </div>
+        <div class="quants"><span class="q-cat">Reference quant &mdash; measured from the repo</span><div class="q"><a class="q-repo" href="https://huggingface.co/mlx-community/Muse-Glimmer-30B-4bit" target="_blank" rel="noopener">mlx-community/Muse-Glimmer-30B-4bit</a><span class="q-size">19.4 GB</span><span class="q-note">4 shards</span></div><div class="q alt"><a class="q-repo" href="https://huggingface.co/mlx-community/Muse-Glimmer-30B-8bit" target="_blank" rel="noopener">mlx-community/Muse-Glimmer-30B-8bit</a><span class="q-size">32.4 GB</span><span class="q-note">headroom to spare either way</span></div></div>
+        <div class="scores">
+          <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">MCP Atlas</span><span class="score-v">75.5</span></div><div class="score"><span class="score-k">DeepSearch QA</span><span class="score-v">74.6</span></div><div class="score"><span class="score-k">OSWorld-Verified</span><span class="score-v">65.9</span></div><div class="score"><span class="score-k">GAIA2</span><span class="score-v">43.3</span></div><div class="score"><span class="score-k">Terminal-Bench 2.1</span><span class="score-v">51.7</span></div></div>
+          <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified</span><span class="score-v">76.0</span></div><div class="score"><span class="score-k">SWE-bench Pro</span><span class="score-v">51.2</span></div></div>
+        </div>
+        <p class="model-note">Meta’s open agentic model, distilled from the closed Muse Spark — Spark itself is API-only, so this is the one you can actually run. Apache-2.0, a full mlx-community quant family at 4/5/6/8-bit, and zero open muse_glimmer issues in mlx-lm. It leads MCP Atlas at 75.5 and posts SWE-bench Verified 76.0, but its Terminal-Bench 2.1 of 51.7 trails Qwen3.8-27B’s 73.0, so it is stronger at tool orchestration than at raw terminal work. One caution for agent use: Siren AgentDojo puts its prompt-injection attack-success rate at 28.4%.</p>
+        <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/meta-models/Muse-Glimmer-30B" target="_blank" rel="noopener">meta-models/Muse-Glimmer-30B</a><a class="src" href="https://research.meta.ai/blog/introducing-muse-glimmer-open-agentic-model" target="_blank" rel="noopener">Meta AI Research announcement</a><a class="src" href="https://artificialanalysis.ai/articles/muse-glimmer" target="_blank" rel="noopener">Artificial Analysis benchmarks</a><a class="src" href="https://huggingface.co/meta-models/Muse-Glimmer-30B" target="_blank" rel="noopener">Model card</a></div>
+        <p class="blockers-label">0 open of 0 tracked</p>
+      </div>
+      <ul class="rows">
+      </ul>
+    </section>
+    <section class="model v-ready" id="nemolight" data-w="17.8" data-sw="ready" data-swlabel="Fast lane">
+      <div class="model-head">
+        <div class="model-id">
+          <h2>Nemotron 3.5 Lightning</h2>
+          <span class="verdict v-ready">Fast lane</span>
+        </div>
+        <dl class="spec">
+          <div><dt>Architecture</dt><dd>MoE 30B total / ~3B active · hybrid Mamba-Transformer</dd></div>
+          <div><dt>License</dt><dd>NVIDIA OpenMDW-1.1</dd></div>
+          <div><dt>Context</dt><dd>128k</dd></div>
+        </dl>
+        <div class="vram">
+          <span class="vram-k">VRAM required</span>
+          <span class="vram-v">~28 GB resident · leaves ~202 GB for KV on a 256 GB machine</span>
+        </div>
+        <div class="quants"><span class="q-cat">Reference quant &mdash; measured from the repo</span><div class="q"><a class="q-repo" href="https://huggingface.co/mlx-community/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-4bit" target="_blank" rel="noopener">mlx-community/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-4bit</a><span class="q-size">17.8 GB</span><span class="q-note">4 shards</span></div></div>
+        <div class="scores">
+          <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">MMLU Pro</span><span class="score-v">81.94</span></div><div class="score"><span class="score-k">GPQA Diamond</span><span class="score-v">75.44</span></div></div>
+          <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified</span><span class="score-v">51.56</span></div><div class="score"><span class="score-k">PinchBench</span><span class="score-v">85.37</span></div></div>
+        </div>
+        <p class="model-note">Released 2026-08-11 with weights, training data and recipes. 3B active makes it the cheapest thing here to run at concurrency, and nothing for this architecture is open in mlx-lm. Published agentic coverage is thin — NVIDIA leads with general benchmarks — so treat it as a fast tier to trial rather than a proven agentic pick. The larger Nemotron 3 Super (120B-A12B) and Ultra (550B-A55B, SWE-bench Verified 70.7) are stronger but have no MLX quantisation published.</p>
+        <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B" target="_blank" rel="noopener">nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B</a><a class="src" href="https://build.nvidia.com/nvidia/nemotron-3.5-lightning-30b-a3b/modelcard" target="_blank" rel="noopener">NVIDIA model card</a><a class="src" href="https://www.datacamp.com/blog/nemotron-3-5-lightning" target="_blank" rel="noopener">Benchmark writeup</a></div>
+        <p class="blockers-label">0 open of 0 tracked</p>
+      </div>
+      <ul class="rows">
+      </ul>
+    </section>
+    <section class="model v-ready" id="gptoss" data-w="65.8" data-sw="ready" data-swlabel="Solid">
+      <div class="model-head">
+        <div class="model-id">
+          <h2>gpt-oss-120b</h2>
+          <span class="verdict v-ready">Solid</span>
+        </div>
+        <dl class="spec">
+          <div><dt>Architecture</dt><dd>MoE 120B total / ~5.1B active</dd></div>
+          <div><dt>License</dt><dd>Apache-2.0</dd></div>
+          <div><dt>Context</dt><dd>128k</dd></div>
+        </dl>
+        <div class="vram">
+          <span class="vram-k">VRAM required</span>
+          <span class="vram-v">~76 GB resident · leaves ~154 GB for KV on a 256 GB machine</span>
+        </div>
+        <div class="quants"><span class="q-cat">Reference quant &mdash; measured from the repo</span><div class="q"><a class="q-repo" href="https://huggingface.co/mlx-community/gpt-oss-120b-4bit" target="_blank" rel="noopener">mlx-community/gpt-oss-120b-4bit</a><span class="q-size">65.8 GB</span><span class="q-note">13 shards</span></div></div>
+        <div class="scores">
+          <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">τ-Bench Retail (high)</span><span class="score-v">67.8%</span></div><div class="score"><span class="score-k">τ-Bench Airline (high)</span><span class="score-v">49.2%</span></div></div>
+          <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified (high)</span><span class="score-v">62.4%</span></div><div class="score"><span class="score-k">Codeforces</span><span class="score-v">2622 Elo</span></div></div>
+        </div>
+        <p class="model-note">Older now, but a genuinely comfortable fit: 5.1B active means fast decode, 65.8 GB leaves plenty of KV room, and the gpt_oss path in mlx-lm is quiet. Scores scale with reasoning effort — the figures shown are the high setting; medium gives SWE-bench 52.6% and τ-Bench Retail 62.0%. Apache-2.0.</p>
+        <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/openai/gpt-oss-120b" target="_blank" rel="noopener">openai/gpt-oss-120b</a><a class="src" href="https://arxiv.org/html/2508.10925v1" target="_blank" rel="noopener">Model card / paper</a><a class="src" href="https://openai.com/index/introducing-gpt-oss/" target="_blank" rel="noopener">OpenAI announcement</a></div>
+        <p class="blockers-label">0 open of 0 tracked</p>
+      </div>
+      <ul class="rows">
+      </ul>
+    </section>
+    <section class="model v-blocked" id="gemma4" data-w="17.5" data-sw="blocked" data-swlabel="Blocked">
+      <div class="model-head">
+        <div class="model-id">
+          <h2>Gemma 4 31B</h2>
+          <span class="verdict v-blocked">Blocked</span>
+        </div>
+        <dl class="spec">
+          <div><dt>Architecture</dt><dd>Dense 30.7B · also E2B / E4B / 26B-A4B variants</dd></div>
+          <div><dt>License</dt><dd>Apache-2.0</dd></div>
+          <div><dt>Context</dt><dd>256k</dd></div>
+        </dl>
+        <div class="vram tight">
+          <span class="vram-k">VRAM required</span>
+          <span class="vram-v">~18 GB estimated at 4-bit, if a quant existed</span>
+        </div>
+        <div class="quants"><span class="q-cat">Reference quant &mdash; measured from the repo</span><div class="q"><span class="q-repo none">no 4-bit MLX quant published for the 31B</span></div></div>
+        <div class="scores">
+          <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">τ²-Bench</span><span class="score-v">86.4%</span></div></div>
+          <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified</span><span class="score-v">52.0%</span></div><div class="score"><span class="score-k">LiveCodeBench-v6</span><span class="score-v">80.0%</span></div><div class="score"><span class="score-k">SWE-bench Pro</span><span class="score-v">35.7%</span></div></div>
+        </div>
+        <p class="model-note">The scores argue for it — τ²-Bench 86.4% is the second-highest tool-use number on this page — but the MLX story is the worst here. mlx-community publishes no 4-bit quant of the 31B, only a bf16 drafter and a 12B coder finetune, and gemma4 carries more open mlx-lm issues than any other architecture tracked: generation hangs after prompt processing, empty content when thinking is on, and a variant that is not recognised at all.</p>
+        <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/google/gemma-4-31b-it" target="_blank" rel="noopener">google/gemma-4-31b-it</a><a class="src" href="https://codersera.com/blog/gemma-4-complete-guide-2026/" target="_blank" rel="noopener">Benchmark writeup</a><a class="src" href="https://www.gemma4.wiki/benchmark/gemma-4-swe-bench" target="_blank" rel="noopener">SWE-bench detail</a></div>
+        <p class="blockers-label">5 open of 5 tracked</p>
+      </div>
+      <ul class="rows">
+        <li class="row sev-critical">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/ml-explore/mlx-lm/issues/1493" target="_blank" rel="noopener">mlx-lm&thinsp;#1493</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">Critical</span>
+          </div>
+          <h4>Generation hangs at 0% CPU right after prompt processing</h4>
+          <p>A wedge, not a slowdown - the server stops doing work with no error.</p>
+        </li>
+        <li class="row sev-high">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/ml-explore/mlx-lm/issues/1352" target="_blank" rel="noopener">mlx-lm&thinsp;#1352</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">High</span>
+          </div>
+          <h4>Gemma 4 with thinking enabled returns only reasoning, content empty</h4>
+          <p>The visible reply comes back blank whenever thinking is on.</p>
+        </li>
+        <li class="row sev-medium">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/ml-explore/mlx-lm/issues/1242" target="_blank" rel="noopener">mlx-lm&thinsp;#1242</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">Medium</span>
+          </div>
+          <h4>Error loading mlx-community/gemma-4-e4b-it-4bit</h4>
+          <p>The published small-variant quant does not load cleanly.</p>
+        </li>
+        <li class="row sev-medium">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/ml-explore/mlx-lm/issues/1573" target="_blank" rel="noopener">mlx-lm&thinsp;#1573</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">Medium</span>
+          </div>
+          <h4>RotatingKVCache.to_quantized() blocks --kv-bits on sliding-window layers</h4>
+          <p>Gemma 4&#x27;s sliding-window attention cannot use a quantised KV cache.</p>
+        </li>
+        <li class="row sev-medium">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/waybarrios/vllm-mlx/issues/590" target="_blank" rel="noopener">vllm-mlx&thinsp;#590</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">Medium</span>
+          </div>
+          <h4>Gemma 4 TextModel dispatch, logit_bias API, and MLLM fallback stalls</h4>
+          <p>Dispatch falls through to qwen3_5 rather than the Gemma path.</p>
         </li>
       </ul>
     </section>
