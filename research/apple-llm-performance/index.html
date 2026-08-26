@@ -263,6 +263,16 @@
   .eng-pane { background: var(--surface); border: 1px solid var(--line); border-top: none;
     padding: 1.15rem 1.2rem 1.2rem; display: flex; flex-direction: column; gap: .8rem; }
   .model-fit { margin: 0 0 .35rem; }
+  .scores-wrap { margin-top: .9rem; border-top: 1px solid var(--line-soft); padding-top: .7rem; }
+  .scores-wrap > summary { cursor: pointer; font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .66rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
+    font-weight: 600; list-style: none; display: flex; align-items: center; gap: .4rem; }
+  .scores-wrap > summary::-webkit-details-marker { display: none; }
+  .scores-wrap > summary::before { content: "+"; font-size: .85rem; line-height: 1;
+    color: var(--accent); width: .7rem; }
+  .scores-wrap[open] > summary::before { content: "2"; }
+  .scores-wrap > summary:hover { color: var(--ink-2); }
+  .scores-wrap .scores { margin-top: .6rem; }
   .build-bpw { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .72rem;
     letter-spacing: .03em; padding: .1em .45em; border-radius: 4px; border: 1px solid var(--line); }
   .build-bpw.b-full { color: var(--ok); border-color: var(--ok); }
@@ -377,7 +387,7 @@
     <h1>Apple LLM Performance Tracker</h1>
     <p class="sub">Select your Mac CPU model, RAM, and machine count below. Then view what AI models
     should run well on it &mdash; and those that won&rsquo;t.
-    <span class="sub-stamp">Updated <time class="ago" datetime="2026-08-26T09:47:42-04:00">2026-08-26 09:47</time>.</span></p>
+    <span class="sub-stamp">Updated <time class="ago" datetime="2026-08-26T09:54:56-04:00">2026-08-26 09:54</time>.</span></p>
   </header>
 
   <div id="rig-sentinel" aria-hidden="true"></div>
@@ -542,12 +552,15 @@
           <div><dt>Context</dt><dd>131k</dd></div>
         </dl>
         <p class="model-fit"></p>
-        <div class="scores">
-          <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">τ²-Bench</span><span class="score-v">87.4%</span></div><div class="score"><span class="score-k">BrowseComp</span><span class="score-v">67.5%</span></div><div class="score"><span class="score-k">Terminal-Bench 2.0</span><span class="score-v">41.0%</span></div></div>
-          <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified</span><span class="score-v">73.8%</span></div><div class="score"><span class="score-k">LiveCodeBench-v6</span><span class="score-v">84.9%</span></div><div class="score"><span class="score-k">SWE-bench Multilingual</span><span class="score-v">66.7%</span></div></div>
-        </div>
         <p class="model-note">The strongest model that fits a single 256 GB machine without heroics, MIT-licensed, and the only one on this page that every engine here can load. What varies is the fit: llama.cpp reaches a 158.7 GB Q3 tier while the MLX 4-bit is 198.6 GB, which on one box is the difference between a usable context and a token budget. It uses conventional attention rather than hybrid linear attention, which is why it avoids the class of cache bug that dogs Qwen3.8-27B.</p>
         <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/zai-org/GLM-4.7" target="_blank" rel="noopener">zai-org/GLM-4.7</a><a class="src" href="https://huggingface.co/zai-org/GLM-4.7" target="_blank" rel="noopener">Model card (all scores)</a></div>
+        <details class="scores-wrap">
+          <summary>Benchmark scores</summary>
+          <div class="scores">
+            <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">τ²-Bench</span><span class="score-v">87.4%</span></div><div class="score"><span class="score-k">BrowseComp</span><span class="score-v">67.5%</span></div><div class="score"><span class="score-k">Terminal-Bench 2.0</span><span class="score-v">41.0%</span></div></div>
+            <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified</span><span class="score-v">73.8%</span></div><div class="score"><span class="score-k">LiveCodeBench-v6</span><span class="score-v">84.9%</span></div><div class="score"><span class="score-k">SWE-bench Multilingual</span><span class="score-v">66.7%</span></div></div>
+          </div>
+        </details>
       </div>
       
       <div class="eng" data-model="glm47">
@@ -586,8 +599,8 @@
         <div class="eng-pane" id="glm47-llamacpp" role="tabpanel" aria-labelledby="glm47-llamacpp-tab"
              data-eng="llamacpp">
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + llama-server</dd></div><div><dt>Format</dt><dd>GGUF</dd></div><div><dt>API</dt><dd>OpenAI-compatible</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -600,8 +613,8 @@
         <div class="eng-pane" id="glm47-ollama" role="tabpanel" aria-labelledby="glm47-ollama-tab"
              data-eng="ollama" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Background server + CLI</dd></div><div><dt>Format</dt><dd>MLX on Apple Silicon, GGUF elsewhere</dd></div><div><dt>API</dt><dd>OpenAI-compatible, plus its own /api</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -614,8 +627,8 @@
         <div class="eng-pane" id="glm47-lmstudio" role="tabpanel" aria-labelledby="glm47-lmstudio-tab"
              data-eng="lmstudio" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Desktop app + `lms` CLI + server</dd></div><div><dt>Format</dt><dd>GGUF and MLX</dd></div><div><dt>API</dt><dd>OpenAI-compatible on :1234</dd></div><div><dt>License</dt><dd>Proprietary, free to use</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -628,8 +641,8 @@
         <div class="eng-pane" id="glm47-omlx" role="tabpanel" aria-labelledby="glm47-omlx-tab"
              data-eng="omlx" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Menu-bar app + server</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>Apache-2.0</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -652,8 +665,8 @@
         <div class="eng-pane" id="glm47-vllmmlx" role="tabpanel" aria-labelledby="glm47-vllmmlx-tab"
              data-eng="vllmmlx" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Server</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>Apache-2.0</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -676,8 +689,8 @@
         <div class="eng-pane" id="glm47-mlxlm" role="tabpanel" aria-labelledby="glm47-mlxlm-tab"
              data-eng="mlxlm" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + `mlx_lm.server`</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI-compatible, minimal</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -712,12 +725,15 @@
           <div><dt>Context</dt><dd>131k</dd></div>
         </dl>
         <p class="model-fit"></p>
-        <div class="scores">
-          <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">τ²-Bench</span><span class="score-v">79.5%</span></div><div class="score"><span class="score-k">BrowseComp</span><span class="score-v">42.8%</span></div></div>
-          <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified</span><span class="score-v">59.2%</span></div><div class="score"><span class="score-k">LiveCodeBench-v6</span><span class="score-v">64.0%</span></div></div>
-        </div>
         <p class="model-note">3B active, so decode is bandwidth-cheap and KV space is abundant - the opposite tradeoff to GLM-4.7 from the same family and the same license. The natural cheap tier to route low-stakes work to, and the easiest thing on this page to get running on any engine.</p>
         <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/zai-org/GLM-4.7-Flash" target="_blank" rel="noopener">zai-org/GLM-4.7-Flash</a><a class="src" href="https://huggingface.co/zai-org/GLM-4.7-Flash" target="_blank" rel="noopener">Model card (all scores)</a></div>
+        <details class="scores-wrap">
+          <summary>Benchmark scores</summary>
+          <div class="scores">
+            <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">τ²-Bench</span><span class="score-v">79.5%</span></div><div class="score"><span class="score-k">BrowseComp</span><span class="score-v">42.8%</span></div></div>
+            <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified</span><span class="score-v">59.2%</span></div><div class="score"><span class="score-k">LiveCodeBench-v6</span><span class="score-v">64.0%</span></div></div>
+          </div>
+        </details>
       </div>
       
       <div class="eng" data-model="glm47f">
@@ -756,8 +772,8 @@
         <div class="eng-pane" id="glm47f-llamacpp" role="tabpanel" aria-labelledby="glm47f-llamacpp-tab"
              data-eng="llamacpp">
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + llama-server</dd></div><div><dt>Format</dt><dd>GGUF</dd></div><div><dt>API</dt><dd>OpenAI-compatible</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -770,8 +786,8 @@
         <div class="eng-pane" id="glm47f-ollama" role="tabpanel" aria-labelledby="glm47f-ollama-tab"
              data-eng="ollama" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Background server + CLI</dd></div><div><dt>Format</dt><dd>MLX on Apple Silicon, GGUF elsewhere</dd></div><div><dt>API</dt><dd>OpenAI-compatible, plus its own /api</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -784,8 +800,8 @@
         <div class="eng-pane" id="glm47f-lmstudio" role="tabpanel" aria-labelledby="glm47f-lmstudio-tab"
              data-eng="lmstudio" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Desktop app + `lms` CLI + server</dd></div><div><dt>Format</dt><dd>GGUF and MLX</dd></div><div><dt>API</dt><dd>OpenAI-compatible on :1234</dd></div><div><dt>License</dt><dd>Proprietary, free to use</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -798,8 +814,8 @@
         <div class="eng-pane" id="glm47f-omlx" role="tabpanel" aria-labelledby="glm47f-omlx-tab"
              data-eng="omlx" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Menu-bar app + server</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>Apache-2.0</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -822,8 +838,8 @@
         <div class="eng-pane" id="glm47f-vllmmlx" role="tabpanel" aria-labelledby="glm47f-vllmmlx-tab"
              data-eng="vllmmlx" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Server</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>Apache-2.0</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -846,8 +862,8 @@
         <div class="eng-pane" id="glm47f-mlxlm" role="tabpanel" aria-labelledby="glm47f-mlxlm-tab"
              data-eng="mlxlm" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + `mlx_lm.server`</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI-compatible, minimal</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -882,12 +898,15 @@
           <div><dt>Context</dt><dd>131k</dd></div>
         </dl>
         <p class="model-fit"></p>
-        <div class="scores">
-          <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">MCP Atlas</span><span class="score-v">75.5</span></div><div class="score"><span class="score-k">DeepSearch QA</span><span class="score-v">74.6</span></div><div class="score"><span class="score-k">OSWorld-Verified</span><span class="score-v">65.9</span></div><div class="score"><span class="score-k">GAIA2</span><span class="score-v">43.3</span></div><div class="score"><span class="score-k">Terminal-Bench 2.1</span><span class="score-v">51.7</span></div></div>
-          <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified</span><span class="score-v">76.0</span></div><div class="score"><span class="score-k">SWE-bench Pro</span><span class="score-v">51.2</span></div></div>
-        </div>
         <p class="model-note">Meta&#x27;s open agentic model, distilled from the closed Muse Spark - Spark itself is API-only, so this is the one you can actually run. Apache-2.0, with Meta publishing both the GGUF and a draft head, and mlx-community carrying a 4/5/6/8-bit family. It leads MCP Atlas at 75.5 and posts SWE-bench Verified 76.0, but its Terminal-Bench 2.1 of 51.7 trails Qwen3.8-27B&#x27;s 73.0, so it is stronger at tool orchestration than at raw terminal work. One caution for agent use: Siren AgentDojo puts its prompt-injection attack-success rate at 28.4%.</p>
         <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/meta-models/Muse-Glimmer-30B" target="_blank" rel="noopener">meta-models/Muse-Glimmer-30B</a><a class="src" href="https://research.meta.ai/blog/introducing-muse-glimmer-open-agentic-model" target="_blank" rel="noopener">Meta AI Research announcement</a><a class="src" href="https://artificialanalysis.ai/articles/muse-glimmer" target="_blank" rel="noopener">Artificial Analysis benchmarks</a><a class="src" href="https://huggingface.co/meta-models/Muse-Glimmer-30B" target="_blank" rel="noopener">Model card</a></div>
+        <details class="scores-wrap">
+          <summary>Benchmark scores</summary>
+          <div class="scores">
+            <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">MCP Atlas</span><span class="score-v">75.5</span></div><div class="score"><span class="score-k">DeepSearch QA</span><span class="score-v">74.6</span></div><div class="score"><span class="score-k">OSWorld-Verified</span><span class="score-v">65.9</span></div><div class="score"><span class="score-k">GAIA2</span><span class="score-v">43.3</span></div><div class="score"><span class="score-k">Terminal-Bench 2.1</span><span class="score-v">51.7</span></div></div>
+            <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified</span><span class="score-v">76.0</span></div><div class="score"><span class="score-k">SWE-bench Pro</span><span class="score-v">51.2</span></div></div>
+          </div>
+        </details>
       </div>
       
       <div class="eng" data-model="glimmer">
@@ -926,8 +945,8 @@
         <div class="eng-pane" id="glimmer-llamacpp" role="tabpanel" aria-labelledby="glimmer-llamacpp-tab"
              data-eng="llamacpp">
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + llama-server</dd></div><div><dt>Format</dt><dd>GGUF</dd></div><div><dt>API</dt><dd>OpenAI-compatible</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -968,8 +987,8 @@
         <div class="eng-pane" id="glimmer-ollama" role="tabpanel" aria-labelledby="glimmer-ollama-tab"
              data-eng="ollama" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Background server + CLI</dd></div><div><dt>Format</dt><dd>MLX on Apple Silicon, GGUF elsewhere</dd></div><div><dt>API</dt><dd>OpenAI-compatible, plus its own /api</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -982,8 +1001,8 @@
         <div class="eng-pane" id="glimmer-lmstudio" role="tabpanel" aria-labelledby="glimmer-lmstudio-tab"
              data-eng="lmstudio" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Desktop app + `lms` CLI + server</dd></div><div><dt>Format</dt><dd>GGUF and MLX</dd></div><div><dt>API</dt><dd>OpenAI-compatible on :1234</dd></div><div><dt>License</dt><dd>Proprietary, free to use</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -996,8 +1015,8 @@
         <div class="eng-pane" id="glimmer-omlx" role="tabpanel" aria-labelledby="glimmer-omlx-tab"
              data-eng="omlx" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Menu-bar app + server</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>Apache-2.0</dd></div></dl>
-          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -1047,8 +1066,8 @@
         <div class="eng-pane" id="glimmer-vllmmlx" role="tabpanel" aria-labelledby="glimmer-vllmmlx-tab"
              data-eng="vllmmlx" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Server</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>Apache-2.0</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -1061,8 +1080,8 @@
         <div class="eng-pane" id="glimmer-mlxlm" role="tabpanel" aria-labelledby="glimmer-mlxlm-tab"
              data-eng="mlxlm" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + `mlx_lm.server`</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI-compatible, minimal</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -1097,12 +1116,15 @@
           <div><dt>Context</dt><dd>128k</dd></div>
         </dl>
         <p class="model-fit"></p>
-        <div class="scores">
-          <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">MMLU Pro</span><span class="score-v">81.94</span></div><div class="score"><span class="score-k">GPQA Diamond</span><span class="score-v">75.44</span></div></div>
-          <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified</span><span class="score-v">51.56</span></div><div class="score"><span class="score-k">PinchBench</span><span class="score-v">85.37</span></div></div>
-        </div>
         <p class="model-note">Released 2026-08-11 with weights, training data and recipes. 3B active makes it the cheapest thing here to run at concurrency, and the checkpoint ships MTP draft weights. Published agentic coverage is thin - NVIDIA leads with general benchmarks - so treat it as a fast tier to trial rather than a proven agentic pick. The larger Nemotron 3 Super (120B-A12B) and Ultra (550B-A55B, SWE-bench Verified 70.7) are stronger but have no Apple-ready quantisation published.</p>
         <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B" target="_blank" rel="noopener">nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B</a><a class="src" href="https://build.nvidia.com/nvidia/nemotron-3.5-lightning-30b-a3b/modelcard" target="_blank" rel="noopener">NVIDIA model card</a><a class="src" href="https://www.datacamp.com/blog/nemotron-3-5-lightning" target="_blank" rel="noopener">Benchmark writeup</a></div>
+        <details class="scores-wrap">
+          <summary>Benchmark scores</summary>
+          <div class="scores">
+            <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">MMLU Pro</span><span class="score-v">81.94</span></div><div class="score"><span class="score-k">GPQA Diamond</span><span class="score-v">75.44</span></div></div>
+            <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified</span><span class="score-v">51.56</span></div><div class="score"><span class="score-k">PinchBench</span><span class="score-v">85.37</span></div></div>
+          </div>
+        </details>
       </div>
       
       <div class="eng" data-model="nemolight">
@@ -1141,8 +1163,8 @@
         <div class="eng-pane" id="nemolight-ollama" role="tabpanel" aria-labelledby="nemolight-ollama-tab"
              data-eng="ollama">
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Background server + CLI</dd></div><div><dt>Format</dt><dd>MLX on Apple Silicon, GGUF elsewhere</dd></div><div><dt>API</dt><dd>OpenAI-compatible, plus its own /api</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -1155,8 +1177,8 @@
         <div class="eng-pane" id="nemolight-llamacpp" role="tabpanel" aria-labelledby="nemolight-llamacpp-tab"
              data-eng="llamacpp" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + llama-server</dd></div><div><dt>Format</dt><dd>GGUF</dd></div><div><dt>API</dt><dd>OpenAI-compatible</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -1179,8 +1201,8 @@
         <div class="eng-pane" id="nemolight-lmstudio" role="tabpanel" aria-labelledby="nemolight-lmstudio-tab"
              data-eng="lmstudio" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Desktop app + `lms` CLI + server</dd></div><div><dt>Format</dt><dd>GGUF and MLX</dd></div><div><dt>API</dt><dd>OpenAI-compatible on :1234</dd></div><div><dt>License</dt><dd>Proprietary, free to use</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -1193,8 +1215,8 @@
         <div class="eng-pane" id="nemolight-omlx" role="tabpanel" aria-labelledby="nemolight-omlx-tab"
              data-eng="omlx" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Menu-bar app + server</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>Apache-2.0</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -1217,8 +1239,8 @@
         <div class="eng-pane" id="nemolight-vllmmlx" role="tabpanel" aria-labelledby="nemolight-vllmmlx-tab"
              data-eng="vllmmlx" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Server</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>Apache-2.0</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -1231,8 +1253,8 @@
         <div class="eng-pane" id="nemolight-mlxlm" role="tabpanel" aria-labelledby="nemolight-mlxlm-tab"
              data-eng="mlxlm" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + `mlx_lm.server`</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI-compatible, minimal</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -1257,12 +1279,15 @@
           <div><dt>Context</dt><dd>128k</dd></div>
         </dl>
         <p class="model-fit"></p>
-        <div class="scores">
-          <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">τ-Bench Retail (high)</span><span class="score-v">67.8%</span></div><div class="score"><span class="score-k">τ-Bench Airline (high)</span><span class="score-v">49.2%</span></div></div>
-          <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified (high)</span><span class="score-v">62.4%</span></div><div class="score"><span class="score-k">Codeforces</span><span class="score-v">2622 Elo</span></div></div>
-        </div>
         <p class="model-note">Older now, but a genuinely comfortable fit on any engine: 5.1B active means fast decode and 63-66 GB leaves plenty of KV room. Scores scale with reasoning effort - the figures shown are the high setting; medium gives SWE-bench 52.6% and τ-Bench Retail 62.0%. Apache-2.0. Its one recurring problem is not the model but Harmony: the channel format its tool calls ride on has open parsing defects in more than one engine.</p>
         <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/openai/gpt-oss-120b" target="_blank" rel="noopener">openai/gpt-oss-120b</a><a class="src" href="https://arxiv.org/html/2508.10925v1" target="_blank" rel="noopener">Model card / paper</a><a class="src" href="https://openai.com/index/introducing-gpt-oss/" target="_blank" rel="noopener">OpenAI announcement</a></div>
+        <details class="scores-wrap">
+          <summary>Benchmark scores</summary>
+          <div class="scores">
+            <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">τ-Bench Retail (high)</span><span class="score-v">67.8%</span></div><div class="score"><span class="score-k">τ-Bench Airline (high)</span><span class="score-v">49.2%</span></div></div>
+            <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified (high)</span><span class="score-v">62.4%</span></div><div class="score"><span class="score-k">Codeforces</span><span class="score-v">2622 Elo</span></div></div>
+          </div>
+        </details>
       </div>
       
       <div class="eng" data-model="gptoss">
@@ -1301,8 +1326,8 @@
         <div class="eng-pane" id="gptoss-llamacpp" role="tabpanel" aria-labelledby="gptoss-llamacpp-tab"
              data-eng="llamacpp">
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + llama-server</dd></div><div><dt>Format</dt><dd>GGUF</dd></div><div><dt>API</dt><dd>OpenAI-compatible</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -1334,8 +1359,8 @@
         <div class="eng-pane" id="gptoss-ollama" role="tabpanel" aria-labelledby="gptoss-ollama-tab"
              data-eng="ollama" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Background server + CLI</dd></div><div><dt>Format</dt><dd>MLX on Apple Silicon, GGUF elsewhere</dd></div><div><dt>API</dt><dd>OpenAI-compatible, plus its own /api</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -1348,8 +1373,8 @@
         <div class="eng-pane" id="gptoss-lmstudio" role="tabpanel" aria-labelledby="gptoss-lmstudio-tab"
              data-eng="lmstudio" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Desktop app + `lms` CLI + server</dd></div><div><dt>Format</dt><dd>GGUF and MLX</dd></div><div><dt>API</dt><dd>OpenAI-compatible on :1234</dd></div><div><dt>License</dt><dd>Proprietary, free to use</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -1362,8 +1387,8 @@
         <div class="eng-pane" id="gptoss-omlx" role="tabpanel" aria-labelledby="gptoss-omlx-tab"
              data-eng="omlx" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Menu-bar app + server</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>Apache-2.0</dd></div></dl>
-          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -1395,8 +1420,8 @@
         <div class="eng-pane" id="gptoss-vllmmlx" role="tabpanel" aria-labelledby="gptoss-vllmmlx-tab"
              data-eng="vllmmlx" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Server</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>Apache-2.0</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -1409,8 +1434,8 @@
         <div class="eng-pane" id="gptoss-mlxlm" role="tabpanel" aria-labelledby="gptoss-mlxlm-tab"
              data-eng="mlxlm" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + `mlx_lm.server`</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI-compatible, minimal</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -1435,12 +1460,15 @@
           <div><dt>Context</dt><dd>256k</dd></div>
         </dl>
         <p class="model-fit"></p>
-        <div class="scores">
-          <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">τ²-Bench</span><span class="score-v">86.4%</span></div></div>
-          <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified</span><span class="score-v">52.0%</span></div><div class="score"><span class="score-k">LiveCodeBench-v6</span><span class="score-v">80.0%</span></div><div class="score"><span class="score-k">SWE-bench Pro</span><span class="score-v">35.7%</span></div></div>
-        </div>
         <p class="model-note">The clearest case on this page for looking past MLX. τ²-Bench 86.4% is the second-highest tool-use number here, Google publishes a quantisation-aware-trained q4_0 GGUF itself at 17.7 GB, and llama.cpp, Ollama and LM Studio all load it today. The MLX side is the worst on this page - no 4-bit quant of the 31B, and more open mlx-lm issues than any other architecture tracked - which is exactly the sort of gap that makes an MLX-only view of Apple Silicon misleading.</p>
         <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/google/gemma-4-31b-it" target="_blank" rel="noopener">google/gemma-4-31b-it</a><a class="src" href="https://codersera.com/blog/gemma-4-complete-guide-2026/" target="_blank" rel="noopener">Benchmark writeup</a><a class="src" href="https://www.gemma4.wiki/benchmark/gemma-4-swe-bench" target="_blank" rel="noopener">SWE-bench detail</a></div>
+        <details class="scores-wrap">
+          <summary>Benchmark scores</summary>
+          <div class="scores">
+            <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">τ²-Bench</span><span class="score-v">86.4%</span></div></div>
+            <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified</span><span class="score-v">52.0%</span></div><div class="score"><span class="score-k">LiveCodeBench-v6</span><span class="score-v">80.0%</span></div><div class="score"><span class="score-k">SWE-bench Pro</span><span class="score-v">35.7%</span></div></div>
+          </div>
+        </details>
       </div>
       
       <div class="eng" data-model="gemma4">
@@ -1479,8 +1507,8 @@
         <div class="eng-pane" id="gemma4-llamacpp" role="tabpanel" aria-labelledby="gemma4-llamacpp-tab"
              data-eng="llamacpp">
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + llama-server</dd></div><div><dt>Format</dt><dd>GGUF</dd></div><div><dt>API</dt><dd>OpenAI-compatible</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -1521,8 +1549,8 @@
         <div class="eng-pane" id="gemma4-ollama" role="tabpanel" aria-labelledby="gemma4-ollama-tab"
              data-eng="ollama" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Background server + CLI</dd></div><div><dt>Format</dt><dd>MLX on Apple Silicon, GGUF elsewhere</dd></div><div><dt>API</dt><dd>OpenAI-compatible, plus its own /api</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -1535,8 +1563,8 @@
         <div class="eng-pane" id="gemma4-lmstudio" role="tabpanel" aria-labelledby="gemma4-lmstudio-tab"
              data-eng="lmstudio" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Desktop app + `lms` CLI + server</dd></div><div><dt>Format</dt><dd>GGUF and MLX</dd></div><div><dt>API</dt><dd>OpenAI-compatible on :1234</dd></div><div><dt>License</dt><dd>Proprietary, free to use</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -1549,8 +1577,8 @@
         <div class="eng-pane" id="gemma4-omlx" role="tabpanel" aria-labelledby="gemma4-omlx-tab"
              data-eng="omlx" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Menu-bar app + server</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>Apache-2.0</dd></div></dl>
-          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -1609,13 +1637,6 @@
         <div class="eng-pane" id="gemma4-vllmmlx" role="tabpanel" aria-labelledby="gemma4-vllmmlx-tab"
              data-eng="vllmmlx" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Server</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>Apache-2.0</dd></div></dl>
-          <div class="eng-fit s-blocked" data-has-ladder="1"></div>
-          <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
-          <p class="fidelity" hidden></p>
-          <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
-            <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
-            <tbody></tbody></table>
-            <p class="ctx-why"></p></div>
           <p class="eng-note">The worst MLX story on the page. No 4-bit quant of the 31B to load, and gemma4 carries more open mlx-lm issues than any other architecture here: generation hangs after prompt processing, empty content when thinking is on, a variant that is not recognised at all, and RotatingKVCache quantisation not implemented.</p>
           <p class="blockers-label">5 open of 5 tracked on this engine</p>
           <ul class="rows">
@@ -1669,13 +1690,6 @@
         <div class="eng-pane" id="gemma4-mlxlm" role="tabpanel" aria-labelledby="gemma4-mlxlm-tab"
              data-eng="mlxlm" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + `mlx_lm.server`</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI-compatible, minimal</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-blocked" data-has-ladder="1"></div>
-          <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
-          <p class="fidelity" hidden></p>
-          <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
-            <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
-            <tbody></tbody></table>
-            <p class="ctx-why"></p></div>
           <p class="eng-note">Same blockers, one layer down. These are the issues every MLX server inherits.</p>
           <p class="blockers-label">4 open of 4 tracked on this engine</p>
           <ul class="rows">
@@ -1732,12 +1746,15 @@
           <div><dt>Context</dt><dd>262k (to 1M)</dd></div>
         </dl>
         <p class="model-fit"></p>
-        <div class="scores">
-          <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">Terminal-Bench 2.1</span><span class="score-v">73.0</span></div><div class="score"><span class="score-k">OSWorld (computer use)</span><span class="score-v">84.3</span></div><div class="score"><span class="score-k">AndroidWorld</span><span class="score-v">81.9</span></div><div class="score"><span class="score-k">WebArena</span><span class="score-v">64.8</span></div></div>
-          <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">LiveCodeBench-v6</span><span class="score-v">90.3</span></div><div class="score"><span class="score-k">QwenSWEBench</span><span class="score-v">79.0</span></div><div class="score"><span class="score-k">SWE-bench Pro</span><span class="score-v">61.7</span></div><div class="score"><span class="score-k">DeepSWE 1.1</span><span class="score-v">42.2</span></div></div>
-        </div>
         <p class="model-note">Stronger on paper than its size suggests: LiveCodeBench-v6 of 90.3 beats GLM-4.7&#x27;s 84.9, and SWE-bench Pro of 61.7 is within noise of GLM-5.2&#x27;s 62.1 at 1/27th the scale. Its hybrid Gated DeltaNet layout is also the most engine-sensitive thing here - the same weights get working multi-token speculative decoding on one engine and a k=1 cap on another, so which runtime you pick changes the throughput more than which quant you pick.</p>
         <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/Qwen/Qwen3.8-27B" target="_blank" rel="noopener">Qwen/Qwen3.8-27B</a><a class="src" href="https://huggingface.co/Qwen/Qwen3.8-27B" target="_blank" rel="noopener">Model card (all scores)</a></div>
+        <details class="scores-wrap">
+          <summary>Benchmark scores</summary>
+          <div class="scores">
+            <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">Terminal-Bench 2.1</span><span class="score-v">73.0</span></div><div class="score"><span class="score-k">OSWorld (computer use)</span><span class="score-v">84.3</span></div><div class="score"><span class="score-k">AndroidWorld</span><span class="score-v">81.9</span></div><div class="score"><span class="score-k">WebArena</span><span class="score-v">64.8</span></div></div>
+            <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">LiveCodeBench-v6</span><span class="score-v">90.3</span></div><div class="score"><span class="score-k">QwenSWEBench</span><span class="score-v">79.0</span></div><div class="score"><span class="score-k">SWE-bench Pro</span><span class="score-v">61.7</span></div><div class="score"><span class="score-k">DeepSWE 1.1</span><span class="score-v">42.2</span></div></div>
+          </div>
+        </details>
       </div>
       
       <div class="eng" data-model="qwen38">
@@ -1776,8 +1793,8 @@
         <div class="eng-pane" id="qwen38-llamacpp" role="tabpanel" aria-labelledby="qwen38-llamacpp-tab"
              data-eng="llamacpp">
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + llama-server</dd></div><div><dt>Format</dt><dd>GGUF</dd></div><div><dt>API</dt><dd>OpenAI-compatible</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -1818,8 +1835,8 @@
         <div class="eng-pane" id="qwen38-ollama" role="tabpanel" aria-labelledby="qwen38-ollama-tab"
              data-eng="ollama" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Background server + CLI</dd></div><div><dt>Format</dt><dd>MLX on Apple Silicon, GGUF elsewhere</dd></div><div><dt>API</dt><dd>OpenAI-compatible, plus its own /api</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -1832,8 +1849,8 @@
         <div class="eng-pane" id="qwen38-lmstudio" role="tabpanel" aria-labelledby="qwen38-lmstudio-tab"
              data-eng="lmstudio" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Desktop app + `lms` CLI + server</dd></div><div><dt>Format</dt><dd>GGUF and MLX</dd></div><div><dt>API</dt><dd>OpenAI-compatible on :1234</dd></div><div><dt>License</dt><dd>Proprietary, free to use</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -1846,8 +1863,8 @@
         <div class="eng-pane" id="qwen38-omlx" role="tabpanel" aria-labelledby="qwen38-omlx-tab"
              data-eng="omlx" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Menu-bar app + server</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>Apache-2.0</dd></div></dl>
-          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -1906,8 +1923,8 @@
         <div class="eng-pane" id="qwen38-vllmmlx" role="tabpanel" aria-labelledby="qwen38-vllmmlx-tab"
              data-eng="vllmmlx" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Server</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>Apache-2.0</dd></div></dl>
-          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -2020,8 +2037,8 @@
         <div class="eng-pane" id="qwen38-mlxlm" role="tabpanel" aria-labelledby="qwen38-mlxlm-tab"
              data-eng="mlxlm" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + `mlx_lm.server`</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI-compatible, minimal</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -2065,12 +2082,15 @@
           <div><dt>Context</dt><dd>1M</dd></div>
         </dl>
         <p class="model-fit"></p>
-        <div class="scores">
-          <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">Terminal-Bench 2.1</span><span class="score-v">66.0</span></div><div class="score"><span class="score-k">MCP Atlas</span><span class="score-v">74.2</span></div></div>
-          <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified</span><span class="score-v">80.5%</span></div><div class="score"><span class="score-k">SWE-bench Pro</span><span class="score-v">59.0%</span></div><div class="score"><span class="score-k">SWE-fficiency</span><span class="score-v">34.8</span></div></div>
-        </div>
         <p class="model-note">SWE-bench Verified 80.5% is the best coding score on this page that fits one 256 GB machine, and since the architecture reached mainline llama.cpp that is now a real option rather than a hypothetical. Note its Terminal-Bench 2.1 of 66.0 sits below Qwen3.8-27B&#x27;s 73.0 despite being 15x larger, so it is a coding pick rather than an agentic one. The MLX route is a vision-language checkpoint with open loader problems.</p>
         <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/MiniMaxAI/MiniMax-M3" target="_blank" rel="noopener">MiniMaxAI/MiniMax-M3</a><a class="src" href="https://huggingface.co/MiniMaxAI/MiniMax-M3" target="_blank" rel="noopener">Model card</a><a class="src" href="https://www.morphllm.com/minimax-m3" target="_blank" rel="noopener">Benchmark writeup</a></div>
+        <details class="scores-wrap">
+          <summary>Benchmark scores</summary>
+          <div class="scores">
+            <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">Terminal-Bench 2.1</span><span class="score-v">66.0</span></div><div class="score"><span class="score-k">MCP Atlas</span><span class="score-v">74.2</span></div></div>
+            <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified</span><span class="score-v">80.5%</span></div><div class="score"><span class="score-k">SWE-bench Pro</span><span class="score-v">59.0%</span></div><div class="score"><span class="score-k">SWE-fficiency</span><span class="score-v">34.8</span></div></div>
+          </div>
+        </details>
       </div>
       
       <div class="eng" data-model="m3">
@@ -2109,8 +2129,8 @@
         <div class="eng-pane" id="m3-llamacpp" role="tabpanel" aria-labelledby="m3-llamacpp-tab"
              data-eng="llamacpp">
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + llama-server</dd></div><div><dt>Format</dt><dd>GGUF</dd></div><div><dt>API</dt><dd>OpenAI-compatible</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -2123,8 +2143,8 @@
         <div class="eng-pane" id="m3-ollama" role="tabpanel" aria-labelledby="m3-ollama-tab"
              data-eng="ollama" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Background server + CLI</dd></div><div><dt>Format</dt><dd>MLX on Apple Silicon, GGUF elsewhere</dd></div><div><dt>API</dt><dd>OpenAI-compatible, plus its own /api</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -2137,8 +2157,8 @@
         <div class="eng-pane" id="m3-lmstudio" role="tabpanel" aria-labelledby="m3-lmstudio-tab"
              data-eng="lmstudio" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Desktop app + `lms` CLI + server</dd></div><div><dt>Format</dt><dd>GGUF and MLX</dd></div><div><dt>API</dt><dd>OpenAI-compatible on :1234</dd></div><div><dt>License</dt><dd>Proprietary, free to use</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -2151,8 +2171,8 @@
         <div class="eng-pane" id="m3-omlx" role="tabpanel" aria-labelledby="m3-omlx-tab"
              data-eng="omlx" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Menu-bar app + server</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>Apache-2.0</dd></div></dl>
-          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -2193,13 +2213,6 @@
         <div class="eng-pane" id="m3-vllmmlx" role="tabpanel" aria-labelledby="m3-vllmmlx-tab"
              data-eng="vllmmlx" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Server</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>Apache-2.0</dd></div></dl>
-          <div class="eng-fit s-blocked" data-has-ladder="1"></div>
-          <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
-          <p class="fidelity" hidden></p>
-          <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
-            <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
-            <tbody></tbody></table>
-            <p class="ctx-why"></p></div>
           <p class="eng-note">There is no MiniMax M3 text backbone in mlx-lm - PR #1401 is still open - so there is nothing for vllm-mlx to wrap.</p>
           <p class="blockers-label">1 open of 1 tracked on this engine</p>
           <ul class="rows">
@@ -2217,13 +2230,6 @@
         <div class="eng-pane" id="m3-mlxlm" role="tabpanel" aria-labelledby="m3-mlxlm-tab"
              data-eng="mlxlm" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + `mlx_lm.server`</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI-compatible, minimal</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-blocked" data-has-ladder="1"></div>
-          <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
-          <p class="fidelity" hidden></p>
-          <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
-            <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
-            <tbody></tbody></table>
-            <p class="ctx-why"></p></div>
           <p class="eng-note"><code>minimax.py</code> covers the earlier MiniMax generation, not M3. The M3 text backbone is PR #1401, unmerged. The mlx-community 4-bit was produced with mlx-vlm, which is a different package and a different code path.</p>
           <p class="blockers-label">1 open of 1 tracked on this engine</p>
           <ul class="rows">
@@ -2253,12 +2259,15 @@
           <div><dt>Context</dt><dd>1M</dd></div>
         </dl>
         <p class="model-fit"></p>
-        <div class="scores">
-          <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">AA Intelligence Index</span><span class="score-v">50</span></div><div class="score"><span class="score-k">GDPval-AA max effort</span><span class="score-v">1388</span></div></div>
-          <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified</span><span class="score-v">not published</span></div></div>
-        </div>
         <p class="model-note">The best shape on this page for Apple hardware: 13B active reads roughly 7.5 GB per token, so bandwidth stops being the constraint and a 256 GB machine finally does useful work. It is also the clearest example of a model whose story depends entirely on the engine - unreachable through the mainstream MLX servers, and the fastest thing here through the engine written specifically for it.</p>
         <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash" target="_blank" rel="noopener">deepseek-ai/DeepSeek-V4-Flash</a><a class="src" href="https://artificialanalysis.ai/articles/deepseek-is-back-among-the-leading-open-weights-models-with-v4-pro-and-v4-flash" target="_blank" rel="noopener">Artificial Analysis writeup</a></div>
+        <details class="scores-wrap">
+          <summary>Benchmark scores</summary>
+          <div class="scores">
+            <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">AA Intelligence Index</span><span class="score-v">50</span></div><div class="score"><span class="score-k">GDPval-AA max effort</span><span class="score-v">1388</span></div></div>
+            <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified</span><span class="score-v">not published</span></div></div>
+          </div>
+        </details>
       </div>
       
       <div class="eng" data-model="v4flash">
@@ -2302,8 +2311,8 @@
         <div class="eng-pane" id="v4flash-ds4" role="tabpanel" aria-labelledby="v4flash-ds4-tab"
              data-eng="ds4">
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + ds4-server + built-in agent</dd></div><div><dt>Format</dt><dd>purpose-built GGUF</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -2371,8 +2380,8 @@
         <div class="eng-pane" id="v4flash-llamacpp" role="tabpanel" aria-labelledby="v4flash-llamacpp-tab"
              data-eng="llamacpp" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + llama-server</dd></div><div><dt>Format</dt><dd>GGUF</dd></div><div><dt>API</dt><dd>OpenAI-compatible</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -2422,8 +2431,8 @@
         <div class="eng-pane" id="v4flash-ollama" role="tabpanel" aria-labelledby="v4flash-ollama-tab"
              data-eng="ollama" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Background server + CLI</dd></div><div><dt>Format</dt><dd>MLX on Apple Silicon, GGUF elsewhere</dd></div><div><dt>API</dt><dd>OpenAI-compatible, plus its own /api</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -2436,8 +2445,8 @@
         <div class="eng-pane" id="v4flash-lmstudio" role="tabpanel" aria-labelledby="v4flash-lmstudio-tab"
              data-eng="lmstudio" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Desktop app + `lms` CLI + server</dd></div><div><dt>Format</dt><dd>GGUF and MLX</dd></div><div><dt>API</dt><dd>OpenAI-compatible on :1234</dd></div><div><dt>License</dt><dd>Proprietary, free to use</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -2450,8 +2459,8 @@
         <div class="eng-pane" id="v4flash-omlx" role="tabpanel" aria-labelledby="v4flash-omlx-tab"
              data-eng="omlx" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Menu-bar app + server</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>Apache-2.0</dd></div></dl>
-          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -2501,13 +2510,6 @@
         <div class="eng-pane" id="v4flash-vllmmlx" role="tabpanel" aria-labelledby="v4flash-vllmmlx-tab"
              data-eng="vllmmlx" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Server</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>Apache-2.0</dd></div></dl>
-          <div class="eng-fit s-blocked" data-has-ladder="1"></div>
-          <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
-          <p class="fidelity" hidden></p>
-          <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
-            <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
-            <tbody></tbody></table>
-            <p class="ctx-why"></p></div>
           <p class="eng-note">The quant exists and the footprint is ideal - 13B active reads about 7.5 GB per token, so bandwidth stops being the constraint - but the architecture is rejected outright. There is nothing to wrap: mlx-lm has no deepseek_v4 model class.</p>
           <p class="blockers-label">3 open of 3 tracked on this engine</p>
           <ul class="rows">
@@ -2543,13 +2545,6 @@
         <div class="eng-pane" id="v4flash-mlxlm" role="tabpanel" aria-labelledby="v4flash-mlxlm-tab"
              data-eng="mlxlm" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + `mlx_lm.server`</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI-compatible, minimal</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-blocked" data-has-ladder="1"></div>
-          <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
-          <p class="fidelity" hidden></p>
-          <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
-            <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
-            <tbody></tbody></table>
-            <p class="ctx-why"></p></div>
           <p class="eng-note">The single most consequential gap in MLX. Several quants exist and their cards tell you to <code>pip install mlx-lm</code>, but there is no <code>deepseek_v4.py</code> in mlx-lm - support is PR #1233, still open. The residency-growth issue that aborts decode after about 11k tokens is filed against that PR&#x27;s head, not against a released version. If you want an MLX-shaped route anyway, <a href="https://github.com/ssd-moe/deepseek-v4-flash-mlx" target="_blank" rel="noopener">ssd-moe/deepseek-v4-flash-mlx</a> is a custom MLX offload engine that streams experts from SSD to run this on a 48 GB Mac at about 4.5-5 tok/s - a different tradeoff from ds4&#x27;s own SSD streaming, and far slower than either resident path.</p>
           <p class="blockers-label">6 open of 7 tracked on this engine</p>
           <ul class="rows">
@@ -2633,12 +2628,15 @@
           <div><dt>Context</dt><dd>1M</dd></div>
         </dl>
         <p class="model-fit"></p>
-        <div class="scores">
-          <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">Terminal-Bench 2.1</span><span class="score-v">81.0</span></div></div>
-          <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Pro</span><span class="score-v">62.1%</span></div><div class="score"><span class="score-k">DeepSWE</span><span class="score-v">46.2</span></div><div class="score"><span class="score-k">AIME 2026</span><span class="score-v">99.2</span></div></div>
-        </div>
         <p class="model-note">The highest agentic score reachable on Apple hardware, and reachable today - just not through the MLX servers, which are blocked three ways. The practical constraints are size and precision: the builds that fit one or two Macs are 1-2 bit, so the honest question is not whether it loads but how much of the model survives the quantisation.</p>
         <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/zai-org/GLM-5.2" target="_blank" rel="noopener">zai-org/GLM-5.2</a><a class="src" href="https://artificialanalysis.ai/articles/glm-5-2-is-the-new-leading-open-weights-model-on-the-artificial-analysis-intelligence-index" target="_blank" rel="noopener">Artificial Analysis writeup</a><a class="src" href="https://huggingface.co/zai-org/GLM-5.2" target="_blank" rel="noopener">Model card</a></div>
+        <details class="scores-wrap">
+          <summary>Benchmark scores</summary>
+          <div class="scores">
+            <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">Terminal-Bench 2.1</span><span class="score-v">81.0</span></div></div>
+            <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Pro</span><span class="score-v">62.1%</span></div><div class="score"><span class="score-k">DeepSWE</span><span class="score-v">46.2</span></div><div class="score"><span class="score-k">AIME 2026</span><span class="score-v">99.2</span></div></div>
+          </div>
+        </details>
       </div>
       
       <div class="eng" data-model="glm52">
@@ -2682,8 +2680,8 @@
         <div class="eng-pane" id="glm52-ds4" role="tabpanel" aria-labelledby="glm52-ds4-tab"
              data-eng="ds4">
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + ds4-server + built-in agent</dd></div><div><dt>Format</dt><dd>purpose-built GGUF</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -2751,8 +2749,8 @@
         <div class="eng-pane" id="glm52-llamacpp" role="tabpanel" aria-labelledby="glm52-llamacpp-tab"
              data-eng="llamacpp" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + llama-server</dd></div><div><dt>Format</dt><dd>GGUF</dd></div><div><dt>API</dt><dd>OpenAI-compatible</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -2775,8 +2773,8 @@
         <div class="eng-pane" id="glm52-ollama" role="tabpanel" aria-labelledby="glm52-ollama-tab"
              data-eng="ollama" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Background server + CLI</dd></div><div><dt>Format</dt><dd>MLX on Apple Silicon, GGUF elsewhere</dd></div><div><dt>API</dt><dd>OpenAI-compatible, plus its own /api</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -2789,8 +2787,8 @@
         <div class="eng-pane" id="glm52-lmstudio" role="tabpanel" aria-labelledby="glm52-lmstudio-tab"
              data-eng="lmstudio" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Desktop app + `lms` CLI + server</dd></div><div><dt>Format</dt><dd>GGUF and MLX</dd></div><div><dt>API</dt><dd>OpenAI-compatible on :1234</dd></div><div><dt>License</dt><dd>Proprietary, free to use</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -2803,8 +2801,8 @@
         <div class="eng-pane" id="glm52-omlx" role="tabpanel" aria-labelledby="glm52-omlx-tab"
              data-eng="omlx" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Menu-bar app + server</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>Apache-2.0</dd></div></dl>
-          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -2863,13 +2861,6 @@
         <div class="eng-pane" id="glm52-vllmmlx" role="tabpanel" aria-labelledby="glm52-vllmmlx-tab"
              data-eng="vllmmlx" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Server</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>Apache-2.0</dd></div></dl>
-          <div class="eng-fit s-blocked" data-has-ladder="1"></div>
-          <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
-          <p class="fidelity" hidden></p>
-          <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
-            <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
-            <tbody></tbody></table>
-            <p class="ctx-why"></p></div>
           <p class="eng-note">Blocked three ways through mlx-lm: the IndexShare indexers fail to load, DSA top-k evicts attention sinks, and at a measured 395.1 GB it sits squarely inside the &gt;300 GB band where a one-shot mx.eval trips the GPU watchdog at load.</p>
           <p class="blockers-label">3 open of 3 tracked on this engine</p>
           <ul class="rows">
@@ -2905,13 +2896,6 @@
         <div class="eng-pane" id="glm52-mlxlm" role="tabpanel" aria-labelledby="glm52-mlxlm-tab"
              data-eng="mlxlm" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + `mlx_lm.server`</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI-compatible, minimal</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-blocked" data-has-ladder="1"></div>
-          <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
-          <p class="fidelity" hidden></p>
-          <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
-            <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
-            <tbody></tbody></table>
-            <p class="ctx-why"></p></div>
           <p class="eng-note"><code>glm_moe_dsa.py</code> exists, but the model does not load: IndexShare indexers, sink eviction under DSA top-k, and the &gt;300 GB load watchdog.</p>
           <p class="blockers-label">3 open of 3 tracked on this engine</p>
           <ul class="rows">
@@ -2959,12 +2943,15 @@
           <div><dt>Context</dt><dd>1M</dd></div>
         </dl>
         <p class="model-fit"></p>
-        <div class="scores">
-          <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">GDPval-AA</span><span class="score-v">1554</span></div></div>
-          <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified</span><span class="score-v">80.6%</span></div></div>
-        </div>
         <p class="model-note">Same architecture as Flash at roughly five times the size, which makes it a capacity problem rather than a compatibility one. It runs, on hardware most people will not have: a 512 GB machine, or a pair of them for the Q4 split. Worth knowing it exists so you can price the ceiling.</p>
         <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro" target="_blank" rel="noopener">deepseek-ai/DeepSeek-V4-Pro</a><a class="src" href="https://artificialanalysis.ai/articles/deepseek-is-back-among-the-leading-open-weights-models-with-v4-pro-and-v4-flash" target="_blank" rel="noopener">Artificial Analysis writeup</a></div>
+        <details class="scores-wrap">
+          <summary>Benchmark scores</summary>
+          <div class="scores">
+            <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">GDPval-AA</span><span class="score-v">1554</span></div></div>
+            <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified</span><span class="score-v">80.6%</span></div></div>
+          </div>
+        </details>
       </div>
       
       <div class="eng" data-model="v4pro">
@@ -3008,8 +2995,8 @@
         <div class="eng-pane" id="v4pro-ds4" role="tabpanel" aria-labelledby="v4pro-ds4-tab"
              data-eng="ds4">
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + ds4-server + built-in agent</dd></div><div><dt>Format</dt><dd>purpose-built GGUF</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -3068,8 +3055,8 @@
         <div class="eng-pane" id="v4pro-llamacpp" role="tabpanel" aria-labelledby="v4pro-llamacpp-tab"
              data-eng="llamacpp" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + llama-server</dd></div><div><dt>Format</dt><dd>GGUF</dd></div><div><dt>API</dt><dd>OpenAI-compatible</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -3110,8 +3097,8 @@
         <div class="eng-pane" id="v4pro-ollama" role="tabpanel" aria-labelledby="v4pro-ollama-tab"
              data-eng="ollama" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Background server + CLI</dd></div><div><dt>Format</dt><dd>MLX on Apple Silicon, GGUF elsewhere</dd></div><div><dt>API</dt><dd>OpenAI-compatible, plus its own /api</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -3124,8 +3111,8 @@
         <div class="eng-pane" id="v4pro-lmstudio" role="tabpanel" aria-labelledby="v4pro-lmstudio-tab"
              data-eng="lmstudio" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Desktop app + `lms` CLI + server</dd></div><div><dt>Format</dt><dd>GGUF and MLX</dd></div><div><dt>API</dt><dd>OpenAI-compatible on :1234</dd></div><div><dt>License</dt><dd>Proprietary, free to use</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -3138,13 +3125,6 @@
         <div class="eng-pane" id="v4pro-omlx" role="tabpanel" aria-labelledby="v4pro-omlx-tab"
              data-eng="omlx" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Menu-bar app + server</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>Apache-2.0</dd></div></dl>
-          <div class="eng-fit s-blocked" data-has-ladder="1"></div>
-          <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
-          <p class="fidelity" hidden></p>
-          <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
-            <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
-            <tbody></tbody></table>
-            <p class="ctx-why"></p></div>
           <p class="eng-note">oMLX&#x27;s DeepSeek V4 path exists, but nobody has published a PRO conversion, and the residency and MXFP4 problems open against Flash would apply at four times the size.</p>
           <p class="blockers-label">2 open of 2 tracked on this engine</p>
           <ul class="rows">
@@ -3171,13 +3151,6 @@
         <div class="eng-pane" id="v4pro-vllmmlx" role="tabpanel" aria-labelledby="v4pro-vllmmlx-tab"
              data-eng="vllmmlx" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Server</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>Apache-2.0</dd></div></dl>
-          <div class="eng-fit s-blocked" data-has-ladder="1"></div>
-          <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
-          <p class="fidelity" hidden></p>
-          <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
-            <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
-            <tbody></tbody></table>
-            <p class="ctx-why"></p></div>
           <p class="eng-note">Same wall as Flash: no deepseek_v4 in mlx-lm to wrap, and no PRO quant if there were.</p>
           <p class="blockers-label">2 open of 2 tracked on this engine</p>
           <ul class="rows">
@@ -3204,13 +3177,6 @@
         <div class="eng-pane" id="v4pro-mlxlm" role="tabpanel" aria-labelledby="v4pro-mlxlm-tab"
              data-eng="mlxlm" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + `mlx_lm.server`</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI-compatible, minimal</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-blocked" data-has-ladder="1"></div>
-          <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
-          <p class="fidelity" hidden></p>
-          <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
-            <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
-            <tbody></tbody></table>
-            <p class="ctx-why"></p></div>
           <p class="eng-note">No model class, no published conversion.</p>
           <p class="blockers-label">2 open of 2 tracked on this engine</p>
           <ul class="rows">
@@ -3249,12 +3215,15 @@
           <div><dt>Context</dt><dd>1M</dd></div>
         </dl>
         <p class="model-fit"></p>
-        <div class="scores">
-          <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">Terminal-Bench 2.1</span><span class="score-v">88.3</span></div><div class="score"><span class="score-k">MCPMark-Verified</span><span class="score-v">94.5</span></div><div class="score"><span class="score-k">OSWorld-Verified</span><span class="score-v">84.8</span></div></div>
-          <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">LiveBench Coding</span><span class="score-v">81.45</span></div><div class="score"><span class="score-k">Agentic Coding</span><span class="score-v">57.58</span></div></div>
-        </div>
         <p class="model-note">The best open-weight agentic model there is - Terminal-Bench 2.1 of 88.3, MCPMark-Verified 94.5 - and the hardest to get onto a Mac. Both available routes trade quality for fit: 1-bit GGUF tiers on one side, community expert-pruned MLX builds on the other. Neither is the model the benchmarks describe, and the honest position is that nobody has published Apple-hardware evaluations of either.</p>
         <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/moonshotai/Kimi-K3" target="_blank" rel="noopener">moonshotai/Kimi-K3</a><a class="src" href="https://www.morphllm.com/best-open-source-llm" target="_blank" rel="noopener">Benchmark roundup</a></div>
+        <details class="scores-wrap">
+          <summary>Benchmark scores</summary>
+          <div class="scores">
+            <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">Terminal-Bench 2.1</span><span class="score-v">88.3</span></div><div class="score"><span class="score-k">MCPMark-Verified</span><span class="score-v">94.5</span></div><div class="score"><span class="score-k">OSWorld-Verified</span><span class="score-v">84.8</span></div></div>
+            <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">LiveBench Coding</span><span class="score-v">81.45</span></div><div class="score"><span class="score-k">Agentic Coding</span><span class="score-v">57.58</span></div></div>
+          </div>
+        </details>
       </div>
       
       <div class="eng" data-model="kimik3">
@@ -3293,8 +3262,8 @@
         <div class="eng-pane" id="kimik3-llamacpp" role="tabpanel" aria-labelledby="kimik3-llamacpp-tab"
              data-eng="llamacpp">
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + llama-server</dd></div><div><dt>Format</dt><dd>GGUF</dd></div><div><dt>API</dt><dd>OpenAI-compatible</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -3317,8 +3286,8 @@
         <div class="eng-pane" id="kimik3-ollama" role="tabpanel" aria-labelledby="kimik3-ollama-tab"
              data-eng="ollama" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Background server + CLI</dd></div><div><dt>Format</dt><dd>MLX on Apple Silicon, GGUF elsewhere</dd></div><div><dt>API</dt><dd>OpenAI-compatible, plus its own /api</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -3331,8 +3300,8 @@
         <div class="eng-pane" id="kimik3-lmstudio" role="tabpanel" aria-labelledby="kimik3-lmstudio-tab"
              data-eng="lmstudio" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Desktop app + `lms` CLI + server</dd></div><div><dt>Format</dt><dd>GGUF and MLX</dd></div><div><dt>API</dt><dd>OpenAI-compatible on :1234</dd></div><div><dt>License</dt><dd>Proprietary, free to use</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -3345,8 +3314,8 @@
         <div class="eng-pane" id="kimik3-omlx" role="tabpanel" aria-labelledby="kimik3-omlx-tab"
              data-eng="omlx" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Menu-bar app + server</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>Apache-2.0</dd></div></dl>
-          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -3359,13 +3328,6 @@
         <div class="eng-pane" id="kimik3-vllmmlx" role="tabpanel" aria-labelledby="kimik3-vllmmlx-tab"
              data-eng="vllmmlx" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Server</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>Apache-2.0</dd></div></dl>
-          <div class="eng-fit s-blocked" data-has-ladder="1"></div>
-          <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
-          <p class="fidelity" hidden></p>
-          <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
-            <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
-            <tbody></tbody></table>
-            <p class="ctx-why"></p></div>
           <p class="eng-note">mlx-lm carries kimi_k25 and kimi_linear but nothing for K3, so there is no architecture to wrap.</p>
           <p class="blockers-label">0 open of 0 tracked on this engine</p>
           <p class="eng-clear">Nothing open tracked against this engine for this model.</p>
@@ -3373,13 +3335,6 @@
         <div class="eng-pane" id="kimik3-mlxlm" role="tabpanel" aria-labelledby="kimik3-mlxlm-tab"
              data-eng="mlxlm" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + `mlx_lm.server`</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI-compatible, minimal</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-blocked" data-has-ladder="1"></div>
-          <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
-          <p class="fidelity" hidden></p>
-          <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
-            <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
-            <tbody></tbody></table>
-            <p class="ctx-why"></p></div>
           <p class="eng-note">kimi_k25 and kimi_linear exist; K3 does not. Community REAP repos supply their own modelling code via auto_map rather than relying on mlx-lm.</p>
           <p class="blockers-label">1 open of 1 tracked on this engine</p>
           <ul class="rows">
@@ -3409,12 +3364,15 @@
           <div><dt>Context</dt><dd>262k</dd></div>
         </dl>
         <p class="model-fit"></p>
-        <div class="scores">
-          <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">Terminal-Bench 2.0</span><span class="score-v">36.2</span></div></div>
-          <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified</span><span class="score-v">74.2%</span></div><div class="score"><span class="score-k">SWE-bench Multilingual</span><span class="score-v">63.7%</span></div><div class="score"><span class="score-k">Aider</span><span class="score-v">66.2</span></div></div>
-        </div>
         <p class="model-note">The best fit-to-capability ratio on this page. 3B active out of 80B total gets SWE-bench Verified 74.2% - within a couple of points of GLM-4.7 at a quarter the footprint - and Apache-2.0 with a 38-tier GGUF ladder means it runs on almost anything. Note the caveats: its Terminal-Bench figure is on v2.0, so it cannot be ranked against the v2.1 numbers elsewhere here, and it is non-thinking only. KV is 24 KiB/token, among the cheapest here, so long context is affordable.</p>
         <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/Qwen/Qwen3-Coder-Next" target="_blank" rel="noopener">Qwen/Qwen3-Coder-Next</a><a class="src" href="https://huggingface.co/Qwen/Qwen3-Coder-Next" target="_blank" rel="noopener">Model card</a><a class="src" href="https://qwen.ai/blog?id=qwen3-coder-next" target="_blank" rel="noopener">Qwen blog</a></div>
+        <details class="scores-wrap">
+          <summary>Benchmark scores</summary>
+          <div class="scores">
+            <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">Terminal-Bench 2.0</span><span class="score-v">36.2</span></div></div>
+            <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified</span><span class="score-v">74.2%</span></div><div class="score"><span class="score-k">SWE-bench Multilingual</span><span class="score-v">63.7%</span></div><div class="score"><span class="score-k">Aider</span><span class="score-v">66.2</span></div></div>
+          </div>
+        </details>
       </div>
       
       <div class="eng" data-model="qcnext">
@@ -3453,8 +3411,8 @@
         <div class="eng-pane" id="qcnext-llamacpp" role="tabpanel" aria-labelledby="qcnext-llamacpp-tab"
              data-eng="llamacpp">
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + llama-server</dd></div><div><dt>Format</dt><dd>GGUF</dd></div><div><dt>API</dt><dd>OpenAI-compatible</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -3477,8 +3435,8 @@
         <div class="eng-pane" id="qcnext-ollama" role="tabpanel" aria-labelledby="qcnext-ollama-tab"
              data-eng="ollama" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Background server + CLI</dd></div><div><dt>Format</dt><dd>MLX on Apple Silicon, GGUF elsewhere</dd></div><div><dt>API</dt><dd>OpenAI-compatible, plus its own /api</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -3491,8 +3449,8 @@
         <div class="eng-pane" id="qcnext-lmstudio" role="tabpanel" aria-labelledby="qcnext-lmstudio-tab"
              data-eng="lmstudio" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Desktop app + `lms` CLI + server</dd></div><div><dt>Format</dt><dd>GGUF and MLX</dd></div><div><dt>API</dt><dd>OpenAI-compatible on :1234</dd></div><div><dt>License</dt><dd>Proprietary, free to use</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -3505,8 +3463,8 @@
         <div class="eng-pane" id="qcnext-omlx" role="tabpanel" aria-labelledby="qcnext-omlx-tab"
              data-eng="omlx" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Menu-bar app + server</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>Apache-2.0</dd></div></dl>
-          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -3547,8 +3505,8 @@
         <div class="eng-pane" id="qcnext-vllmmlx" role="tabpanel" aria-labelledby="qcnext-vllmmlx-tab"
              data-eng="vllmmlx" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Server</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>Apache-2.0</dd></div></dl>
-          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -3571,8 +3529,8 @@
         <div class="eng-pane" id="qcnext-mlxlm" role="tabpanel" aria-labelledby="qcnext-mlxlm-tab"
              data-eng="mlxlm" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + `mlx_lm.server`</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI-compatible, minimal</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -3616,12 +3574,15 @@
           <div><dt>Context</dt><dd>262k (1M on the hosted version)</dd></div>
         </dl>
         <p class="model-fit"></p>
-        <div class="scores">
-          <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">Toolathlon Verified</span><span class="score-v">73.5</span></div><div class="score"><span class="score-k">CoWorkBench</span><span class="score-v">73.9</span></div><div class="score"><span class="score-k">JobBench</span><span class="score-v">55.7</span></div><div class="score"><span class="score-k">Agents’ Last Exam</span><span class="score-v">24.3</span></div></div>
-          <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Multilingual</span><span class="score-v">81.0</span></div><div class="score"><span class="score-k">SWE-bench Pro</span><span class="score-v">62.5</span></div><div class="score"><span class="score-k">LiveCodeBench v6</span><span class="score-v">91.9</span></div><div class="score"><span class="score-k">DeepSWE 1.1</span><span class="score-v">58.7</span></div></div>
-        </div>
         <p class="model-note">Qwen calls this an experimental preview of the architecture behind Qwen4, and the numbers are the strongest per active parameter on this page: 6B active beats Qwen3.8-27B on every shared benchmark, and its SWE-bench Multilingual of 81.0 leads the page outright. Three genuinely new pieces - Qwen Sparse Attention at micro-block granularity, gated residuals, and a 51B n-gram embedding table designed to be offloaded. That last one is why the checkpoint is 180B on disk against a stated 125B. None of it runs on Apple silicon yet: the architecture is <code>qwen4_exp</code> and no runtime here implements it.</p>
         <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/Qwen/Qwen3.8-Flash-Next" target="_blank" rel="noopener">Qwen/Qwen3.8-Flash-Next</a><a class="src" href="https://huggingface.co/Qwen/Qwen3.8-Flash-Next" target="_blank" rel="noopener">Model card with full tables</a><a class="src" href="https://qwen.ai/blog?id=qwen3.8-flash-next" target="_blank" rel="noopener">Qwen blog</a></div>
+        <details class="scores-wrap">
+          <summary>Benchmark scores</summary>
+          <div class="scores">
+            <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">Toolathlon Verified</span><span class="score-v">73.5</span></div><div class="score"><span class="score-k">CoWorkBench</span><span class="score-v">73.9</span></div><div class="score"><span class="score-k">JobBench</span><span class="score-v">55.7</span></div><div class="score"><span class="score-k">Agents’ Last Exam</span><span class="score-v">24.3</span></div></div>
+            <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Multilingual</span><span class="score-v">81.0</span></div><div class="score"><span class="score-k">SWE-bench Pro</span><span class="score-v">62.5</span></div><div class="score"><span class="score-k">LiveCodeBench v6</span><span class="score-v">91.9</span></div><div class="score"><span class="score-k">DeepSWE 1.1</span><span class="score-v">58.7</span></div></div>
+          </div>
+        </details>
       </div>
       
       <div class="eng" data-model="q38fnext">
@@ -3660,13 +3621,6 @@
         <div class="eng-pane" id="q38fnext-llamacpp" role="tabpanel" aria-labelledby="q38fnext-llamacpp-tab"
              data-eng="llamacpp">
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + llama-server</dd></div><div><dt>Format</dt><dd>GGUF</dd></div><div><dt>API</dt><dd>OpenAI-compatible</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-blocked" data-has-ladder="1"></div>
-          <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
-          <p class="fidelity" hidden></p>
-          <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
-            <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
-            <tbody></tbody></table>
-            <p class="ctx-why"></p></div>
           <p class="eng-note">This is a preview of the Qwen4 architecture, not a Qwen3 variant: the config reports <code>qwen4_exp</code>, and llama.cpp&#x27;s architecture table has <code>qwen3next</code> but nothing for qwen4. Support is an open feature request. One GGUF has been published - a single UD-IQ1_S tier at 72.5 GB - but mainline has no loader for it, so the file exists ahead of the runtime.</p>
           <p class="blockers-label">1 open of 1 tracked on this engine</p>
           <ul class="rows">
@@ -3684,13 +3638,6 @@
         <div class="eng-pane" id="q38fnext-ollama" role="tabpanel" aria-labelledby="q38fnext-ollama-tab"
              data-eng="ollama" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Background server + CLI</dd></div><div><dt>Format</dt><dd>MLX on Apple Silicon, GGUF elsewhere</dd></div><div><dt>API</dt><dd>OpenAI-compatible, plus its own /api</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-blocked" data-has-ladder="1"></div>
-          <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
-          <p class="fidelity" hidden></p>
-          <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
-            <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
-            <tbody></tbody></table>
-            <p class="ctx-why"></p></div>
           <p class="eng-note">Not in the library, and it inherits the same missing architecture underneath.</p>
           <p class="blockers-label">0 open of 0 tracked on this engine</p>
           <p class="eng-clear">Nothing open tracked against this engine for this model.</p>
@@ -3698,13 +3645,6 @@
         <div class="eng-pane" id="q38fnext-lmstudio" role="tabpanel" aria-labelledby="q38fnext-lmstudio-tab"
              data-eng="lmstudio" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Desktop app + `lms` CLI + server</dd></div><div><dt>Format</dt><dd>GGUF and MLX</dd></div><div><dt>API</dt><dd>OpenAI-compatible on :1234</dd></div><div><dt>License</dt><dd>Proprietary, free to use</dd></div></dl>
-          <div class="eng-fit s-blocked" data-has-ladder="1"></div>
-          <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
-          <p class="fidelity" hidden></p>
-          <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
-            <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
-            <tbody></tbody></table>
-            <p class="ctx-why"></p></div>
           <p class="eng-note">Nothing curated in either format. Both of its engines are downstream of the two projects that do not implement this architecture yet.</p>
           <p class="blockers-label">0 open of 0 tracked on this engine</p>
           <p class="eng-clear">Nothing open tracked against this engine for this model.</p>
@@ -3712,13 +3652,6 @@
         <div class="eng-pane" id="q38fnext-omlx" role="tabpanel" aria-labelledby="q38fnext-omlx-tab"
              data-eng="omlx" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Menu-bar app + server</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>Apache-2.0</dd></div></dl>
-          <div class="eng-fit s-blocked"></div>
-          <div class="eng-build none"><span class="eng-build-k">Build</span><span>no build published for this engine</span></div>
-          <p class="fidelity" hidden></p>
-          <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
-            <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
-            <tbody></tbody></table>
-            <p class="ctx-why"></p></div>
           <p class="eng-note">No MLX conversion exists and mlx-lm has no qwen4 model class, so there is nothing to load. oMLX does ship native Qwen3.5 kernels, which is a reasonable signal that it would pick this up once upstream does.</p>
           <p class="blockers-label">0 open of 0 tracked on this engine</p>
           <p class="eng-clear">Nothing open tracked against this engine for this model.</p>
@@ -3726,13 +3659,6 @@
         <div class="eng-pane" id="q38fnext-vllmmlx" role="tabpanel" aria-labelledby="q38fnext-vllmmlx-tab"
              data-eng="vllmmlx" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Server</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>Apache-2.0</dd></div></dl>
-          <div class="eng-fit s-blocked"></div>
-          <div class="eng-build none"><span class="eng-build-k">Build</span><span>no build published for this engine</span></div>
-          <p class="fidelity" hidden></p>
-          <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
-            <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
-            <tbody></tbody></table>
-            <p class="ctx-why"></p></div>
           <p class="eng-note">Wraps mlx-lm, which has no qwen4 class. Nothing to wrap.</p>
           <p class="blockers-label">0 open of 0 tracked on this engine</p>
           <p class="eng-clear">Nothing open tracked against this engine for this model.</p>
@@ -3740,13 +3666,6 @@
         <div class="eng-pane" id="q38fnext-mlxlm" role="tabpanel" aria-labelledby="q38fnext-mlxlm-tab"
              data-eng="mlxlm" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + `mlx_lm.server`</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI-compatible, minimal</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-blocked"></div>
-          <div class="eng-build none"><span class="eng-build-k">Build</span><span>no build published for this engine</span></div>
-          <p class="fidelity" hidden></p>
-          <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
-            <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
-            <tbody></tbody></table>
-            <p class="ctx-why"></p></div>
           <p class="eng-note">The models directory carries qwen3_next but nothing for qwen4. This is the upstream gap every MLX engine on this page inherits.</p>
           <p class="blockers-label">0 open of 0 tracked on this engine</p>
           <p class="eng-clear">Nothing open tracked against this engine for this model.</p>
@@ -3766,12 +3685,15 @@
           <div><dt>Context</dt><dd>262k</dd></div>
         </dl>
         <p class="model-fit"></p>
-        <div class="scores">
-          <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">Terminal-Bench 2.1</span><span class="score-v">86.6</span></div><div class="score"><span class="score-k">CoWorkBench</span><span class="score-v">74.8</span></div><div class="score"><span class="score-k">Toolathlon Verified</span><span class="score-v">72.5</span></div><div class="score"><span class="score-k">JobBench</span><span class="score-v">53.4</span></div></div>
-          <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Pro</span><span class="score-v">67.7</span></div><div class="score"><span class="score-k">QwenSWEBench</span><span class="score-v">80.7</span></div><div class="score"><span class="score-k">FrontierSWE</span><span class="score-v">73.5</span></div><div class="score"><span class="score-k">DeepSWE 1.1</span><span class="score-v">56.6</span></div></div>
-        </div>
         <p class="model-note">The weights are public at Qwen/Qwen3.8-2.4T-A95B and the architecture is already supported - this is the same qwen3_5_moe family as Qwen3.8-27B, so llama.cpp and mlx-lm both load it. Terminal-Bench 2.1 of 86.6 is second only to Kimi K3 on this page, and its SWE-bench Pro of 67.7 leads it outright. What stops it is arithmetic: 2.45T parameters means the smallest unpruned build is 397 GB at 1.30 bits per weight, and the first tier clearing 2 bits is 656 GB. Everything that fits a realistic Mac has either been quantised past the point its own quantiser warns about, or had most of its experts deleted.</p>
         <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B" target="_blank" rel="noopener">Qwen/Qwen3.8-2.4T-A95B</a><a class="src" href="https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B" target="_blank" rel="noopener">Model card with full tables</a></div>
+        <details class="scores-wrap">
+          <summary>Benchmark scores</summary>
+          <div class="scores">
+            <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">Terminal-Bench 2.1</span><span class="score-v">86.6</span></div><div class="score"><span class="score-k">CoWorkBench</span><span class="score-v">74.8</span></div><div class="score"><span class="score-k">Toolathlon Verified</span><span class="score-v">72.5</span></div><div class="score"><span class="score-k">JobBench</span><span class="score-v">53.4</span></div></div>
+            <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Pro</span><span class="score-v">67.7</span></div><div class="score"><span class="score-k">QwenSWEBench</span><span class="score-v">80.7</span></div><div class="score"><span class="score-k">FrontierSWE</span><span class="score-v">73.5</span></div><div class="score"><span class="score-k">DeepSWE 1.1</span><span class="score-v">56.6</span></div></div>
+          </div>
+        </details>
       </div>
       
       <div class="eng" data-model="qwenmax">
@@ -3810,8 +3732,8 @@
         <div class="eng-pane" id="qwenmax-llamacpp" role="tabpanel" aria-labelledby="qwenmax-llamacpp-tab"
              data-eng="llamacpp">
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + llama-server</dd></div><div><dt>Format</dt><dd>GGUF</dd></div><div><dt>API</dt><dd>OpenAI-compatible</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -3824,13 +3746,6 @@
         <div class="eng-pane" id="qwenmax-ollama" role="tabpanel" aria-labelledby="qwenmax-ollama-tab"
              data-eng="ollama" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Background server + CLI</dd></div><div><dt>Format</dt><dd>MLX on Apple Silicon, GGUF elsewhere</dd></div><div><dt>API</dt><dd>OpenAI-compatible, plus its own /api</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-blocked" data-has-ladder="1"></div>
-          <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
-          <p class="fidelity" hidden></p>
-          <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
-            <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
-            <tbody></tbody></table>
-            <p class="ctx-why"></p></div>
           <p class="eng-note">The <code>qwen3.8</code> library entry carries only 27B tags. Nothing at this size is published, which is reasonable - a 397 GB minimum does not suit a one-command pull.</p>
           <p class="blockers-label">0 open of 0 tracked on this engine</p>
           <p class="eng-clear">Nothing open tracked against this engine for this model.</p>
@@ -3838,8 +3753,8 @@
         <div class="eng-pane" id="qwenmax-lmstudio" role="tabpanel" aria-labelledby="qwenmax-lmstudio-tab"
              data-eng="lmstudio" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Desktop app + `lms` CLI + server</dd></div><div><dt>Format</dt><dd>GGUF and MLX</dd></div><div><dt>API</dt><dd>OpenAI-compatible on :1234</dd></div><div><dt>License</dt><dd>Proprietary, free to use</dd></div></dl>
-          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-ready" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -3852,8 +3767,8 @@
         <div class="eng-pane" id="qwenmax-omlx" role="tabpanel" aria-labelledby="qwenmax-omlx-tab"
              data-eng="omlx" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Menu-bar app + server</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>Apache-2.0</dd></div></dl>
-          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -3885,8 +3800,8 @@
         <div class="eng-pane" id="qwenmax-vllmmlx" role="tabpanel" aria-labelledby="qwenmax-vllmmlx-tab"
              data-eng="vllmmlx" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Server</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>Apache-2.0</dd></div></dl>
-          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -3909,8 +3824,8 @@
         <div class="eng-pane" id="qwenmax-mlxlm" role="tabpanel" aria-labelledby="qwenmax-mlxlm-tab"
              data-eng="mlxlm" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + `mlx_lm.server`</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI-compatible, minimal</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
-          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <div class="eng-build"><span class="eng-build-k">Build</span><a class="build-link" href="#" target="_blank" rel="noopener"></a><span class="build-bpw"></span></div>
+          <div class="eng-fit s-degraded" data-has-ladder="1"></div>
           <p class="fidelity" hidden></p>
           <div class="ctx-wrap" hidden><span class="ctx-k">Concurrent contexts in the KV headroom</span>
             <table class="ctx"><thead><tr><th>Context each</th><th>KV per stream</th><th>Streams</th></tr></thead>
@@ -4653,9 +4568,11 @@
       var mf = el.querySelector(".model-fit");
       if (mf) {
         mf.className = "model-fit" + (f.tooBig ? " toolarge" : "");
-        mf.textContent = f.tooBig
-          ? "Does not fit. Smallest build is " + chosen.name + " at " + fmt(rung.gb) + ", which " + f.text + "."
-          : "Best fit here: " + chosen.name + ", " + fmt(rung.gb) + " resident, " + f.text + ".";
+        mf.textContent = chosen.s === "blocked"
+          ? "No engine here can load this yet — see the tabs below for why."
+          : f.tooBig
+            ? "Does not fit. Smallest build is " + chosen.name + " at " + fmt(rung.gb) + ", which " + f.text + "."
+            : "Best fit here: " + chosen.name + ", " + fmt(rung.gb) + " resident, " + f.text + ".";
       }
 
       // Each engine tab reports its own rung on the same cluster.
