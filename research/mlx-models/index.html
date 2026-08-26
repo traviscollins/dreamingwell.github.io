@@ -1,22 +1,22 @@
-<title>Mac LLM Compatibility Tracker</title>
+<title>Apple LLM Compatibility Tracker</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<meta name="description" content="Measured VRAM, agentic and coding benchmark scores, and the open MLX issues blocking 13 top open-weight models on Apple Silicon. Configurable for any Mac Studio cluster.">
+<meta name="description" content="Open weight AI models and their Apple M-series compatibility.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DreamingWell">
 <meta property="og:url" content="https://dreamingwell.com/research/mlx-models/">
-<meta property="og:title" content="Mac LLM Compatibility Tracker">
-<meta property="og:description" content="Measured VRAM, agentic and coding benchmark scores, and the open MLX issues blocking 13 top open-weight models on Apple Silicon. Configurable for any Mac Studio cluster.">
+<meta property="og:title" content="Apple LLM Compatibility Tracker">
+<meta property="og:description" content="Open weight AI models and their Apple M-series compatibility.">
 <meta property="og:image" content="https://dreamingwell.com/research/mlx-models/card.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Dark status card titled Mac LLM Compatibility Tracker, showing GLM-4.7 and Muse Glimmer as recommended, Qwen3.8-27B degraded, and DeepSeek V4 blocked.">
+<meta property="og:image:alt" content="Dark status card titled Apple LLM Compatibility Tracker, showing GLM-4.7 and Muse Glimmer as recommended, Qwen3.8-27B degraded, and DeepSeek V4 blocked.">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Mac LLM Compatibility Tracker">
-<meta name="twitter:description" content="Measured VRAM, agentic and coding benchmark scores, and the open MLX issues blocking 13 top open-weight models on Apple Silicon. Configurable for any Mac Studio cluster.">
+<meta name="twitter:title" content="Apple LLM Compatibility Tracker">
+<meta name="twitter:description" content="Open weight AI models and their Apple M-series compatibility.">
 <meta name="twitter:image" content="https://dreamingwell.com/research/mlx-models/card.png">
-<meta name="twitter:image:alt" content="Dark status card titled Mac LLM Compatibility Tracker, showing GLM-4.7 and Muse Glimmer as recommended, Qwen3.8-27B degraded, and DeepSeek V4 blocked.">
+<meta name="twitter:image:alt" content="Dark status card titled Apple LLM Compatibility Tracker, showing GLM-4.7 and Muse Glimmer as recommended, Qwen3.8-27B degraded, and DeepSeek V4 blocked.">
 <link rel="canonical" href="https://dreamingwell.com/research/mlx-models/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -226,7 +226,11 @@
   .rel-repo { font-size: .87rem; color: var(--ink-2); }
   .rel-tag { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .87rem;
     font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
-  footer { margin-top: 2.5rem; padding-top: 1.2rem; border-top: 1px solid var(--line);
+  .disclaimer { margin: 2rem 0 0; padding: .95rem 1.15rem; border-radius: 8px;
+    background: var(--surface-2); border: 1px solid var(--line);
+    border-left: 3px solid var(--warn); font-size: .82rem; color: var(--ink-2); max-width: 54rem; }
+  .disclaimer strong { color: var(--ink); font-weight: 600; }
+  footer { margin-top: 1.25rem; padding-top: 1.2rem; border-top: 1px solid var(--line);
     font-size: .82rem; color: var(--muted); }
   a { color: var(--accent); }
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
@@ -235,7 +239,7 @@
 <div class="wrap">
   <header>
     <span class="eyebrow">vllm-mlx on Apple Silicon</span>
-    <h1>Mac LLM Compatibility Tracker</h1>
+    <h1>Apple LLM Compatibility Tracker</h1>
     <p class="sub">What stands between each top-tier open-weight model and running well on a Mac Studio
     M5 Ultra 256GB under vllm-mlx. VRAM figures are measured from the actual quantised repositories.
     mlx-lm items appear only where they propagate &mdash; vllm-mlx wraps mlx-lm's model classes,
@@ -247,7 +251,7 @@
     <div class="stat mid"><span class="n">1</span><span class="k">Runs, degraded</span></div>
     <div class="stat bad"><span class="n">6</span><span class="k">Blocked</span></div>
     <div class="stat"><span class="n">31</span><span class="k">Open items</span></div>
-    <div class="stat time"><time class="n ago" datetime="2026-08-25T22:44:05-04:00">2026-08-25 22:44</time><span class="k">Since last change</span></div>
+    <div class="stat time"><time class="n ago" datetime="2026-08-25T22:48:23-04:00">2026-08-25 22:48</time><span class="k">Since last change</span></div>
   </div>
 
 
@@ -1041,6 +1045,13 @@
       <li><strong>Sizing figures remain unverified.</strong> Every M5 Ultra number is a bandwidth and compute model, not a measurement. Re-derive on day one, multiple runs per arm, and start with a memory-stability soak rather than a throughput benchmark.</li>
     </ul>
   </div>
+
+  <p class="disclaimer">
+    <strong>Disclaimer.</strong> All of this is best effort and provided for entertainment purposes only.
+    No warranty is given as to its accuracy. Benchmark scores are vendor- or aggregator-reported and are not
+    reproduced here; issue states are a twice-daily snapshot; hardware figures are arithmetic, not measurements.
+    Verify anything you intend to spend money on.
+  </p>
 
   <footer>
     Polled twice daily against the GitHub API; state changes only &mdash; open&rarr;closed, merged, new release tag.
