@@ -387,7 +387,7 @@
     <h1>Apple LLM Performance Tracker</h1>
     <p class="sub">Select your Mac CPU model, RAM, and machine count below. Then view what AI models
     should run well on it &mdash; and those that won&rsquo;t.
-    <span class="sub-stamp">Updated <time class="ago" datetime="2026-08-26T09:59:41-04:00">2026-08-26 09:59</time>.</span></p>
+    <span class="sub-stamp">Updated <time class="ago" datetime="2026-08-26T10:02:06-04:00">2026-08-26 10:02</time>.</span></p>
   </header>
 
   <div id="rig-sentinel" aria-hidden="true"></div>
@@ -4430,15 +4430,18 @@
       }
       if (nodes > 1) {
         var freeP = cluster - resident;
-        return { tooBig: false, nodes: nodes, resident: resident, free: freeP,
+        return { tooBig: false, nodes: nodes, resident: resident, free: freeP, copies: 1,
                  short: fmt(freeP) + " free",
                  text: "pooled across " + nodes + " of your " + n + ", " + fmt(freeP) + " left for KV" };
       }
+      // It fits on one machine, so every machine runs its own copy. Nothing is
+      // pooled and nothing is shared - the capacity simply multiplies.
       var free = perNode - resident;
-      return { tooBig: false, nodes: 1, resident: resident, free: free,
+      return { tooBig: false, nodes: 1, resident: resident, free: free, copies: n,
                short: fmt(free) + " free",
-               text: n > 1 ? fmt(free) + " free for KV per machine, " + n + " independent copies"
-                           : fmt(free) + " free for KV" };
+               text: n > 1
+                 ? fmt(free) + " free for KV per machine — run as individual compute, not as a cluster"
+                 : fmt(free) + " free for KV" };
     }
 
     // Pick the target build for this cluster - not simply the biggest thing that
@@ -4470,14 +4473,17 @@
       return { k: "unusable", label: "Below agentic-usable", why: "" };
     }
 
-    function ctxRows(bpt, maxctx, freeGB) {
+    // freeGB is per machine when the model fits on one, so multiply the stream
+    // count by the number of copies to get the total the whole group serves.
+    function ctxRows(bpt, maxctx, freeGB, copies) {
       if (!bpt || !maxctx || freeGB <= 0) return [];
+      copies = copies || 1;
       var out = [];
       [[1, "full"], [0.75, "three quarters"], [0.5, "half"], [0.25, "a quarter"]].forEach(function (f) {
         var tok = Math.round(maxctx * f[0]);
         var per = bpt * tok;                       // bytes
         out.push({ tok: tok, frac: f[1], perGB: per / 1e9,
-                   streams: Math.floor((freeGB * 1e9) / per) });
+                   streams: Math.floor((freeGB * 1e9) / per) * copies });
       });
       // A model can load and still have no room for a quarter of its advertised
       // window - MiniMax M3 on one 256 GB machine is exactly that. Saying "runs"
@@ -4485,7 +4491,7 @@
       if (out[out.length - 1].streams < 1) {
         var maxTok = Math.floor((freeGB * 1e9) / bpt);
         out.push({ tok: maxTok, frac: "largest that fits", cap: true,
-                   perGB: (bpt * maxTok) / 1e9, streams: maxTok >= 2048 ? 1 : 0 });
+                   perGB: (bpt * maxTok) / 1e9, streams: maxTok >= 2048 ? copies : 0 });
       }
       return out;
     }
@@ -4613,7 +4619,7 @@
 
         var wrap = pane.querySelector(".ctx-wrap");
         if (wrap) {
-          var rows = pf.tooBig ? [] : ctxRows(pl.kv.bpt, pl.kv.maxctx, pf.free);
+          var rows = pf.tooBig ? [] : ctxRows(pl.kv.bpt, pl.kv.maxctx, pf.free, pf.copies);
           if (!rows.length) {
             wrap.hidden = true;
           } else {
@@ -4627,8 +4633,10 @@
                      (c.streams < 1 ? "does not fit" : c.streams) + "</td></tr>";
             }).join("");
             wrap.querySelector(".ctx-why").textContent =
-              "KV at fp16: " + (pl.kv.bpt / 1024).toFixed(1) + " KiB per token. " + pl.kv.why +
-              ". Quantising the KV cache to 8-bit doubles every count above.";
+              "KV at fp16: " + (pl.kv.bpt / 1024).toFixed(1) + " KiB per token. " + pl.kv.why + ". " +
+              (pf.copies > 1 ? "Stream counts are the total across all " + pf.copies +
+                               " machines, each running its own copy. " : "") +
+              "Quantising the KV cache to 8-bit doubles every count above.";
           }
         }
       });
