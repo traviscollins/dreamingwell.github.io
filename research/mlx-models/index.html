@@ -66,8 +66,21 @@
   .sub { color: var(--muted); margin: 0; max-width: 48rem; }
   html { scroll-behavior: smooth; }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  #rig-sentinel { height: 1px; margin: 0; }
   .rig { background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
-    padding: 1.1rem 1.3rem; margin: 0 0 1.25rem; }
+    padding: 1.1rem 1.3rem; margin: 0 0 1.25rem;
+    position: sticky; top: 0; z-index: 30; }
+  /* Once it detaches, drop the prose and the rounded top so it reads as a bar
+     rather than a card that has escaped. */
+  .rig.stuck { border-radius: 0 0 10px 10px; border-top-color: transparent;
+    box-shadow: 0 6px 18px -8px rgba(0,0,0,.35); padding: .7rem 1.3rem; }
+  .rig.stuck .rig-out, .rig.stuck .rig-warn { display: none; }
+  .rig.stuck .rig-controls { align-items: center; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .rig.stuck { box-shadow: 0 6px 18px -8px rgba(0,0,0,.7); }
+  }
+  :root[data-theme="dark"] .rig.stuck { box-shadow: 0 6px 18px -8px rgba(0,0,0,.7); }
+  .rig select optgroup { font-weight: 600; }
   .rig-controls { display: flex; gap: 1.1rem; flex-wrap: wrap; align-items: flex-end; }
   .rig-f { display: flex; flex-direction: column; gap: .28rem; min-width: 0; }
   .rig-f > span { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .64rem;
@@ -344,12 +357,13 @@
     <h1>Apple LLM Compatibility Tracker</h1>
     <p class="sub">Select your Mac Studio model, RAM, and machine count below. Then view what AI models
     should run well on it &mdash; and those that won&rsquo;t.
-    <span class="sub-stamp">Updated <time class="ago" datetime="2026-08-26T08:40:28-04:00">2026-08-26 08:40</time>.</span></p>
+    <span class="sub-stamp">Updated <time class="ago" datetime="2026-08-26T08:51:40-04:00">2026-08-26 08:51</time>.</span></p>
   </header>
 
+  <div id="rig-sentinel" aria-hidden="true"></div>
   <form class="rig" id="rig" aria-label="Cluster configuration">
     <div class="rig-controls">
-      <label class="rig-f"><span>Machine</span>
+      <label class="rig-f"><span>CPU Model</span>
         <select id="rig-chip"></select>
       </label>
       <label class="rig-f"><span>Memory each</span>
@@ -3939,14 +3953,38 @@
 
 <script data-newblock="1">
 (function () {
+  // Every M-series chip, its peak memory bandwidth, and the union of unified-memory
+  // options across every Mac that shipped with it - laptops, mini, iMac, Studio and
+  // Mac Pro - because the chip is what decides whether a model fits, not the case.
+  // tb5 marks Thunderbolt 5, which is what RDMA and JACCL tensor parallelism need;
+  // everything older pools only over the ring/pipeline path.
+  // gen groups the dropdown. bwNote flags chips with a binned lower-bandwidth variant.
   var MACHINES = {
-    m1max:   { label: "M1 Max Studio",   bw: 400,  mem: [32, 64] },
-    m1ultra: { label: "M1 Ultra Studio", bw: 800,  mem: [64, 128] },
-    m3ultra: { label: "M3 Ultra Studio", bw: 819,  mem: [96, 256, 512] },
-    m5max:   { label: "M5 Max Studio",   bw: 614,  mem: [64, 128] },
-    m5ultra: { label: "M5 Ultra Studio", bw: 1200, mem: [96, 256, 512] }
+    m1:       { label: "M1",       gen: "M1", bw: 68,   mem: [8, 16],                tb5: false, ports: 2 },
+    m1pro:    { label: "M1 Pro",   gen: "M1", bw: 200,  mem: [16, 32],               tb5: false, ports: 3 },
+    m1max:    { label: "M1 Max",   gen: "M1", bw: 400,  mem: [32, 64],               tb5: false, ports: 4 },
+    m1ultra:  { label: "M1 Ultra", gen: "M1", bw: 800,  mem: [64, 128],              tb5: false, ports: 6 },
+    m2:       { label: "M2",       gen: "M2", bw: 100,  mem: [8, 16, 24],            tb5: false, ports: 2 },
+    m2pro:    { label: "M2 Pro",   gen: "M2", bw: 200,  mem: [16, 32],               tb5: false, ports: 4 },
+    m2max:    { label: "M2 Max",   gen: "M2", bw: 400,  mem: [32, 64, 96],           tb5: false, ports: 4 },
+    m2ultra:  { label: "M2 Ultra", gen: "M2", bw: 800,  mem: [64, 128, 192],         tb5: false, ports: 6 },
+    m3:       { label: "M3",       gen: "M3", bw: 100,  mem: [8, 16, 24],            tb5: false, ports: 2 },
+    m3pro:    { label: "M3 Pro",   gen: "M3", bw: 150,  mem: [18, 36],               tb5: false, ports: 3 },
+    m3max:    { label: "M3 Max",   gen: "M3", bw: 400,  mem: [36, 48, 64, 96, 128],  tb5: false, ports: 3,
+                bwNote: "300 GB/s on the binned 14-core CPU / 30-core GPU part" },
+    m3ultra:  { label: "M3 Ultra", gen: "M3", bw: 819,  mem: [96, 256, 512],         tb5: true,  ports: 6 },
+    m4:       { label: "M4",       gen: "M4", bw: 120,  mem: [16, 24, 32],           tb5: false, ports: 2 },
+    m4pro:    { label: "M4 Pro",   gen: "M4", bw: 273,  mem: [24, 48, 64],           tb5: true,  ports: 3 },
+    m4max:    { label: "M4 Max",   gen: "M4", bw: 546,  mem: [36, 48, 64, 128],      tb5: true,  ports: 4,
+                bwNote: "410 GB/s on the binned 14-core CPU part" },
+    m5:       { label: "M5",       gen: "M5", bw: 153,  mem: [16, 24, 32],           tb5: false, ports: 2 },
+    m5pro:    { label: "M5 Pro",   gen: "M5", bw: 307,  mem: [24, 48, 64],           tb5: true,  ports: 3 },
+    m5max:    { label: "M5 Max",   gen: "M5", bw: 614,  mem: [36, 48, 64, 128],      tb5: true,  ports: 4,
+                bwNote: "460 GB/s on the 32-core GPU part; 614 on the 40-core" },
+    m5ultra:  { label: "M5 Ultra", gen: "M5", bw: 1200, mem: [96, 256, 512],         tb5: true,  ports: 6 }
   };
-  var ORDER = ["m1max", "m1ultra", "m3ultra", "m5max", "m5ultra"];
+  var GENS = ["M5", "M4", "M3", "M2", "M1"];
+  var ORDER = Object.keys(MACHINES);
   var MAX_UNITS = 6, PRACTICAL_UNITS = 4, OVERHEAD = 10, WIRED = 0.90;
   var BANDS = [[4.0, "full", "Full fidelity", "At or above 4 bits per weight, which is where measured KL divergence stays low and arithmetic and tool calling hold up."], [3.0, "mild", "Reduced fidelity", "3 to 4 bits per weight. Reasoning survives this range well, but arithmetic and long tool-calling chains start to drift. Fine for drafting, worth verifying for agent work."], [2.0, "low", "Degraded", "2 to 3 bits per weight. Measured KL divergence here is roughly 7x the 4-bit tier. Expect weaker instruction adherence and less reliable tool calls; keep tool schemas small."], [0.0, "unusable", "Below agentic-usable", "Under 2 bits per weight. Unsloth's own guidance is that 1-bit builds should not be used for agentic use-cases: tool calling breaks down, generations loop without a high presence penalty, and responses can come back empty. It loads. That is the most that should be claimed for it."]];
 
@@ -3969,10 +4007,15 @@
   var n = parseInt(q.get("n"), 10);
   if (!n || n < 1 || n > MAX_UNITS) n = DEF_N;
 
-  ORDER.forEach(function (k) {
-    var o = document.createElement("option");
-    o.value = k; o.textContent = MACHINES[k].label;
-    chipSel.appendChild(o);
+  GENS.forEach(function (g) {
+    var grp = document.createElement("optgroup");
+    grp.label = g;
+    ORDER.filter(function (k) { return MACHINES[k].gen === g; }).forEach(function (k) {
+      var o = document.createElement("option");
+      o.value = k; o.textContent = MACHINES[k].label;
+      grp.appendChild(o);
+    });
+    chipSel.appendChild(grp);
   });
   for (var i = 1; i <= MAX_UNITS; i++) {
     var o = document.createElement("option");
@@ -4006,12 +4049,26 @@
       fmt(g * n) + " pooled, about " + fmt(cluster) + " usable after the wired-memory limit. " +
       "Per-machine bandwidth " + (M.bw >= 1000 ? (M.bw / 1000).toFixed(1) + " TB/s" : M.bw + " GB/s") + ".";
 
+    var notes = [];
+    if (n > 1 && !M.tb5) {
+      notes.push("The " + M.label + " has Thunderbolt 4, not 5, so RDMA and JACCL tensor parallelism are out. " +
+        "It can still pool: MLX's ring backend does pipeline parallelism over Thunderbolt or Ethernet, which " +
+        "sums memory to fit a bigger model but does not cut per-token latency.");
+    }
+    if (n > 1 && M.tb5) {
+      notes.push("Thunderbolt 5, so RDMA over Thunderbolt is available on macOS 26.2 or later - JACCL " +
+        "tensor parallelism (roughly 50-60 Gbps at sub-50 microsecond latency) as well as ring pipeline " +
+        "parallelism. Mesh wiring needs every Mac cabled to every other, and this chip exposes " + M.ports +
+        " Thunderbolt ports.");
+    }
     if (n > PRACTICAL_UNITS) {
-      warn.hidden = false;
-      warn.textContent = "Beyond " + PRACTICAL_UNITS + " machines is past what Thunderbolt clustering handles well: " +
-        "JACCL needs a full mesh, so every Mac must be cabled directly to every other, and AppleThunderboltRDMA " +
-        "caps out near 100 memory regions per device (mlx#3162). Treat these rows as arithmetic, not a supported setup.";
-    } else { warn.hidden = true; }
+      notes.push("Beyond " + PRACTICAL_UNITS + " machines is past what Thunderbolt clustering handles well: a " +
+        "full mesh needs n-1 ports per Mac, and AppleThunderboltRDMA caps out near 100 memory regions per " +
+        "device (mlx#3162). Treat these rows as arithmetic, not a supported setup.");
+    }
+    if (M.bwNote) { notes.push("Bandwidth shown is the top bin: " + M.bwNote + "."); }
+    if (notes.length) { warn.hidden = false; warn.textContent = notes.join(" "); }
+    else { warn.hidden = true; }
 
     function fitDetail(w) {
       var resident = w + OVERHEAD;
@@ -4201,6 +4258,14 @@
     var p = new URLSearchParams();
     p.set("chip", chip); p.set("mem", g); p.set("n", n);
     history.replaceState(null, "", location.pathname + "?" + p.toString());
+  }
+
+  var sentinel = document.getElementById("rig-sentinel");
+  var rigEl = document.getElementById("rig");
+  if (sentinel && rigEl && "IntersectionObserver" in window) {
+    new IntersectionObserver(function (entries) {
+      rigEl.classList.toggle("stuck", !entries[0].isIntersecting);
+    }, { threshold: 1 }).observe(sentinel);
   }
 
   chipSel.value = chip;
