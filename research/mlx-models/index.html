@@ -89,7 +89,7 @@
     margin: 0 0 .7rem; font-weight: 600; font-family: "IBM Plex Mono", ui-monospace, monospace; }
   .ix-rows { display: flex; flex-direction: column; gap: 1px; background: var(--line);
     border: 1px solid var(--line); border-radius: 9px; overflow: hidden; }
-  .ix-row { display: grid; grid-template-columns: minmax(8rem, 1.5fr) auto minmax(5rem, .7fr) minmax(4.5rem, .5fr) minmax(6rem, .8fr);
+  .ix-row { display: grid; grid-template-columns: minmax(7rem, 1.5fr) 10.5rem minmax(5rem, .7fr) 5.5rem minmax(6rem, .95fr);
     align-items: center; gap: .9rem; padding: .62rem 1rem; background: var(--surface);
     text-decoration: none; color: inherit; border-left: 3px solid var(--medium);
     transition: background .12s ease; }
@@ -106,7 +106,7 @@
   .ix-status.v-degraded { color: var(--warn); border-color: var(--warn); }
   .ix-status.v-blocked { color: var(--critical); border-color: var(--critical); }
   .ix-status.v-nofit, .ix-status.v-unknown { color: var(--low); border-color: var(--line); }
-  .ix-size { text-align: right; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .78rem;
+  .ix-size { text-align: right; font-variant-numeric: tabular-nums; font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .78rem;
     color: var(--ink-2); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
   .ix-meta { font-size: .76rem; color: var(--muted); text-align: right; white-space: nowrap; }
   @media (max-width: 34rem) {
@@ -303,7 +303,7 @@
     <p class="sub">Select your Mac Studio model, RAM, and machine count below. Then view what AI models
     should run well on it &mdash; and those that won&rsquo;t. Each model card carries a tab per engine,
     because which runtime you pick changes the answer as much as which Mac you buy.
-    <span class="sub-stamp">Updated <time class="ago" datetime="2026-08-26T07:46:21-04:00">2026-08-26 07:46</time>.</span></p>
+    <span class="sub-stamp">Updated <time class="ago" datetime="2026-08-26T08:13:32-04:00">2026-08-26 08:13</time>.</span></p>
   </header>
 
   <form class="rig" id="rig" aria-label="Cluster configuration">
