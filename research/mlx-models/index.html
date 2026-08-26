@@ -303,7 +303,7 @@
     <p class="sub">Select your Mac Studio model, RAM, and machine count below. Then view what AI models
     should run well on it &mdash; and those that won&rsquo;t. Each model card carries a tab per engine,
     because which runtime you pick changes the answer as much as which Mac you buy.
-    <span class="sub-stamp">Updated <time class="ago" datetime="2026-08-26T07:31:39-04:00">2026-08-26 07:31</time>.</span></p>
+    <span class="sub-stamp">Updated <time class="ago" datetime="2026-08-26T07:34:01-04:00">2026-08-26 07:34</time>.</span></p>
   </header>
 
   <form class="rig" id="rig" aria-label="Cluster configuration">
@@ -449,7 +449,7 @@
           <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">τ²-Bench</span><span class="score-v">87.4%</span></div><div class="score"><span class="score-k">BrowseComp</span><span class="score-v">67.5%</span></div><div class="score"><span class="score-k">Terminal-Bench 2.0</span><span class="score-v">41.0%</span></div></div>
           <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified</span><span class="score-v">73.8%</span></div><div class="score"><span class="score-k">LiveCodeBench-v6</span><span class="score-v">84.9%</span></div><div class="score"><span class="score-k">SWE-bench Multilingual</span><span class="score-v">66.7%</span></div></div>
         </div>
-        <p class="model-note">The strongest thing that actually runs. glm4_moe has zero open issues in mlx-lm - every one closed - and the 4-bit MLX quant already exists. It uses conventional attention rather than hybrid linear-attention, so it should sidestep the prefix-cache bug that cripples Qwen3.8-27B; confirm that first, it is the main reason to prefer it. The catch is fit: 198.6 GB of weights leaves only ~21 GB for KV, so this is a quality-over-concurrency choice.</p>
+        <p class="model-note">The strongest model that fits a single 256 GB machine without heroics, MIT-licensed, and the only one on this page that every engine here can load. What varies is the fit: llama.cpp reaches a 158.7 GB Q3 tier while the MLX 4-bit is 198.6 GB, which on one box is the difference between a usable context and a token budget. It uses conventional attention rather than hybrid linear attention, which is why it avoids the class of cache bug that dogs Qwen3.8-27B.</p>
         <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/zai-org/GLM-4.7" target="_blank" rel="noopener">zai-org/GLM-4.7</a><a class="src" href="https://huggingface.co/zai-org/GLM-4.7" target="_blank" rel="noopener">Model card (all scores)</a></div>
       </div>
       
@@ -589,7 +589,7 @@
           <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">τ²-Bench</span><span class="score-v">79.5%</span></div><div class="score"><span class="score-k">BrowseComp</span><span class="score-v">42.8%</span></div></div>
           <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified</span><span class="score-v">59.2%</span></div><div class="score"><span class="score-k">LiveCodeBench-v6</span><span class="score-v">64.0%</span></div></div>
         </div>
-        <p class="model-note">3B active, so decode is bandwidth-cheap and KV space is abundant - the opposite tradeoff to GLM-4.7 on the same mature code path and quant family. The natural cheap tier to route low-stakes work to.</p>
+        <p class="model-note">3B active, so decode is bandwidth-cheap and KV space is abundant - the opposite tradeoff to GLM-4.7 from the same family and the same license. The natural cheap tier to route low-stakes work to, and the easiest thing on this page to get running on any engine.</p>
         <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/zai-org/GLM-4.7-Flash" target="_blank" rel="noopener">zai-org/GLM-4.7-Flash</a><a class="src" href="https://huggingface.co/zai-org/GLM-4.7-Flash" target="_blank" rel="noopener">Model card (all scores)</a></div>
       </div>
       
@@ -729,7 +729,7 @@
           <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">MCP Atlas</span><span class="score-v">75.5</span></div><div class="score"><span class="score-k">DeepSearch QA</span><span class="score-v">74.6</span></div><div class="score"><span class="score-k">OSWorld-Verified</span><span class="score-v">65.9</span></div><div class="score"><span class="score-k">GAIA2</span><span class="score-v">43.3</span></div><div class="score"><span class="score-k">Terminal-Bench 2.1</span><span class="score-v">51.7</span></div></div>
           <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified</span><span class="score-v">76.0</span></div><div class="score"><span class="score-k">SWE-bench Pro</span><span class="score-v">51.2</span></div></div>
         </div>
-        <p class="model-note">Meta’s open agentic model, distilled from the closed Muse Spark — Spark itself is API-only, so this is the one you can actually run. Apache-2.0, a full mlx-community quant family at 4/5/6/8-bit, and zero open muse_glimmer issues in mlx-lm. It leads MCP Atlas at 75.5 and posts SWE-bench Verified 76.0, but its Terminal-Bench 2.1 of 51.7 trails Qwen3.8-27B’s 73.0, so it is stronger at tool orchestration than at raw terminal work. One caution for agent use: Siren AgentDojo puts its prompt-injection attack-success rate at 28.4%.</p>
+        <p class="model-note">Meta&#x27;s open agentic model, distilled from the closed Muse Spark - Spark itself is API-only, so this is the one you can actually run. Apache-2.0, with Meta publishing both the GGUF and a draft head, and mlx-community carrying a 4/5/6/8-bit family. It leads MCP Atlas at 75.5 and posts SWE-bench Verified 76.0, but its Terminal-Bench 2.1 of 51.7 trails Qwen3.8-27B&#x27;s 73.0, so it is stronger at tool orchestration than at raw terminal work. One caution for agent use: Siren AgentDojo puts its prompt-injection attack-success rate at 28.4%.</p>
         <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/meta-models/Muse-Glimmer-30B" target="_blank" rel="noopener">meta-models/Muse-Glimmer-30B</a><a class="src" href="https://research.meta.ai/blog/introducing-muse-glimmer-open-agentic-model" target="_blank" rel="noopener">Meta AI Research announcement</a><a class="src" href="https://artificialanalysis.ai/articles/muse-glimmer" target="_blank" rel="noopener">Artificial Analysis benchmarks</a><a class="src" href="https://huggingface.co/meta-models/Muse-Glimmer-30B" target="_blank" rel="noopener">Model card</a></div>
       </div>
       
@@ -914,7 +914,7 @@
           <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">MMLU Pro</span><span class="score-v">81.94</span></div><div class="score"><span class="score-k">GPQA Diamond</span><span class="score-v">75.44</span></div></div>
           <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified</span><span class="score-v">51.56</span></div><div class="score"><span class="score-k">PinchBench</span><span class="score-v">85.37</span></div></div>
         </div>
-        <p class="model-note">Released 2026-08-11 with weights, training data and recipes. 3B active makes it the cheapest thing here to run at concurrency, and nothing for this architecture is open in mlx-lm. Published agentic coverage is thin — NVIDIA leads with general benchmarks — so treat it as a fast tier to trial rather than a proven agentic pick. The larger Nemotron 3 Super (120B-A12B) and Ultra (550B-A55B, SWE-bench Verified 70.7) are stronger but have no MLX quantisation published.</p>
+        <p class="model-note">Released 2026-08-11 with weights, training data and recipes. 3B active makes it the cheapest thing here to run at concurrency, and the checkpoint ships MTP draft weights. Published agentic coverage is thin - NVIDIA leads with general benchmarks - so treat it as a fast tier to trial rather than a proven agentic pick. The larger Nemotron 3 Super (120B-A12B) and Ultra (550B-A55B, SWE-bench Verified 70.7) are stronger but have no Apple-ready quantisation published.</p>
         <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B" target="_blank" rel="noopener">nvidia/NVIDIA-Nemotron-3.5-Lightning-30B-A3B</a><a class="src" href="https://build.nvidia.com/nvidia/nemotron-3.5-lightning-30b-a3b/modelcard" target="_blank" rel="noopener">NVIDIA model card</a><a class="src" href="https://www.datacamp.com/blog/nemotron-3-5-lightning" target="_blank" rel="noopener">Benchmark writeup</a></div>
       </div>
       
@@ -1044,7 +1044,7 @@
           <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">τ-Bench Retail (high)</span><span class="score-v">67.8%</span></div><div class="score"><span class="score-k">τ-Bench Airline (high)</span><span class="score-v">49.2%</span></div></div>
           <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified (high)</span><span class="score-v">62.4%</span></div><div class="score"><span class="score-k">Codeforces</span><span class="score-v">2622 Elo</span></div></div>
         </div>
-        <p class="model-note">Older now, but a genuinely comfortable fit: 5.1B active means fast decode, 65.8 GB leaves plenty of KV room, and the gpt_oss path in mlx-lm is quiet. Scores scale with reasoning effort — the figures shown are the high setting; medium gives SWE-bench 52.6% and τ-Bench Retail 62.0%. Apache-2.0.</p>
+        <p class="model-note">Older now, but a genuinely comfortable fit on any engine: 5.1B active means fast decode and 63-66 GB leaves plenty of KV room. Scores scale with reasoning effort - the figures shown are the high setting; medium gives SWE-bench 52.6% and τ-Bench Retail 62.0%. Apache-2.0. Its one recurring problem is not the model but Harmony: the channel format its tool calls ride on has open parsing defects in more than one engine.</p>
         <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/openai/gpt-oss-120b" target="_blank" rel="noopener">openai/gpt-oss-120b</a><a class="src" href="https://arxiv.org/html/2508.10925v1" target="_blank" rel="noopener">Model card / paper</a><a class="src" href="https://openai.com/index/introducing-gpt-oss/" target="_blank" rel="noopener">OpenAI announcement</a></div>
       </div>
       
@@ -1192,7 +1192,7 @@
           <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">τ²-Bench</span><span class="score-v">86.4%</span></div></div>
           <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified</span><span class="score-v">52.0%</span></div><div class="score"><span class="score-k">LiveCodeBench-v6</span><span class="score-v">80.0%</span></div><div class="score"><span class="score-k">SWE-bench Pro</span><span class="score-v">35.7%</span></div></div>
         </div>
-        <p class="model-note">The scores argue for it — τ²-Bench 86.4% is the second-highest tool-use number on this page — but the MLX story is the worst here. mlx-community publishes no 4-bit quant of the 31B, only a bf16 drafter and a 12B coder finetune, and gemma4 carries more open mlx-lm issues than any other architecture tracked: generation hangs after prompt processing, empty content when thinking is on, and a variant that is not recognised at all.</p>
+        <p class="model-note">The clearest case on this page for looking past MLX. τ²-Bench 86.4% is the second-highest tool-use number here, Google publishes a quantisation-aware-trained q4_0 GGUF itself at 17.7 GB, and llama.cpp, Ollama and LM Studio all load it today. The MLX side is the worst on this page - no 4-bit quant of the 31B, and more open mlx-lm issues than any other architecture tracked - which is exactly the sort of gap that makes an MLX-only view of Apple Silicon misleading.</p>
         <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/google/gemma-4-31b-it" target="_blank" rel="noopener">google/gemma-4-31b-it</a><a class="src" href="https://codersera.com/blog/gemma-4-complete-guide-2026/" target="_blank" rel="noopener">Benchmark writeup</a><a class="src" href="https://www.gemma4.wiki/benchmark/gemma-4-swe-bench" target="_blank" rel="noopener">SWE-bench detail</a></div>
       </div>
       
@@ -1459,7 +1459,7 @@
           <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">Terminal-Bench 2.1</span><span class="score-v">73.0</span></div><div class="score"><span class="score-k">OSWorld (computer use)</span><span class="score-v">84.3</span></div><div class="score"><span class="score-k">AndroidWorld</span><span class="score-v">81.9</span></div><div class="score"><span class="score-k">WebArena</span><span class="score-v">64.8</span></div></div>
           <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">LiveCodeBench-v6</span><span class="score-v">90.3</span></div><div class="score"><span class="score-k">QwenSWEBench</span><span class="score-v">79.0</span></div><div class="score"><span class="score-k">SWE-bench Pro</span><span class="score-v">61.7</span></div><div class="score"><span class="score-k">DeepSWE 1.1</span><span class="score-v">42.2</span></div></div>
         </div>
-        <p class="model-note">Stronger on paper than I first credited: its LiveCodeBench-v6 of 90.3 beats GLM-4.7&#x27;s 84.9, and its SWE-bench Pro of 61.7 is within noise of GLM-5.2&#x27;s 62.1 at 1/27th the size. What holds it back is the runtime, not the model - prefix caching and k=3 speculative decoding are both off or capped on this architecture.</p>
+        <p class="model-note">Stronger on paper than its size suggests: LiveCodeBench-v6 of 90.3 beats GLM-4.7&#x27;s 84.9, and SWE-bench Pro of 61.7 is within noise of GLM-5.2&#x27;s 62.1 at 1/27th the scale. Its hybrid Gated DeltaNet layout is also the most engine-sensitive thing here - the same weights get working multi-token speculative decoding on one engine and a k=1 cap on another, so which runtime you pick changes the throughput more than which quant you pick.</p>
         <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/Qwen/Qwen3.8-27B" target="_blank" rel="noopener">Qwen/Qwen3.8-27B</a><a class="src" href="https://huggingface.co/Qwen/Qwen3.8-27B" target="_blank" rel="noopener">Model card (all scores)</a></div>
       </div>
       
@@ -1762,7 +1762,7 @@
           <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">Terminal-Bench 2.1</span><span class="score-v">66.0</span></div><div class="score"><span class="score-k">MCP Atlas</span><span class="score-v">74.2</span></div></div>
           <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified</span><span class="score-v">80.5%</span></div><div class="score"><span class="score-k">SWE-bench Pro</span><span class="score-v">59.0%</span></div><div class="score"><span class="score-k">SWE-fficiency</span><span class="score-v">34.8</span></div></div>
         </div>
-        <p class="model-note">The best coding score that would physically fit on one machine, but there is no MLX support: mlx-lm PR #1401 is still open. Worth noting its Terminal-Bench 2.1 of 66.0 sits below Qwen3.8-27B&#x27;s 73.0 despite being 15x larger.</p>
+        <p class="model-note">SWE-bench Verified 80.5% is the best coding score on this page that fits one 256 GB machine, and since the architecture reached mainline llama.cpp that is now a real option rather than a hypothetical. Note its Terminal-Bench 2.1 of 66.0 sits below Qwen3.8-27B&#x27;s 73.0 despite being 15x larger, so it is a coding pick rather than an agentic one. The MLX route is a vision-language checkpoint with open loader problems.</p>
         <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/MiniMaxAI/MiniMax-M3" target="_blank" rel="noopener">MiniMaxAI/MiniMax-M3</a><a class="src" href="https://huggingface.co/MiniMaxAI/MiniMax-M3" target="_blank" rel="noopener">Model card</a><a class="src" href="https://www.morphllm.com/minimax-m3" target="_blank" rel="noopener">Benchmark writeup</a></div>
       </div>
       
@@ -1920,7 +1920,7 @@
           <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">AA Intelligence Index</span><span class="score-v">50</span></div><div class="score"><span class="score-k">GDPval-AA max effort</span><span class="score-v">1388</span></div></div>
           <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified</span><span class="score-v">not published</span></div></div>
         </div>
-        <p class="model-note">The quant exists and the footprint is ideal - 13B active reads ~7.5 GB per token, so 1.2 TB/s stops being the constraint and the 256 GB finally does work. There is simply no runtime: vllm-mlx rejects the architecture and mlx-lm has no deepseek_v4.py to wrap.</p>
+        <p class="model-note">The best shape on this page for Apple hardware: 13B active reads roughly 7.5 GB per token, so bandwidth stops being the constraint and a 256 GB machine finally does useful work. It is also the clearest example of a model whose story depends entirely on the engine - unreachable through the mainstream MLX servers, and the fastest thing here through the engine written specifically for it.</p>
         <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash" target="_blank" rel="noopener">deepseek-ai/DeepSeek-V4-Flash</a><a class="src" href="https://artificialanalysis.ai/articles/deepseek-is-back-among-the-leading-open-weights-models-with-v4-pro-and-v4-flash" target="_blank" rel="noopener">Artificial Analysis writeup</a></div>
       </div>
       
@@ -2265,7 +2265,7 @@
           <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">Terminal-Bench 2.1</span><span class="score-v">81.0</span></div></div>
           <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Pro</span><span class="score-v">62.1%</span></div><div class="score"><span class="score-k">DeepSWE</span><span class="score-v">46.2</span></div><div class="score"><span class="score-k">AIME 2026</span><span class="score-v">99.2</span></div></div>
         </div>
-        <p class="model-note">Highest agentic score reachable on this hardware, blocked three ways. Note the measured 395.1 GB puts it squarely inside mlx-lm #1572&#x27;s failure band - the one-shot mx.eval watchdog crash starts around 300 GB.</p>
+        <p class="model-note">The highest agentic score reachable on Apple hardware, and reachable today - just not through the MLX servers, which are blocked three ways. The practical constraints are size and precision: the builds that fit one or two Macs are 1-2 bit, so the honest question is not whether it loads but how much of the model survives the quantisation.</p>
         <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/zai-org/GLM-5.2" target="_blank" rel="noopener">zai-org/GLM-5.2</a><a class="src" href="https://artificialanalysis.ai/articles/glm-5-2-is-the-new-leading-open-weights-model-on-the-artificial-analysis-intelligence-index" target="_blank" rel="noopener">Artificial Analysis writeup</a><a class="src" href="https://huggingface.co/zai-org/GLM-5.2" target="_blank" rel="noopener">Model card</a></div>
       </div>
       
@@ -2556,7 +2556,7 @@
           <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">GDPval-AA</span><span class="score-v">1554</span></div></div>
           <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified</span><span class="score-v">80.6%</span></div></div>
         </div>
-        <p class="model-note">Same deepseek_v4 architecture as Flash, so it inherits the same wall: no implementation in mlx-lm to wrap. At 4-bit it would need a pooled cluster even if that were fixed.</p>
+        <p class="model-note">Same architecture as Flash at roughly five times the size, which makes it a capacity problem rather than a compatibility one. It runs, on hardware most people will not have: a 512 GB machine, or a pair of them for the Q4 split. Worth knowing it exists so you can price the ceiling.</p>
         <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro" target="_blank" rel="noopener">deepseek-ai/DeepSeek-V4-Pro</a><a class="src" href="https://artificialanalysis.ai/articles/deepseek-is-back-among-the-leading-open-weights-models-with-v4-pro-and-v4-flash" target="_blank" rel="noopener">Artificial Analysis writeup</a></div>
       </div>
       
@@ -2811,7 +2811,7 @@
           <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">Terminal-Bench 2.1</span><span class="score-v">88.3</span></div><div class="score"><span class="score-k">MCPMark-Verified</span><span class="score-v">94.5</span></div><div class="score"><span class="score-k">OSWorld-Verified</span><span class="score-v">84.8</span></div></div>
           <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">LiveBench Coding</span><span class="score-v">81.45</span></div><div class="score"><span class="score-k">Agentic Coding</span><span class="score-v">57.58</span></div></div>
         </div>
-        <p class="model-note">The best open-weight agentic model there is. mlx-lm carries kimi_k25 and kimi_linear but nothing for K3, so there is no architecture to load even on a cluster large enough to hold it.</p>
+        <p class="model-note">The best open-weight agentic model there is - Terminal-Bench 2.1 of 88.3, MCPMark-Verified 94.5 - and the hardest to get onto a Mac. Both available routes trade quality for fit: 1-bit GGUF tiers on one side, community expert-pruned MLX builds on the other. Neither is the model the benchmarks describe, and the honest position is that nobody has published Apple-hardware evaluations of either.</p>
         <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/moonshotai/Kimi-K3" target="_blank" rel="noopener">moonshotai/Kimi-K3</a><a class="src" href="https://www.morphllm.com/best-open-source-llm" target="_blank" rel="noopener">Benchmark roundup</a></div>
       </div>
       
@@ -2941,7 +2941,7 @@
           <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">Open weights</span><span class="score-v">shipped 2026-08-12</span></div></div>
           <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">Scores</span><span class="score-v">not independently verified</span></div></div>
         </div>
-        <p class="model-note">No longer API-only, but the repo is gated (HTTP 401 without granted access) and no MLX conversion exists. Whether qwen3_5_moe covers it is untested, so treat the status as unknown rather than blocked.</p>
+        <p class="model-note">No longer API-only, but the repo is gated - HTTP 401 without granted access - so nobody has been able to publish a conversion for any engine. The architecture families are registered in both llama.cpp and mlx-lm, so this is an access problem rather than a support problem, and the status should be read as unknown rather than blocked.</p>
         <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/Qwen/Qwen3.8-Max" target="_blank" rel="noopener">Qwen/Qwen3.8-Max</a><a class="src" href="https://www.explainx.ai/blog/qwen3-8-max-open-weights-live-hugging-face-august-2026" target="_blank" rel="noopener">Release coverage</a></div>
       </div>
       
