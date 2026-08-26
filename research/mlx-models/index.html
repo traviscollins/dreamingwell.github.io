@@ -230,7 +230,7 @@
     <div class="stat mid"><span class="n">1</span><span class="k">Runs, degraded</span></div>
     <div class="stat bad"><span class="n">6</span><span class="k">Blocked</span></div>
     <div class="stat"><span class="n">31</span><span class="k">Open items</span></div>
-    <div class="stat time"><time class="n ago" datetime="2026-08-25T22:33:56-04:00">2026-08-25 22:33</time><span class="k">Since last change</span></div>
+    <div class="stat time"><time class="n ago" datetime="2026-08-25T22:36:37-04:00">2026-08-25 22:36</time><span class="k">Since last change</span></div>
   </div>
 
 
@@ -1051,11 +1051,16 @@
       warn    = document.getElementById("rig-warn");
   if (!chipSel) return;
 
+  var DEF_CHIP = "m5ultra", DEF_MEM = 256, DEF_N = 1;
+
   var q = new URLSearchParams(location.search);
-  var chip = MACHINES[q.get("chip")] ? q.get("chip") : "m5ultra";
+  var chip = MACHINES[q.get("chip")] ? q.get("chip") : DEF_CHIP;
   var mem  = parseInt(q.get("mem"), 10);
-  var n    = parseInt(q.get("n"), 10);
-  if (!n || n < 1 || n > MAX_UNITS) n = 2;
+  if (!mem || MACHINES[chip].mem.indexOf(mem) === -1) {
+    mem = MACHINES[chip].mem.indexOf(DEF_MEM) !== -1 ? DEF_MEM : MACHINES[chip].mem[0];
+  }
+  var n = parseInt(q.get("n"), 10);
+  if (!n || n < 1 || n > MAX_UNITS) n = DEF_N;
 
   ORDER.forEach(function (k) {
     var o = document.createElement("option");
@@ -1076,7 +1081,9 @@
       o.value = g; o.textContent = g + " GB";
       memSel.appendChild(o);
     });
-    if (opts.indexOf(keepIfPossible) === -1) keepIfPossible = opts[opts.length - 1];
+    if (opts.indexOf(keepIfPossible) === -1) {
+      keepIfPossible = opts.indexOf(DEF_MEM) !== -1 ? DEF_MEM : opts[opts.length - 1];
+    }
     memSel.value = keepIfPossible;
   }
 
