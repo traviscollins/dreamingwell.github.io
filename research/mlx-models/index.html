@@ -1,0 +1,649 @@
+<title>Apple Silicon Inference Watch</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+  :root {
+    --bg: #eef1f5; --surface: #ffffff; --surface-2: #f6f8fa;
+    --ink: #141a20; --ink-2: #3d4854; --muted: #5f6b78;
+    --line: #d9e0e8; --line-soft: #e8edf2;
+    --accent: #a85a26;
+    --critical: #a8352a; --high: #8a5410; --medium: #4a6070; --low: #78838f;
+    --ok: #25704e; --warn: #8a5410;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0e1216; --surface: #161c22; --surface-2: #1b232a;
+      --ink: #e3e8ee; --ink-2: #b9c3cd; --muted: #8894a2;
+      --line: #29333d; --line-soft: #202932;
+      --accent: #de8a4c;
+      --critical: #ef7565; --high: #ddb24f; --medium: #7f97a8; --low: #6d7883;
+      --ok: #59bc88; --warn: #ddb24f;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0e1216; --surface: #161c22; --surface-2: #1b232a;
+    --ink: #e3e8ee; --ink-2: #b9c3cd; --muted: #8894a2;
+    --line: #29333d; --line-soft: #202932;
+    --accent: #de8a4c;
+    --critical: #ef7565; --high: #ddb24f; --medium: #7f97a8; --low: #6d7883;
+    --ok: #59bc88; --warn: #ddb24f;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    font-size: 16px; line-height: 1.55; -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 64rem; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+  header { display: flex; flex-direction: column; gap: .5rem; margin-bottom: 2rem; }
+  .eyebrow { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .72rem;
+    letter-spacing: .13em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+  h1 { font-size: clamp(1.7rem, 4vw, 2.3rem); font-weight: 700; margin: 0;
+    letter-spacing: -.02em; text-wrap: balance; }
+  .sub { color: var(--muted); margin: 0; max-width: 48rem; }
+  .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr)); gap: 1px;
+    background: var(--line); border: 1px solid var(--line); border-radius: 10px;
+    overflow: hidden; margin: 2rem 0 2.75rem; }
+  .stat { background: var(--surface); padding: 1.05rem 1.2rem; display: flex; flex-direction: column; gap: .18rem; }
+  .stat .n { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 1.85rem;
+    font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+  .stat .k { font-size: .74rem; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+  .stat.bad .n { color: var(--critical); }
+  .stat.good .n { color: var(--ok); }
+  .stat.mid .n { color: var(--warn); }
+  .stat.time .n { font-size: 1.05rem; padding-top: .5rem; color: var(--ink-2); }
+
+  .model { margin-bottom: 2.5rem; }
+  .model-head { background: var(--surface); border: 1px solid var(--line);
+    border-top: 3px solid var(--medium); border-radius: 10px 10px 0 0; padding: 1.35rem 1.5rem 1.15rem; }
+  .model.v-degraded .model-head { border-top-color: var(--warn); }
+  .model.v-blocked .model-head { border-top-color: var(--critical); }
+  .model.v-ready .model-head { border-top-color: var(--ok); }
+  .model-id { display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; margin-bottom: .9rem; }
+  .model-id h2 { font-size: 1.35rem; font-weight: 700; margin: 0; letter-spacing: -.02em; }
+  .verdict { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .7rem; font-weight: 600;
+    letter-spacing: .06em; text-transform: uppercase; padding: .22rem .6rem; border-radius: 4px; border: 1px solid; }
+  .verdict.v-degraded { color: var(--warn); border-color: var(--warn); background: var(--surface-2); }
+  .verdict.v-blocked { color: var(--critical); border-color: var(--critical); background: var(--surface-2); }
+  .verdict.v-ready { color: var(--ok); border-color: var(--ok); background: var(--surface-2); }
+  .vram { display: flex; align-items: baseline; gap: .7rem; flex-wrap: wrap;
+    padding: .6rem .9rem; margin: 0 0 .7rem; border-radius: 6px;
+    background: var(--surface-2); border: 1px solid var(--line-soft); border-left: 3px solid var(--accent); }
+  .vram.tight { border-left-color: var(--critical); }
+  .vram-k { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .66rem;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .vram-v { font-size: .87rem; font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .quants { display: flex; flex-direction: column; gap: .3rem; margin: 0 0 .9rem; }
+  .q-cat { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .64rem;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .q { display: flex; align-items: baseline; gap: .6rem; flex-wrap: wrap; font-size: .82rem; }
+  .q.alt { opacity: .72; }
+  .q-repo { font-family: "IBM Plex Mono", ui-monospace, monospace; color: var(--accent);
+    text-decoration: none; border-bottom: 1px solid transparent; word-break: break-all; }
+  .q-repo:hover, .q-repo:focus-visible { border-bottom-color: var(--accent); }
+  .q-repo.none { color: var(--muted); font-style: italic; border: none; }
+  .q-size { font-family: "IBM Plex Mono", ui-monospace, monospace; font-weight: 600;
+    color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .q-note { font-size: .76rem; color: var(--muted); }
+  .srcs { display: flex; align-items: baseline; gap: .55rem; flex-wrap: wrap; margin: 0 0 .8rem; }
+  .src { font-size: .76rem; color: var(--accent); text-decoration: none;
+    border: 1px solid var(--line); border-radius: 4px; padding: .1rem .45rem; background: var(--surface-2); }
+  .src:hover, .src:focus-visible { border-color: var(--accent); }
+  .nofit-row .srcs { margin-top: .4rem; margin-bottom: 0; }
+  .scores { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: .9rem 1.6rem;
+    margin: 0 0 1rem; padding: .85rem 1rem; background: var(--surface-2);
+    border: 1px solid var(--line-soft); border-radius: 7px; }
+  .score-col { display: flex; flex-direction: column; gap: .32rem; min-width: 0; }
+  .score-cat { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .66rem;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: .1rem; }
+  .score { display: flex; justify-content: space-between; align-items: baseline; gap: .8rem;
+    border-bottom: 1px dotted var(--line); padding-bottom: .2rem; }
+  .score-k { font-size: .8rem; color: var(--ink-2); }
+  .score-v { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .82rem;
+    font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .spec { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    gap: .8rem 1.4rem; margin: 0 0 .95rem; }
+  .spec div { display: flex; flex-direction: column; gap: .1rem; min-width: 0; }
+  .spec dt { font-size: .68rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .spec dd { margin: 0; font-size: .85rem; color: var(--ink); font-weight: 500; }
+  .model-note { margin: 0 0 .8rem; font-size: .91rem; color: var(--ink-2); max-width: 52rem; }
+  .blockers-label { margin: 0; font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .72rem; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); }
+  .rows { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1px;
+    background: var(--line); border: 1px solid var(--line); border-top: none; border-radius: 0 0 10px 10px; overflow: hidden; }
+  .row { background: var(--surface); border-left: 3px solid var(--medium); padding: .9rem 1.15rem; }
+  .row.sev-critical { border-left-color: var(--critical); }
+  .row.sev-high { border-left-color: var(--high); }
+  .row.sev-medium { border-left-color: var(--medium); }
+  .row.sev-low { border-left-color: var(--low); }
+  .row-head { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; margin-bottom: .3rem; }
+  .ref { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .8rem; font-weight: 500;
+    color: var(--accent); text-decoration: none; border-bottom: 1px solid transparent; }
+  .ref:hover, .ref:focus-visible { border-bottom-color: var(--accent); }
+  .pill { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .66rem; font-weight: 600;
+    letter-spacing: .05em; text-transform: uppercase; padding: .14rem .45rem; border-radius: 4px; border: 1px solid var(--line); }
+  .pill.open { color: var(--ink-2); background: var(--surface-2); }
+  .pill.merged { color: var(--ok); background: var(--surface-2); border-color: var(--ok); }
+  .pill.closed { color: var(--muted); background: var(--surface-2); }
+  .sev-tag { font-size: .71rem; color: var(--muted); margin-left: auto; letter-spacing: .04em; }
+  .row h4 { font-size: .93rem; font-weight: 600; margin: 0 0 .22rem; letter-spacing: -.005em; }
+  .row p { margin: 0; font-size: .86rem; color: var(--ink-2); max-width: 52rem; }
+
+  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+    padding: 1.4rem 1.5rem; margin-bottom: 1rem; }
+  .panel h2 { font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: var(--accent);
+    margin: 0 0 1rem; font-weight: 600; font-family: "IBM Plex Mono", ui-monospace, monospace; }
+  .panel > ul { margin: 0; padding-left: 1.1rem; display: flex; flex-direction: column; gap: .55rem; }
+  .panel > ul > li { font-size: .89rem; color: var(--ink-2); }
+  .panel strong { color: var(--ink); font-weight: 600; }
+  .nofit { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .9rem; }
+  .nofit-row { border-left: 2px solid var(--line); padding-left: .9rem; }
+  .nofit-head { display: flex; align-items: baseline; gap: .7rem; flex-wrap: wrap; }
+  .nofit-head h4 { font-size: .95rem; font-weight: 600; margin: 0; }
+  .nofit-mem { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .8rem;
+    color: var(--muted); font-variant-numeric: tabular-nums; }
+  .nofit-arch { margin: .12rem 0 .3rem; font-size: .78rem; color: var(--muted);
+    font-family: "IBM Plex Mono", ui-monospace, monospace; }
+  .nofit-row > p:last-child { margin: 0; font-size: .86rem; color: var(--ink-2); }
+  .cross-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1px;
+    background: var(--line); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .rel { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;
+    padding: .5rem 0; border-bottom: 1px solid var(--line-soft); }
+  .rel:last-child { border-bottom: none; }
+  .rel-repo { font-size: .87rem; color: var(--ink-2); }
+  .rel-tag { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .87rem;
+    font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; }
+  footer { margin-top: 2.5rem; padding-top: 1.2rem; border-top: 1px solid var(--line);
+    font-size: .82rem; color: var(--muted); }
+  a { color: var(--accent); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+</style>
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">vllm-mlx on Apple Silicon</span>
+    <h1>Apple Silicon inference watch</h1>
+    <p class="sub">What stands between each top-tier open-weight model and running well on a Mac Studio
+    M5 Ultra 256GB under vllm-mlx. VRAM figures are measured from the actual quantised repositories.
+    mlx-lm items appear only where they propagate &mdash; vllm-mlx wraps mlx-lm's model classes,
+    so its bugs arrive here.</p>
+  </header>
+
+  <div class="summary">
+    <div class="stat good"><span class="n">2</span><span class="k">Recommended</span></div>
+    <div class="stat mid"><span class="n">1</span><span class="k">Runs, degraded</span></div>
+    <div class="stat bad"><span class="n">3</span><span class="k">Blocked</span></div>
+    <div class="stat"><span class="n">26</span><span class="k">Open items</span></div>
+    <div class="stat time"><span class="n">2026-08-25 21:54</span><span class="k">Status as of</span></div>
+  </div>
+
+    <section class="model v-ready">
+      <div class="model-head">
+        <div class="model-id">
+          <h2>GLM-4.7</h2>
+          <span class="verdict v-ready">Recommended</span>
+        </div>
+        <dl class="spec">
+          <div><dt>Architecture</dt><dd>MoE 358B total / ~32B active · conventional attention</dd></div>
+          <div><dt>License</dt><dd>MIT</dd></div>
+          <div><dt>Context</dt><dd>131k</dd></div>
+        </dl>
+        <div class="vram tight">
+          <span class="vram-k">VRAM required</span>
+          <span class="vram-v">~209 GB resident · leaves ~21 GB for KV at a 230 GB wired limit</span>
+        </div>
+        <div class="quants"><span class="q-cat">Reference quant &mdash; measured from the repo</span><div class="q"><a class="q-repo" href="https://huggingface.co/mlx-community/GLM-4.7-4bit" target="_blank" rel="noopener">mlx-community/GLM-4.7-4bit</a><span class="q-size">198.6 GB</span><span class="q-note">39 shards</span></div><div class="q alt"><a class="q-repo" href="https://huggingface.co/mlx-community/GLM-4.7-6bit" target="_blank" rel="noopener">mlx-community/GLM-4.7-6bit</a><span class="q-size">286.7 GB</span><span class="q-note">exceeds one box</span></div></div>
+        <div class="scores">
+          <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">τ²-Bench</span><span class="score-v">87.4%</span></div><div class="score"><span class="score-k">BrowseComp</span><span class="score-v">67.5%</span></div><div class="score"><span class="score-k">Terminal-Bench 2.0</span><span class="score-v">41.0%</span></div></div>
+          <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified</span><span class="score-v">73.8%</span></div><div class="score"><span class="score-k">LiveCodeBench-v6</span><span class="score-v">84.9%</span></div><div class="score"><span class="score-k">SWE-bench Multilingual</span><span class="score-v">66.7%</span></div></div>
+        </div>
+        <p class="model-note">The strongest thing that actually runs. glm4_moe has zero open issues in mlx-lm - every one closed - and the 4-bit MLX quant already exists. It uses conventional attention rather than hybrid linear-attention, so it should sidestep the prefix-cache bug that cripples Qwen3.8-27B; confirm that first, it is the main reason to prefer it. The catch is fit: 198.6 GB of weights leaves only ~21 GB for KV, so this is a quality-over-concurrency choice.</p>
+        <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/zai-org/GLM-4.7" target="_blank" rel="noopener">zai-org/GLM-4.7</a><a class="src" href="https://huggingface.co/zai-org/GLM-4.7" target="_blank" rel="noopener">Model card (all scores)</a></div>
+        <p class="blockers-label">1 open of 1 tracked</p>
+      </div>
+      <ul class="rows">
+        <li class="row sev-medium">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/waybarrios/vllm-mlx/pull/725" target="_blank" rel="noopener">vllm-mlx&thinsp;#725</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">Medium</span>
+          </div>
+          <h4>PR: GLM-4.7 thinking streams into content, not reasoning_content</h4>
+          <p>With --reasoning-parser glm4 the entire thinking block lands in content. Non-streaming is unaffected, so it is easy to miss - an agent frontend renders the model&#x27;s reasoning as the visible reply.</p>
+        </li>
+      </ul>
+    </section>
+    <section class="model v-ready">
+      <div class="model-head">
+        <div class="model-id">
+          <h2>GLM-4.7-Flash</h2>
+          <span class="verdict v-ready">Fast lane</span>
+        </div>
+        <dl class="spec">
+          <div><dt>Architecture</dt><dd>MoE 31B total / ~3B active</dd></div>
+          <div><dt>License</dt><dd>MIT</dd></div>
+          <div><dt>Context</dt><dd>131k</dd></div>
+        </dl>
+        <div class="vram">
+          <span class="vram-k">VRAM required</span>
+          <span class="vram-v">~27 GB resident · leaves ~203 GB for KV</span>
+        </div>
+        <div class="quants"><span class="q-cat">Reference quant &mdash; measured from the repo</span><div class="q"><a class="q-repo" href="https://huggingface.co/mlx-community/GLM-4.7-Flash-4bit" target="_blank" rel="noopener">mlx-community/GLM-4.7-Flash-4bit</a><span class="q-size">16.9 GB</span><span class="q-note">4 shards</span></div><div class="q alt"><a class="q-repo" href="https://huggingface.co/mlx-community/GLM-4.7-Flash-6bit" target="_blank" rel="noopener">mlx-community/GLM-4.7-Flash-6bit</a><span class="q-size">24.3 GB</span><span class="q-note">also comfortable</span></div></div>
+        <div class="scores">
+          <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">τ²-Bench</span><span class="score-v">79.5%</span></div><div class="score"><span class="score-k">BrowseComp</span><span class="score-v">42.8%</span></div></div>
+          <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified</span><span class="score-v">59.2%</span></div><div class="score"><span class="score-k">LiveCodeBench-v6</span><span class="score-v">64.0%</span></div></div>
+        </div>
+        <p class="model-note">3B active, so decode is bandwidth-cheap and KV space is abundant - the opposite tradeoff to GLM-4.7 on the same mature code path and quant family. The natural cheap tier to route low-stakes work to.</p>
+        <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/zai-org/GLM-4.7-Flash" target="_blank" rel="noopener">zai-org/GLM-4.7-Flash</a><a class="src" href="https://huggingface.co/zai-org/GLM-4.7-Flash" target="_blank" rel="noopener">Model card (all scores)</a></div>
+        <p class="blockers-label">1 open of 1 tracked</p>
+      </div>
+      <ul class="rows">
+        <li class="row sev-medium">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/waybarrios/vllm-mlx/pull/725" target="_blank" rel="noopener">vllm-mlx&thinsp;#725</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">Medium</span>
+          </div>
+          <h4>PR: GLM-4.7 thinking streams into content, not reasoning_content</h4>
+          <p>With --reasoning-parser glm4 the entire thinking block lands in content. Non-streaming is unaffected, so it is easy to miss - an agent frontend renders the model&#x27;s reasoning as the visible reply.</p>
+        </li>
+      </ul>
+    </section>
+    <section class="model v-degraded">
+      <div class="model-head">
+        <div class="model-id">
+          <h2>Qwen3.8-27B</h2>
+          <span class="verdict v-degraded">Runs, degraded</span>
+        </div>
+        <dl class="spec">
+          <div><dt>Architecture</dt><dd>Dense 27.8B · hybrid GDN (48 linear + 16 full-attn)</dd></div>
+          <div><dt>License</dt><dd>Apache-2.0</dd></div>
+          <div><dt>Context</dt><dd>262k (to 1M)</dd></div>
+        </dl>
+        <div class="vram">
+          <span class="vram-k">VRAM required</span>
+          <span class="vram-v">~31 GB resident · leaves ~199 GB for KV</span>
+        </div>
+        <div class="quants"><span class="q-cat">Reference quant &mdash; measured from the repo</span><div class="q"><a class="q-repo" href="https://huggingface.co/mlx-community/Qwen3.8-27B-OptiQ-4bit" target="_blank" rel="noopener">mlx-community/Qwen3.8-27B-OptiQ-4bit</a><span class="q-size">20.7 GB</span><span class="q-note">6 shards</span></div><div class="q alt"><a class="q-repo" href="https://huggingface.co/mlx-community/Qwen3.8-27B-8bit" target="_blank" rel="noopener">mlx-community/Qwen3.8-27B-8bit</a><span class="q-size">29.5 GB</span><span class="q-note">the build used in vllm-mlx #730</span></div></div>
+        <div class="scores">
+          <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">Terminal-Bench 2.1</span><span class="score-v">73.0</span></div><div class="score"><span class="score-k">OSWorld (computer use)</span><span class="score-v">84.3</span></div><div class="score"><span class="score-k">AndroidWorld</span><span class="score-v">81.9</span></div><div class="score"><span class="score-k">WebArena</span><span class="score-v">64.8</span></div></div>
+          <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">LiveCodeBench-v6</span><span class="score-v">90.3</span></div><div class="score"><span class="score-k">QwenSWEBench</span><span class="score-v">79.0</span></div><div class="score"><span class="score-k">SWE-bench Pro</span><span class="score-v">61.7</span></div><div class="score"><span class="score-k">DeepSWE 1.1</span><span class="score-v">42.2</span></div></div>
+        </div>
+        <p class="model-note">Stronger on paper than I first credited: its LiveCodeBench-v6 of 90.3 beats GLM-4.7&#x27;s 84.9, and its SWE-bench Pro of 61.7 is within noise of GLM-5.2&#x27;s 62.1 at 1/27th the size. What holds it back is the runtime, not the model - prefix caching and k=3 speculative decoding are both off or capped on this architecture.</p>
+        <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/Qwen/Qwen3.8-27B" target="_blank" rel="noopener">Qwen/Qwen3.8-27B</a><a class="src" href="https://huggingface.co/Qwen/Qwen3.8-27B" target="_blank" rel="noopener">Model card (all scores)</a></div>
+        <p class="blockers-label">10 open of 10 tracked</p>
+      </div>
+      <ul class="rows">
+        <li class="row sev-critical">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/waybarrios/vllm-mlx/issues/730" target="_blank" rel="noopener">vllm-mlx&thinsp;#730</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">Critical</span>
+          </div>
+          <h4>Prefix-cache reuse silently disabled for hybrid architectures</h4>
+          <p>#691&#x27;s all-or-nothing rewind gate rejects every hybrid model: ArraysCache leaves have no .keys and inherit is_trimmable() -&gt; False. Measured on Qwen3.8-27B-8bit — an identical 24k prompt resent back-to-back gives zero speedup on main, versus ~58x before #691. Rejection logs only at DEBUG.</p>
+        </li>
+        <li class="row sev-critical">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/waybarrios/vllm-mlx/pull/731" target="_blank" rel="noopener">vllm-mlx&thinsp;#731</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">Critical</span>
+          </div>
+          <h4>PR: make prefix-cache rewind gate aware of non-KV hybrid leaves</h4>
+          <p>Explicitly Fixes #730, opened 2026-08-25 with the 58x measurement attached. The single event that most changes this plan.</p>
+        </li>
+        <li class="row sev-high">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/waybarrios/vllm-mlx/issues/641" target="_blank" rel="noopener">vllm-mlx&thinsp;#641</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">High</span>
+          </div>
+          <h4>MemoryAwarePrefixCache stores caches by reference</h4>
+          <p>Leaks Metal buffer handles on hybrid models. Compounds every other memory-pressure item at concurrency.</p>
+        </li>
+        <li class="row sev-high">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/waybarrios/vllm-mlx/issues/678" target="_blank" rel="noopener">vllm-mlx&thinsp;#678</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">High</span>
+          </div>
+          <h4>Prefix cache trims RotatingKVCache past its window</h4>
+          <p>Cross-conversation KV leak and repetition loops. A correctness bug, not a speed bug — one tenant&#x27;s context bleeding into another&#x27;s is disqualifying for multi-agent serving.</p>
+        </li>
+        <li class="row sev-high">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/waybarrios/vllm-mlx/issues/710" target="_blank" rel="noopener">vllm-mlx&thinsp;#710</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">High</span>
+          </div>
+          <h4>MTP drafting pinned to k=1 on hybrid linear-attention</h4>
+          <p>Reference CUDA/vLLM deployments run k=3 at ~77% acceptance for a ~66% decode gain. Measured on Qwen3.8-27B / M3 Ultra 256GB: verify forward is 69% of step time, reject and replay 19.3%.</p>
+        </li>
+        <li class="row sev-medium">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/ml-explore/mlx-lm/issues/1446" target="_blank" rel="noopener">mlx-lm&thinsp;#1446</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">Medium</span>
+          </div>
+          <h4>ArraysCache is not trimmable</h4>
+          <p>The structural reason the k=1 cap exists — GDN state layers cannot be rolled back on draft rejection. Same root cause as #730.</p>
+        </li>
+        <li class="row sev-medium">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/waybarrios/vllm-mlx/issues/689" target="_blank" rel="noopener">vllm-mlx&thinsp;#689</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">Medium</span>
+          </div>
+          <h4>Completion cache can store desynchronized rotating KV state</h4>
+          <p>Another way the cache serves state that does not match the prompt it is keyed on.</p>
+        </li>
+        <li class="row sev-medium">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/waybarrios/vllm-mlx/issues/711" target="_blank" rel="noopener">vllm-mlx&thinsp;#711</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">Medium</span>
+          </div>
+          <h4>--prefill-step-size silently dropped under --continuous-batching</h4>
+          <p>Prefill chunk size is the main Apple Silicon prefill lever, ignored in exactly the config we would run.</p>
+        </li>
+        <li class="row sev-medium">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/waybarrios/vllm-mlx/pull/729" target="_blank" rel="noopener">vllm-mlx&thinsp;#729</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">Medium</span>
+          </div>
+          <h4>PR: honor --prefill-step-size with continuous batching</h4>
+          <p>One of two competing fixes for #711.</p>
+        </li>
+        <li class="row sev-low">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/waybarrios/vllm-mlx/issues/658" target="_blank" rel="noopener">vllm-mlx&thinsp;#658</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">Low</span>
+          </div>
+          <h4>Validate Qwen MoE MTP conversion artifacts before decode</h4>
+          <p>Would catch a broken MTP head at load instead of at generation.</p>
+        </li>
+      </ul>
+    </section>
+    <section class="model v-blocked">
+      <div class="model-head">
+        <div class="model-id">
+          <h2>MiniMax M3</h2>
+          <span class="verdict v-blocked">Blocked</span>
+        </div>
+        <dl class="spec">
+          <div><dt>Architecture</dt><dd>MoE 428B total / 23B active · MiniMax Sparse Attention</dd></div>
+          <div><dt>License</dt><dd>MiniMax Community</dd></div>
+          <div><dt>Context</dt><dd>1M</dd></div>
+        </dl>
+        <div class="vram tight">
+          <span class="vram-k">VRAM required</span>
+          <span class="vram-v">~215 GB estimated at 4-bit · would leave ~5 GB for KV</span>
+        </div>
+        <div class="quants"><span class="q-cat">Reference quant &mdash; measured from the repo</span><div class="q"><span class="q-repo none">no MLX quant - support unmerged</span></div></div>
+        <div class="scores">
+          <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">Terminal-Bench 2.1</span><span class="score-v">66.0</span></div><div class="score"><span class="score-k">MCP Atlas</span><span class="score-v">74.2</span></div></div>
+          <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified</span><span class="score-v">80.5%</span></div><div class="score"><span class="score-k">SWE-bench Pro</span><span class="score-v">59.0%</span></div><div class="score"><span class="score-k">SWE-fficiency</span><span class="score-v">34.8</span></div></div>
+        </div>
+        <p class="model-note">The best coding score that would physically fit on one machine, but there is no MLX support: mlx-lm PR #1401 is still open. Worth noting its Terminal-Bench 2.1 of 66.0 sits below Qwen3.8-27B&#x27;s 73.0 despite being 15x larger.</p>
+        <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/MiniMaxAI/MiniMax-M3" target="_blank" rel="noopener">MiniMaxAI/MiniMax-M3</a><a class="src" href="https://huggingface.co/MiniMaxAI/MiniMax-M3" target="_blank" rel="noopener">Model card</a><a class="src" href="https://www.morphllm.com/minimax-m3" target="_blank" rel="noopener">Benchmark writeup</a></div>
+        <p class="blockers-label">1 open of 1 tracked</p>
+      </div>
+      <ul class="rows">
+        <li class="row sev-critical">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/ml-explore/mlx-lm/pull/1401" target="_blank" rel="noopener">mlx-lm&thinsp;#1401</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">Critical</span>
+          </div>
+          <h4>PR: Add MiniMax-M3 (text backbone) - unmerged</h4>
+          <p>The only route to M3 on MLX, open since 2026-08-24. The only route to M3 on MLX.</p>
+        </li>
+      </ul>
+    </section>
+    <section class="model v-blocked">
+      <div class="model-head">
+        <div class="model-id">
+          <h2>DeepSeek V4 Flash</h2>
+          <span class="verdict v-blocked">Blocked</span>
+        </div>
+        <dl class="spec">
+          <div><dt>Architecture</dt><dd>MoE 284B total / 13B active · DSA sparse attention</dd></div>
+          <div><dt>License</dt><dd>MIT</dd></div>
+          <div><dt>Context</dt><dd>1M</dd></div>
+        </dl>
+        <div class="vram">
+          <span class="vram-k">VRAM required</span>
+          <span class="vram-v">~161 GB resident · would leave ~69 GB for KV</span>
+        </div>
+        <div class="quants"><span class="q-cat">Reference quant &mdash; measured from the repo</span><div class="q"><a class="q-repo" href="https://huggingface.co/mlx-community/DeepSeek-V4-Flash-mxfp4" target="_blank" rel="noopener">mlx-community/DeepSeek-V4-Flash-mxfp4</a><span class="q-size">151.3 GB</span><span class="q-note">33 shards</span></div></div>
+        <div class="scores">
+          <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">AA Intelligence Index</span><span class="score-v">50</span></div><div class="score"><span class="score-k">GDPval-AA max effort</span><span class="score-v">1388</span></div></div>
+          <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Verified</span><span class="score-v">not published</span></div></div>
+        </div>
+        <p class="model-note">The quant exists and the footprint is ideal - 13B active reads ~7.5 GB per token, so 1.2 TB/s stops being the constraint and the 256 GB finally does work. There is simply no runtime: vllm-mlx rejects the architecture and mlx-lm has no deepseek_v4.py to wrap.</p>
+        <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash" target="_blank" rel="noopener">deepseek-ai/DeepSeek-V4-Flash</a><a class="src" href="https://artificialanalysis.ai/articles/deepseek-is-back-among-the-leading-open-weights-models-with-v4-pro-and-v4-flash" target="_blank" rel="noopener">Artificial Analysis writeup</a></div>
+        <p class="blockers-label">3 open of 3 tracked</p>
+      </div>
+      <ul class="rows">
+        <li class="row sev-critical">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/waybarrios/vllm-mlx/issues/668" target="_blank" rel="noopener">vllm-mlx&thinsp;#668</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">Critical</span>
+          </div>
+          <h4>DeepSeek V4 Flash unsupported</h4>
+          <p>ValueError: Model type deepseek_v4 not supported. Open since 2026-08-01, no maintainer reply, no PR — and mlx-lm has no deepseek_v4.py, so the architecture is unimplemented upstream too.</p>
+        </li>
+        <li class="row sev-high">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/ml-explore/mlx-lm/issues/1332" target="_blank" rel="noopener">mlx-lm&thinsp;#1332</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">High</span>
+          </div>
+          <h4>DeepSeek-V4 unbounded Metal residency during decode</h4>
+          <p>Dies at ~11k decode tokens with metal::malloc resource-limit exceeded. Even once the architecture lands, this has to be fixed before the model is servable.</p>
+        </li>
+        <li class="row sev-high">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/ml-explore/mlx-lm/issues/1443" target="_blank" rel="noopener">mlx-lm&thinsp;#1443</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">High</span>
+          </div>
+          <h4>DSA Indexer sparse top-k evicts attention sinks</h4>
+          <p>Past index_topk (2048) the indexer drops the attention sinks and decode collapses into repetition — a sharp cliff, not drift. Hits every sparse-attention model: DeepSeek V3.2/V4 and GLM-5.2 both decode through this module.</p>
+        </li>
+      </ul>
+    </section>
+    <section class="model v-blocked">
+      <div class="model-head">
+        <div class="model-id">
+          <h2>GLM-5.2</h2>
+          <span class="verdict v-blocked">Blocked</span>
+        </div>
+        <dl class="spec">
+          <div><dt>Architecture</dt><dd>MoE 744B total / 40B active · glm_moe_dsa + IndexShare</dd></div>
+          <div><dt>License</dt><dd>MIT</dd></div>
+          <div><dt>Context</dt><dd>1M</dd></div>
+        </dl>
+        <div class="vram tight">
+          <span class="vram-k">VRAM required</span>
+          <span class="vram-v">~405 GB resident · pooled across both machines only</span>
+        </div>
+        <div class="quants"><span class="q-cat">Reference quant &mdash; measured from the repo</span><div class="q"><a class="q-repo" href="https://huggingface.co/mlx-community/GLM-5.2-mxfp4" target="_blank" rel="noopener">mlx-community/GLM-5.2-mxfp4</a><span class="q-size">395.1 GB</span><span class="q-note">76 shards</span></div></div>
+        <div class="scores">
+          <div class="score-col"><span class="score-cat">Agentic</span><div class="score"><span class="score-k">Terminal-Bench 2.1</span><span class="score-v">81.0</span></div></div>
+          <div class="score-col"><span class="score-cat">Coding</span><div class="score"><span class="score-k">SWE-bench Pro</span><span class="score-v">62.1%</span></div><div class="score"><span class="score-k">DeepSWE</span><span class="score-v">46.2</span></div><div class="score"><span class="score-k">AIME 2026</span><span class="score-v">99.2</span></div></div>
+        </div>
+        <p class="model-note">Highest agentic score reachable on this hardware, blocked three ways. Note the measured 395.1 GB puts it squarely inside mlx-lm #1572&#x27;s failure band - the one-shot mx.eval watchdog crash starts around 300 GB.</p>
+        <div class="srcs"><span class="q-cat">Sources</span><a class="src" href="https://huggingface.co/zai-org/GLM-5.2" target="_blank" rel="noopener">zai-org/GLM-5.2</a><a class="src" href="https://artificialanalysis.ai/articles/glm-5-2-is-the-new-leading-open-weights-model-on-the-artificial-analysis-intelligence-index" target="_blank" rel="noopener">Artificial Analysis writeup</a><a class="src" href="https://huggingface.co/zai-org/GLM-5.2" target="_blank" rel="noopener">Model card</a></div>
+        <p class="blockers-label">3 open of 3 tracked</p>
+      </div>
+      <ul class="rows">
+        <li class="row sev-critical">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/ml-explore/mlx-lm/issues/1418" target="_blank" rel="noopener">mlx-lm&thinsp;#1418</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">Critical</span>
+          </div>
+          <h4>GLM-5.2 fails to load — missing per-layer indexer params</h4>
+          <p>The loader expects a DeepSeek-V3.2-style indexer on every layer, but GLM-5.2&#x27;s IndexShare places them on a subset. mlx-community/GLM-5.2-mxfp4 aborts with 285 missing parameters.</p>
+        </li>
+        <li class="row sev-high">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/ml-explore/mlx-lm/issues/1443" target="_blank" rel="noopener">mlx-lm&thinsp;#1443</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">High</span>
+          </div>
+          <h4>DSA Indexer sparse top-k evicts attention sinks</h4>
+          <p>Past index_topk (2048) the indexer drops the attention sinks and decode collapses into repetition — a sharp cliff, not drift. Hits every sparse-attention model: DeepSeek V3.2/V4 and GLM-5.2 both decode through this module.</p>
+        </li>
+        <li class="row sev-high">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/ml-explore/mlx-lm/issues/1572" target="_blank" rel="noopener">mlx-lm&thinsp;#1572</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">High</span>
+          </div>
+          <h4>&gt;300GB models trip the GPU watchdog at load</h4>
+          <p>load_model() ends with one mx.eval(model.parameters()), building a single enormous Metal command buffer. At ~390GB it hits kIOGPUCommandBufferCallbackErrorTimeout and the error escapes uncaught, hard-aborting the process. GLM-5.2 at 4-bit is 372-475GB.</p>
+        </li>
+      </ul>
+    </section>
+
+  <div class="panel">
+    <h2>Too large for this hardware</h2>
+    <ul class="nofit">
+      <li class="nofit-row">
+        <div class="nofit-head"><h4>Kimi K3</h4><span class="nofit-mem">~1.4 TB @ 4-bit</span></div>
+        <p class="nofit-arch">MoE 2.8T / 104B active &middot; Terminal-Bench 2.1 88.3 · MCPMark-Verified 94.5 · LiveBench Coding 81.45</p>
+        <p>The best open-weight agentic model there is, and roughly 3x what two of these machines can hold.</p>
+        <div class="srcs"><a class="src" href="https://huggingface.co/moonshotai/Kimi-K3" target="_blank" rel="noopener">moonshotai/Kimi-K3</a><a class="src" href="https://www.morphllm.com/best-open-source-llm" target="_blank" rel="noopener">Benchmark roundup</a></div>
+      </li>
+      <li class="nofit-row">
+        <div class="nofit-head"><h4>Qwen3.8-Max</h4><span class="nofit-mem">~1.2 TB @ 4-bit</span></div>
+        <p class="nofit-arch">MoE 2.4T / 95B active &middot; Open weights shipped 2026-08-12 · repo is gated (HTTP 401 without access)</p>
+        <p>No longer API-only, but still ~600 GB even at 2-bit, so it clears neither one box nor both.</p>
+        <div class="srcs"><a class="src" href="https://huggingface.co/Qwen/Qwen3.8-Max" target="_blank" rel="noopener">Qwen/Qwen3.8-Max</a><a class="src" href="https://www.explainx.ai/blog/qwen3-8-max-open-weights-live-hugging-face-august-2026" target="_blank" rel="noopener">Release coverage</a></div>
+      </li>
+      <li class="nofit-row">
+        <div class="nofit-head"><h4>DeepSeek V4 Pro</h4><span class="nofit-mem">~800 GB @ 4-bit</span></div>
+        <p class="nofit-arch">MoE 1.6T / 49B active &middot; SWE-bench Verified 80.6%</p>
+        <p>Exceeds 512 GB pooled by ~300 GB. Would need ~2.5-bit, below where tool-call formatting stays reliable.</p>
+        <div class="srcs"><a class="src" href="https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro" target="_blank" rel="noopener">deepseek-ai/DeepSeek-V4-Pro</a><a class="src" href="https://artificialanalysis.ai/articles/deepseek-is-back-among-the-leading-open-weights-models-with-v4-pro-and-v4-flash" target="_blank" rel="noopener">Artificial Analysis writeup</a></div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="panel">
+    <h2>Server-wide &mdash; affects whichever model wins</h2>
+    <ul class="cross-list">
+        <li class="row sev-high">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/waybarrios/vllm-mlx/issues/546" target="_blank" rel="noopener">vllm-mlx&thinsp;#546</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">High</span>
+          </div>
+          <h4>Strict json_schema decode wedges with no token progress</h4>
+          <p>Over 5-minute hangs on Qwen3-Coder-30B-A3B. Structured output is load-bearing for tool arguments.</p>
+        </li>
+        <li class="row sev-high">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/waybarrios/vllm-mlx/issues/584" target="_blank" rel="noopener">vllm-mlx&thinsp;#584</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">High</span>
+          </div>
+          <h4>Non-loopback requests silently dropped on --host 0.0.0.0</h4>
+          <p>Deployment blocker: a server on the LAN is reachable only from localhost. Silent — no log, recv-queue 0.</p>
+        </li>
+        <li class="row sev-high">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/waybarrios/vllm-mlx/issues/619" target="_blank" rel="noopener">vllm-mlx&thinsp;#619</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">High</span>
+          </div>
+          <h4>Hardcoded mx.set_cache_limit(32GB) is not device-scaled</h4>
+          <p>Filed as an OOM on small Macs, but it cuts the other way here: a hardcoded 32GB ceiling on a 256GB box leaves most of the machine unused.</p>
+        </li>
+        <li class="row sev-high">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/waybarrios/vllm-mlx/issues/672" target="_blank" rel="noopener">vllm-mlx&thinsp;#672</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">High</span>
+          </div>
+          <h4>Streaming tool calls can end without finish_reason</h4>
+          <p>A tool call that ends without a terminator is exactly the shape that reads as a fabricated turn downstream.</p>
+        </li>
+        <li class="row sev-medium">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/waybarrios/vllm-mlx/issues/570" target="_blank" rel="noopener">vllm-mlx&thinsp;#570</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">Medium</span>
+          </div>
+          <h4>Qwen3.6-35B-A3B dequantize shape mismatch (works in mlx-vlm)</h4>
+          <p>Same class as mlx-lm #1197: mlx-vlm handles a checkpoint the mlx-lm path does not.</p>
+        </li>
+        <li class="row sev-medium">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/waybarrios/vllm-mlx/issues/627" target="_blank" rel="noopener">vllm-mlx&thinsp;#627</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">Medium</span>
+          </div>
+          <h4>memory_budget_gb never reconciled with the Metal allocation ceiling</h4>
+          <p>Two allocators with different ideas of the budget. Relevant when hot-swapping checkpoints for A/B runs.</p>
+        </li>
+        <li class="row sev-medium">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/waybarrios/vllm-mlx/issues/682" target="_blank" rel="noopener">vllm-mlx&thinsp;#682</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">Medium</span>
+          </div>
+          <h4>Closing a stream leaves the inner generator and request state open</h4>
+          <p>Client disconnects are routine in agentic work; leaked request state accumulates.</p>
+        </li>
+        <li class="row sev-medium">
+          <div class="row-head">
+            <a class="ref" href="https://github.com/waybarrios/vllm-mlx/pull/732" target="_blank" rel="noopener">vllm-mlx&thinsp;#732</a>
+            <span class="pill open">Open</span>
+            <span class="sev-tag">Medium</span>
+          </div>
+          <h4>PR: surface prefix-cache reuse via usage.prompt_tokens_details.cached_tokens</h4>
+          <p>Observability. Without it there is no way to confirm a hit rate from the API — which is how #730 stayed silent.</p>
+        </li>
+    </ul>
+  </div>
+
+  <div class="panel">
+    <h2>Latest releases</h2>
+    <div class="rel"><span class="rel-repo">ml-explore/mlx-lm</span><span class="rel-tag">v0.31.3</span></div><div class="rel"><span class="rel-repo">waybarrios/vllm-mlx</span><span class="rel-tag">v0.4.1</span></div>
+  </div>
+
+  <div class="panel">
+    <h2>Reading the scores</h2>
+    <ul>
+      <li><strong>Terminal-Bench 2.0 and 2.1 are different benchmarks.</strong> GLM-4.7's 41.0 is on v2.0; Qwen3.8-27B's 73.0 and GLM-5.2's 81.0 are on v2.1. Do not rank across the two &mdash; they are shown labelled, not normalised.</li>
+      <li>Scores are vendor-reported or aggregator-reported, not reproduced here. Treat them as a shortlist filter, then verify the shortlist on your own context-rot harness.</li>
+      <li>Nothing on this page has been measured on M5 Ultra hardware. Footprints are arithmetic; everything else is published numbers.</li>
+    </ul>
+  </div>
+
+  <div class="panel">
+    <h2>Where this leaves the plan</h2>
+    <ul>
+      <li><strong>Lead with GLM-4.7.</strong> It is the only model that is simultaneously strong, fits one box, MIT-licensed, and sitting on a mature MLX path with zero open architecture issues. It also likely avoids the prefix-cache bug entirely, because it does not use hybrid linear attention.</li>
+      <li><strong>Pair it with GLM-4.7-Flash</strong> as a cheap tier &mdash; 3B active, same code path, same quant family &mdash; and route by task stakes rather than running one model for everything.</li>
+      <li><strong>Keep Qwen3.8-27B as the control arm,</strong> not the plan. vllm-mlx #731 merging would restore its prefix caching; until then its published Terminal-Bench 2.1 of 73.0 is the best agentic number among things that run.</li>
+      <li><strong>DeepSeek V4 Flash remains the best theoretical fit</strong> but needs a new architecture upstream, not a bug fix. GLM-5.2 is the quality ceiling and is blocked three ways.</li>
+      <li><strong>Sizing figures remain unverified.</strong> Every M5 Ultra number is a bandwidth and compute model, not a measurement. Re-derive on day one, multiple runs per arm, and start with a memory-stability soak rather than a throughput benchmark.</li>
+    </ul>
+  </div>
+
+  <footer>
+    Polled twice daily against the GitHub API; state changes only &mdash; open&rarr;closed, merged, new release tag.
+    This page is republished when the watch finds a change, so an older date above means nothing has moved,
+    not that the watch stopped. The watch is session-scoped and does not survive the Claude Code session that armed it.
+  </footer>
+</div>
