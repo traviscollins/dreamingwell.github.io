@@ -374,7 +374,7 @@
     <h1>Apple LLM Compatibility Tracker</h1>
     <p class="sub">Select your Mac CPU model, RAM, and machine count below. Then view what AI models
     should run well on it &mdash; and those that won&rsquo;t.
-    <span class="sub-stamp">Updated <time class="ago" datetime="2026-08-26T09:09:19-04:00">2026-08-26 09:09</time>.</span></p>
+    <span class="sub-stamp">Updated <time class="ago" datetime="2026-08-26T09:11:05-04:00">2026-08-26 09:11</time>.</span></p>
   </header>
 
   <div id="rig-sentinel" aria-hidden="true"></div>
@@ -4070,10 +4070,11 @@
     n = parseInt(nSel.value, 10);
     var perNode = g * WIRED, cluster = perNode * n, M = MACHINES[chip];
 
+    // The interconnect only matters once there is something to interconnect.
     out.innerHTML = "<strong>" + n + " × " + M.label + " " + g + " GB</strong> = " +
       fmt(g * n) + " pooled, about " + fmt(cluster) + " usable after the wired-memory limit. " +
-      "Per-machine bandwidth " + (M.bw >= 1000 ? (M.bw / 1000).toFixed(1) + " TB/s" : M.bw + " GB/s") +
-      ". Uses " + M.tb + " with a " + M.link + " Gb/s connection speed.";
+      "Per-machine bandwidth " + (M.bw >= 1000 ? (M.bw / 1000).toFixed(1) + " TB/s" : M.bw + " GB/s") + "." +
+      (n > 1 ? " Uses " + M.tb + " with " + M.link + " Gb/s connection speed." : "");
 
     if (n > 1 && !M.tb5) {
       warn.hidden = false;
