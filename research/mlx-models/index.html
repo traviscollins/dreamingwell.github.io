@@ -232,6 +232,23 @@
   .eng-pane { background: var(--surface); border: 1px solid var(--line); border-top: none;
     padding: 1.15rem 1.2rem 1.2rem; display: flex; flex-direction: column; gap: .8rem; }
   .eng-pane[hidden] { display: none; }
+  .api { margin: 0; display: flex; flex-direction: column; gap: 1px;
+    background: var(--line); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+  .api-row { background: var(--surface-2); padding: .7rem .85rem; display: grid;
+    grid-template-columns: 9.5rem 1fr; gap: .2rem 1rem; align-items: baseline; }
+  .api-row dt { font-size: .68rem; letter-spacing: .07em; text-transform: uppercase;
+    color: var(--muted); font-weight: 600; }
+  .api-row dd { margin: 0; font-size: .85rem; color: var(--ink-2); }
+  .api-row:last-child dd { color: var(--ink-2); }
+  .api-row:last-child dt { color: var(--warn); }
+  .api-row code { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .8em;
+    background: var(--surface); border: 1px solid var(--line-soft); border-radius: 4px;
+    padding: .05em .3em; }
+  .api-row strong { color: var(--ink); font-weight: 600; }
+  @media (max-width: 640px) {
+    .api-row { grid-template-columns: 1fr; }
+  }
+
   .eng-note code, .row p code, .model-note code { font-family: "IBM Plex Mono", ui-monospace, monospace;
     font-size: .82em; background: var(--surface-2); border: 1px solid var(--line-soft);
     border-radius: 4px; padding: .05em .3em; }
@@ -303,7 +320,7 @@
     <p class="sub">Select your Mac Studio model, RAM, and machine count below. Then view what AI models
     should run well on it &mdash; and those that won&rsquo;t. Each model card carries a tab per engine,
     because which runtime you pick changes the answer as much as which Mac you buy.
-    <span class="sub-stamp">Updated <time class="ago" datetime="2026-08-26T08:13:32-04:00">2026-08-26 08:13</time>.</span></p>
+    <span class="sub-stamp">Updated <time class="ago" datetime="2026-08-26T08:21:13-04:00">2026-08-26 08:21</time>.</span></p>
   </header>
 
   <form class="rig" id="rig" aria-label="Cluster configuration">
@@ -3037,9 +3054,13 @@
 
   <div class="panel wide">
     <h2>General engine issues that affect all models</h2>
-    <p class="panel-lead">What each engine is, and the defects that follow you whichever model you load on it.
-    Every engine here exposes an HTTP API &mdash; none of them is desktop-only &mdash; so any of these can sit
-    behind an agent.</p>
+    <p class="panel-lead">What each engine is, what its API actually implements, and the defects that follow
+    you whichever model you load on it. All seven speak OpenAI on <code>/v1/chat/completions</code> with SSE
+    streaming, and none is desktop-only &mdash; but &ldquo;OpenAI-compatible&rdquo; covers a wide range, and the
+    differences land on exactly the features an agent leans on: whether tool-call arguments stream as deltas or
+    arrive only after the turn, whether constrained decoding exists at all, and whether <code>tool_choice</code>
+    is implemented. Five of the seven also serve Anthropic <code>/v1/messages</code>, so Claude Code can point
+    at them directly.</p>
     
       <div class="eng" data-model="cross">
         <div class="eng-tabs" role="tablist" aria-label="Engines">
@@ -3083,6 +3104,7 @@
              data-eng="llamacpp">
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + llama-server</dd></div><div><dt>Format</dt><dd>GGUF</dd></div><div><dt>API</dt><dd>OpenAI-compatible</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
           <p class="eng-note">The reference GGUF runtime, with a first-class Metal backend. New architectures land here earlier and more completely than anywhere else on this page, and Ollama, LM Studio, Jan, KoboldCpp and most other local runners are downstream of it. <code>llama-server</code> exposes an OpenAI-compatible endpoint, so nothing here is GUI-only.</p>
+          <dl class="api"><div class="api-row"><dt>Endpoints</dt><dd>OpenAI: /v1/models, /v1/chat/completions, /v1/completions, /v1/responses, /v1/embeddings, plus token-counting routes for chat and responses. Anthropic: /v1/messages and /v1/messages/count_tokens. Also /slots prompt-cache save/restore, Prometheus /metrics, and real-time completion control.</dd></div><div class="api-row"><dt>Streaming</dt><dd>SSE on every chat surface. Returns a standard <code>usage</code> object plus a <code>timings</code> block that reports <code>cache_n</code> - how many prompt tokens were reused from cache - which is the number you want when tuning an agent loop.</dd></div><div class="api-row"><dt>Tool calling</dt><dd>Native tool-call styles per model family with a generic fallback, <code>tool_choice</code>, and <code>parallel_tool_calls</code> gated on what the jinja template supports. Arguments stream as deltas.</dd></div><div class="api-row"><dt>Structured output</dt><dd><code>response_format</code> accepts both <code>json_object</code> and <code>json_schema</code>, enforced by GBNF grammar sampling at the token level rather than validated afterwards.</dd></div><div class="api-row"><dt>Concurrency</dt><dd>Parallel slots (<code>-np</code>), with per-slot prompt caches you can persist to disk.</dd></div><div class="api-row"><dt>Watch for</dt><dd>Tool use requires the <code>--jinja</code> flag on both the OpenAI and Anthropic surfaces - without it <code>tools</code> is silently inert. The project&#x27;s own docs decline to claim spec compliance: “no strong claims of compatibility with OpenAI API spec is being made”.</dd></div></dl>
           <ul class="cross-list">
         <li class="row sev-high">
           <div class="row-head">
@@ -3126,6 +3148,7 @@
              data-eng="ollama" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Background server + CLI</dd></div><div><dt>Format</dt><dd>MLX on Apple Silicon, GGUF elsewhere</dd></div><div><dt>API</dt><dd>OpenAI-compatible, plus its own /api</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
           <p class="eng-note">One-command pulls from a curated library, running as a launch-agent server. Since v0.30 (May 2026) MLX is the default engine on Apple Silicon rather than llama.cpp, which is the single most important thing to know about it here: on a Mac, Ollama inherits MLX&#x27;s architecture coverage for the models it serves through that path.</p>
+          <dl class="api"><div class="api-row"><dt>Endpoints</dt><dd>OpenAI: /v1/models, /v1/models/{model}, /v1/chat/completions, /v1/completions, /v1/embeddings, /v1/responses. Anthropic-compatible surface as well. Its own richer /api/* routes sit alongside.</dd></div><div class="api-row"><dt>Streaming</dt><dd>Yes, with <code>stream_options</code>. The only engine here that publishes an explicit checkbox matrix of what it does and does not implement, which is worth more than most of the feature lists.</dd></div><div class="api-row"><dt>Tool calling</dt><dd>Tools yes, but <strong><code>tool_choice</code> is not implemented</strong> - you cannot force a specific call or require that one happen. Also missing: <code>logprobs</code>, <code>n</code>, <code>logit_bias</code>, <code>user</code>.</dd></div><div class="api-row"><dt>Structured output</dt><dd><code>response_format</code> and JSON mode supported.</dd></div><div class="api-row"><dt>Concurrency</dt><dd>Serves concurrently with automatic model loading and unloading.</dd></div><div class="api-row"><dt>Watch for</dt><dd><code>/v1/responses</code> is non-stateful only: no <code>previous_response_id</code>, no <code>conversation</code>. And because MLX is now the default engine on Apple Silicon, a tag can resolve to a different backend than you expect.</dd></div></dl>
           <ul class="cross-list">
         <li class="row sev-critical">
           <div class="row-head">
@@ -3187,6 +3210,7 @@
              data-eng="lmstudio" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Desktop app + `lms` CLI + server</dd></div><div><dt>Format</dt><dd>GGUF and MLX</dd></div><div><dt>API</dt><dd>OpenAI-compatible on :1234</dd></div><div><dt>License</dt><dd>Proprietary, free to use</dd></div></dl>
           <p class="eng-note">App-first but not app-only. It ships both a llama.cpp engine and its own MLX engine, so for any given model it can take whichever path works, and its catalogue tends to carry a curated quant within a day of a release. The <code>lms</code> CLI and the server run headless.</p>
+          <dl class="api"><div class="api-row"><dt>Endpoints</dt><dd>OpenAI: /v1/models, /v1/chat/completions, /v1/completions, /v1/responses, /v1/embeddings. Its own REST API and TypeScript/Python SDKs are more capable than the compatibility layer.</dd></div><div class="api-row"><dt>Streaming</dt><dd>Yes. Tool calls stream properly as <code>delta.tool_calls[].function.arguments</code> fragments you accumulate across chunks - the correct OpenAI shape.</dd></div><div class="api-row"><dt>Tool calling</dt><dd>Standard OpenAI tool schemas, with per-family native formats and a documented generic fallback for models with no native tool support.</dd></div><div class="api-row"><dt>Structured output</dt><dd><code>json_schema</code> only - <strong><code>json_object</code> mode is not supported</strong>. Enforcement differs by engine: llama.cpp grammars for GGUF, Outlines for MLX. SDK integrations bind to Zod, Pydantic and msgspec.</dd></div><div class="api-row"><dt>Concurrency</dt><dd>Serves multiple requests; models load and unload through the app or <code>lms</code>.</dd></div><div class="api-row"><dt>Watch for</dt><dd>The two engines are not equivalent through the same API. An open report has the MLX engine silently clamping context to 4864 tokens and ignoring every override, which surfaces as the model being bad rather than the server being wrong.</dd></div></dl>
           <ul class="cross-list">
         <li class="row sev-critical">
           <div class="row-head">
@@ -3239,6 +3263,7 @@
              data-eng="omlx" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Menu-bar app + server</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>Apache-2.0</dd></div></dl>
           <p class="eng-note">MLX serving built for agent clients: continuous batching, a hot/cold KV cache that spills blocks to SSD and survives a restart, and hand-written Metal kernels for the GLM-5.2, MiniMax M3 and Qwen3.5 families. Its LLM coverage is mlx-lm&#x27;s, plus those kernels and its own additions - install the custom kernels or the affected families fall back silently to a much slower generic path.</p>
+          <dl class="api"><div class="api-row"><dt>Endpoints</dt><dd>OpenAI: /v1/chat/completions, /v1/completions, /v1/embeddings, /v1/rerank, /v1/models. Anthropic: /v1/messages, with adaptive thinking.</dd></div><div class="api-row"><dt>Streaming</dt><dd>Yes, including <code>stream_options.include_usage</code>, and SSE keep-alives so a long prefill does not read-timeout the client. It also scales reported token counts so Claude Code&#x27;s auto-compact triggers at the right moment on a smaller-context model.</dd></div><div class="api-row"><dt>Tool calling</dt><dd>Per-family parsers (Qwen3.5 XML, GLM arg-key/value, MiniMax namespaced, Gemma, Kimi, Mistral, Longcat). <strong>Tool calls do not stream incrementally</strong> - assistant text streams while tool markup is suppressed, and structured calls are emitted only after the completed turn is parsed.</dd></div><div class="api-row"><dt>Structured output</dt><dd>JSON schema validation, plus MCP tool integration.</dd></div><div class="api-row"><dt>Concurrency</dt><dd>Continuous batching, default 8 concurrent requests, over a hot/cold KV cache that spills to SSD and survives a restart.</dd></div><div class="api-row"><dt>Watch for</dt><dd>The two surfaces are not interchangeable in practice: there is an open report of the OpenAI endpoint returning 500 while the Anthropic endpoint on the same server works. A stricter channel check also drops valid gpt-oss calls addressed to <code>functions.*</code>.</dd></div></dl>
           <ul class="cross-list">
         <li class="row sev-high">
           <div class="row-head">
@@ -3264,6 +3289,7 @@
              data-eng="vllmmlx" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>Server</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>Apache-2.0</dd></div></dl>
           <p class="eng-note">A paged KV cache and continuous batching over mlx-lm&#x27;s model classes. Unaffiliated with vllm-project/vllm despite the name. Because it wraps mlx-lm rather than reimplementing models, an architecture missing upstream is missing here, and mlx-lm&#x27;s bugs arrive intact.</p>
+          <dl class="api"><div class="api-row"><dt>Endpoints</dt><dd>OpenAI: /v1/chat/completions, /v1/completions, /v1/embeddings, /v1/rerank, /v1/responses. Anthropic: /v1/messages with streaming, tool use and system prompts. Prometheus /metrics.</dd></div><div class="api-row"><dt>Streaming</dt><dd>Yes on both surfaces. Usage is reported, but <code>cached_tokens</code> is not surfaced yet - an open PR - so you cannot see prefix-cache hits from the API.</dd></div><div class="api-row"><dt>Tool calling</dt><dd>19 tool parsers (OpenAI, Anthropic, Gemini, Qwen, DeepSeek, Gemma and more) plus reasoning parsers selected with <code>--reasoning-parser</code>.</dd></div><div class="api-row"><dt>Structured output</dt><dd><code>response_format</code> with <code>json_schema</code>.</dd></div><div class="api-row"><dt>Concurrency</dt><dd>The strongest story on paper: continuous batching over a paged KV cache with prefix caching and SSD tiering, which is the whole reason the project exists.</dd></div><div class="api-row"><dt>Watch for</dt><dd>Three open defects land squarely on the streaming path: streamed tool calls can end without a <code>finish_reason</code>, closing a stream mid-flight leaves the generator and request state open, and a strict <code>json_schema</code> decode can wedge. Also bind carefully - non-loopback requests have been reported silently dropped on 0.0.0.0.</dd></div></dl>
           <ul class="cross-list">
         <li class="row sev-high">
           <div class="row-head">
@@ -3343,6 +3369,7 @@
              data-eng="mlxlm" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + `mlx_lm.server`</dd></div><div><dt>Format</dt><dd>MLX</dd></div><div><dt>API</dt><dd>OpenAI-compatible, minimal</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
           <p class="eng-note">Apple&#x27;s own reference implementation, and the substrate almost everything MLX-shaped depends on. Treat it as the floor: an architecture with no model class here is absent from most of the MLX ecosystem at once. The bundled server is deliberately basic - one model, simple batching - so it is a correctness reference more than a serving layer.</p>
+          <dl class="api"><div class="api-row"><dt>Endpoints</dt><dd>OpenAI: POST /v1/chat/completions (and bare /chat/completions), POST /v1/completions, GET /v1/models, GET /health. No embeddings, no rerank, no responses.</dd></div><div class="api-row"><dt>Streaming</dt><dd>Yes, SSE, with <code>stream_options.include_usage</code> and <code>prompt_tokens_details</code> for cached prompt tokens.</dd></div><div class="api-row"><dt>Tool calling</dt><dd><code>tool_calls</code> are parsed and returned. It also implements <code>logprobs</code> and <code>top_logprobs</code> up to 11, which Ollama does not - a genuine inversion of the usual ordering.</dd></div><div class="api-row"><dt>Structured output</dt><dd><strong>None.</strong> There is no <code>response_format</code>, no <code>json_schema</code> and no grammar support anywhere in the server. If your agent depends on constrained decoding, this engine cannot give it to you.</dd></div><div class="api-row"><dt>Concurrency</dt><dd>A ThreadingHTTPServer over mlx-lm&#x27;s BatchGenerator, but batching is switched off whenever a draft model is loaded or a <code>seed</code> is set - so speculative decoding and concurrency are mutually exclusive here.</dd></div><div class="api-row"><dt>Watch for</dt><dd>Better than its reputation on the basics and thinner than expected on structured output. Treat it as a correctness reference rather than a serving layer.</dd></div></dl>
           <ul class="cross-list">
         <li class="row sev-high">
           <div class="row-head">
@@ -3377,6 +3404,7 @@
              data-eng="ds4" hidden>
           <dl class="eng-meta"><div><dt>Surface</dt><dd>CLI + ds4-server + built-in agent</dd></div><div><dt>Format</dt><dd>purpose-built GGUF</dd></div><div><dt>API</dt><dd>OpenAI and Anthropic</dd></div><div><dt>License</dt><dd>MIT</dd></div></dl>
           <p class="eng-note">A single-purpose C and Metal engine for DeepSeek V4 Flash, DeepSeek V4 PRO and GLM-5.2 - deliberately not a general GGUF loader, so only the published checkpoints load. In exchange it gets a disk KV cache that persists sessions across restarts, resident session batching, SSD expert streaming for machines too small to hold the weights, and tensor parallelism across two Macs over Thunderbolt RDMA. Where it applies, it is the fastest option here.</p>
+          <dl class="api"><div class="api-row"><dt>Endpoints</dt><dd>OpenAI: /v1/models, /v1/models/{alias}, /v1/chat/completions, /v1/completions, /v1/responses. Anthropic: /v1/messages. The model aliases are compatibility only - they all report whatever GGUF was passed with <code>-m</code>.</dd></div><div class="api-row"><dt>Streaming</dt><dd>SSE on the chat, Responses and Anthropic surfaces, with <code>stream_options.include_usage</code>. In thinking mode reasoning streams on its own channel instead of being mixed into the final text, and the Responses surface emits the full Codex event lifecycle - <code>response.output_text.delta</code>, function-call argument events, and terminal <code>response.completed</code> / <code>incomplete</code> / <code>failed</code>.</dd></div><div class="api-row"><dt>Tool calling</dt><dd><code>tools</code> and <code>tool_choice</code> on all three surfaces. Schemas are rendered into DeepSeek&#x27;s DSML format and generated calls mapped back. <strong>Tool calls stream incrementally</strong>: the header goes out as soon as the DSML invocation is recognised, then argument bytes are forwarded as <code>tool_calls[].function.arguments</code> deltas while generation continues.</dd></div><div class="api-row"><dt>Structured output</dt><dd>No <code>response_format</code> or grammar support; correctness comes from DSML canonicalisation rather than constrained decoding.</dd></div><div class="api-row"><dt>Concurrency</dt><dd><code>--batched-session N</code> preallocates N resident KV sessions with fair scheduling, and idle slots persist to the disk KV cache before reuse. MTP speculative decoding is disabled while native session batching is active.</dd></div><div class="api-row"><dt>Watch for</dt><dd>The best streaming implementation here, from the narrowest engine - but stateless clients have been reported failing to extend the live KV session on Flash/Metal, which quietly removes the prefix reuse that is the main reason to run it. Add <code>--cors</code> for browser clients; <code>--host 0.0.0.0</code> is opt-in.</dd></div></dl>
           <ul class="cross-list">
         <li class="row sev-high">
           <div class="row-head">
