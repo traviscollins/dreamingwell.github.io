@@ -80,6 +80,16 @@
     :root:not([data-theme="light"]) .rig.stuck { box-shadow: 0 6px 18px -8px rgba(0,0,0,.7); }
   }
   :root[data-theme="dark"] .rig.stuck { box-shadow: 0 6px 18px -8px rgba(0,0,0,.7); }
+  /* Only meaningful once the bar has detached from its home position. */
+  .rig-now { display: none; }
+  .rig.stuck .rig-now { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap;
+    margin: .55rem 0 0; padding-top: .5rem; border-top: 1px solid var(--line-soft); }
+  .rig-now-k { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .6rem;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+  .rig-now-name { font-size: .92rem; font-weight: 600; letter-spacing: -.01em;
+    color: var(--ink); text-decoration: none; }
+  .rig-now-name:hover { color: var(--accent); }
+  .rig-now .verdict { font-size: .62rem; }
   .rig select optgroup { font-weight: 600; }
   .rig-controls { display: flex; gap: 1.1rem; flex-wrap: wrap; align-items: flex-end; }
   .rig-f { display: flex; flex-direction: column; gap: .28rem; min-width: 0; }
@@ -375,7 +385,7 @@
     <h1>Apple LLM Performance Tracker</h1>
     <p class="sub">Select your Mac CPU model, RAM, and machine count below. Then view what AI models
     should run well on it &mdash; and those that won&rsquo;t.
-    <span class="sub-stamp">Updated <time class="ago" datetime="2026-08-26T09:15:21-04:00">2026-08-26 09:15</time>.</span></p>
+    <span class="sub-stamp">Updated <time class="ago" datetime="2026-08-26T09:24:51-04:00">2026-08-26 09:24</time>.</span></p>
   </header>
 
   <div id="rig-sentinel" aria-hidden="true"></div>
@@ -391,6 +401,11 @@
         <select id="rig-n"></select>
       </label>
     </div>
+    <p class="rig-now" id="rig-now" hidden>
+      <span class="rig-now-k">Viewing</span>
+      <a class="rig-now-name" id="rig-now-name" href="#"></a>
+      <span class="verdict" id="rig-now-badge"></span>
+    </p>
     <p class="rig-out" id="rig-out"></p>
     <p class="rig-warn" id="rig-warn" hidden></p>
   </form>
@@ -4333,6 +4348,8 @@
       }
     }
 
+    updateNow();
+
     var p = new URLSearchParams();
     p.set("chip", chip); p.set("mem", g); p.set("n", n);
     if (ucId) p.set("uc", ucId);
@@ -4356,9 +4373,48 @@
 
   var sentinel = document.getElementById("rig-sentinel");
   var rigEl = document.getElementById("rig");
+  var nowEl = document.getElementById("rig-now"),
+      nowName = document.getElementById("rig-now-name"),
+      nowBadge = document.getElementById("rig-now-badge");
+  var sections = [].slice.call(document.querySelectorAll(".model"));
+
+  // Which card is under the bar right now. Probing a few pixels below the bar's
+  // own bottom edge means the answer tracks whatever is actually visible first,
+  // and the badge is read live from the card so it reflects the current cluster.
+  function updateNow() {
+    if (!nowEl || !rigEl.classList.contains("stuck")) {
+      if (nowEl) nowEl.hidden = true;
+      return;
+    }
+    var probe = rigEl.getBoundingClientRect().bottom + 4, cur = null;
+    for (var i = 0; i < sections.length; i++) {
+      var r = sections[i].getBoundingClientRect();
+      if (r.top <= probe && r.bottom > probe) { cur = sections[i]; break; }
+    }
+    if (!cur) { nowEl.hidden = true; return; }
+    var h = cur.querySelector("h2"), v = cur.querySelector(".verdict");
+    nowEl.hidden = false;
+    nowName.textContent = h ? h.textContent.trim() : "";
+    nowName.setAttribute("href", "#" + cur.id);
+    if (v) {
+      nowBadge.textContent = v.textContent.trim();
+      nowBadge.className = v.className;
+    }
+  }
+
+  var queued = false;
+  function scheduleNow() {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(function () { queued = false; updateNow(); });
+  }
+  window.addEventListener("scroll", scheduleNow, { passive: true });
+  window.addEventListener("resize", scheduleNow, { passive: true });
+
   if (sentinel && rigEl && "IntersectionObserver" in window) {
     new IntersectionObserver(function (entries) {
       rigEl.classList.toggle("stuck", !entries[0].isIntersecting);
+      updateNow();
     }, { threshold: 1 }).observe(sentinel);
   }
 
