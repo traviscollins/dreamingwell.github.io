@@ -56,7 +56,39 @@
   .stat.mid .n { color: var(--warn); }
   .stat.time .n { font-size: 1.05rem; padding-top: .5rem; color: var(--ink-2); }
 
-  .model { margin-bottom: 2.5rem; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  .index { margin: 0 0 2.75rem; }
+  .ix-head { font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: var(--accent);
+    margin: 0 0 .7rem; font-weight: 600; font-family: "IBM Plex Mono", ui-monospace, monospace; }
+  .ix-rows { display: flex; flex-direction: column; gap: 1px; background: var(--line);
+    border: 1px solid var(--line); border-radius: 9px; overflow: hidden; }
+  .ix-row { display: grid; grid-template-columns: minmax(9rem, 1.6fr) auto minmax(5rem, .6fr) minmax(6rem, .8fr);
+    align-items: center; gap: .9rem; padding: .62rem 1rem; background: var(--surface);
+    text-decoration: none; color: inherit; border-left: 3px solid var(--medium);
+    transition: background .12s ease; }
+  .ix-row:hover, .ix-row:focus-visible { background: var(--surface-2); }
+  .ix-row.v-ready { border-left-color: var(--ok); }
+  .ix-row.v-degraded { border-left-color: var(--warn); }
+  .ix-row.v-blocked { border-left-color: var(--critical); }
+  .ix-row.v-nofit { border-left-color: var(--low); }
+  .ix-name { font-weight: 600; font-size: .92rem; letter-spacing: -.01em; }
+  .ix-status { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .66rem;
+    font-weight: 600; letter-spacing: .05em; text-transform: uppercase; white-space: nowrap;
+    padding: .14rem .5rem; border-radius: 4px; border: 1px solid; justify-self: start; }
+  .ix-status.v-ready { color: var(--ok); border-color: var(--ok); }
+  .ix-status.v-degraded { color: var(--warn); border-color: var(--warn); }
+  .ix-status.v-blocked { color: var(--critical); border-color: var(--critical); }
+  .ix-status.v-nofit { color: var(--low); border-color: var(--line); }
+  .ix-size { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .78rem;
+    color: var(--ink-2); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+  .ix-meta { font-size: .76rem; color: var(--muted); text-align: right; white-space: nowrap; }
+  @media (max-width: 34rem) {
+    .ix-row { grid-template-columns: 1fr auto; row-gap: .3rem; }
+    .ix-size, .ix-meta { text-align: left; }
+  }
+  .model { margin-bottom: 2.5rem; scroll-margin-top: 1.25rem; }
+  .nofit-row { scroll-margin-top: 1.25rem; }
   .model-head { background: var(--surface); border: 1px solid var(--line);
     border-top: 3px solid var(--medium); border-radius: 10px 10px 0 0; padding: 1.35rem 1.5rem 1.15rem; }
   .model.v-degraded .model-head { border-top-color: var(--warn); }
@@ -177,10 +209,70 @@
     <div class="stat mid"><span class="n">1</span><span class="k">Runs, degraded</span></div>
     <div class="stat bad"><span class="n">3</span><span class="k">Blocked</span></div>
     <div class="stat"><span class="n">26</span><span class="k">Open items</span></div>
-    <div class="stat time"><span class="n">2026-08-25 21:57</span><span class="k">Status as of</span></div>
+    <div class="stat time"><time class="n ago" datetime="2026-08-25T22:19:31-04:00">2026-08-25 22:19</time><span class="k">Since last change</span></div>
   </div>
 
-    <section class="model v-ready">
+  <nav class="index" aria-label="Model index">
+    <h2 class="ix-head">Models at a glance</h2>
+    <div class="ix-rows">
+        <a class="ix-row v-ready" href="#glm47">
+          <span class="ix-name">GLM-4.7</span>
+          <span class="ix-status v-ready">Recommended</span>
+          <span class="ix-size">199 GB</span>
+          <span class="ix-meta">1 open item</span>
+        </a>
+        <a class="ix-row v-ready" href="#glm47f">
+          <span class="ix-name">GLM-4.7-Flash</span>
+          <span class="ix-status v-ready">Fast lane</span>
+          <span class="ix-size">17 GB</span>
+          <span class="ix-meta">1 open item</span>
+        </a>
+        <a class="ix-row v-degraded" href="#qwen38">
+          <span class="ix-name">Qwen3.8-27B</span>
+          <span class="ix-status v-degraded">Runs, degraded</span>
+          <span class="ix-size">21 GB</span>
+          <span class="ix-meta">10 open items</span>
+        </a>
+        <a class="ix-row v-blocked" href="#m3">
+          <span class="ix-name">MiniMax M3</span>
+          <span class="ix-status v-blocked">Blocked</span>
+          <span class="ix-size">no MLX quant</span>
+          <span class="ix-meta">1 open item</span>
+        </a>
+        <a class="ix-row v-blocked" href="#v4flash">
+          <span class="ix-name">DeepSeek V4 Flash</span>
+          <span class="ix-status v-blocked">Blocked</span>
+          <span class="ix-size">151 GB</span>
+          <span class="ix-meta">3 open items</span>
+        </a>
+        <a class="ix-row v-blocked" href="#glm52">
+          <span class="ix-name">GLM-5.2</span>
+          <span class="ix-status v-blocked">Blocked</span>
+          <span class="ix-size">395 GB</span>
+          <span class="ix-meta">3 open items</span>
+        </a>
+        <a class="ix-row v-nofit" href="#m-kimi-k3">
+          <span class="ix-name">Kimi K3</span>
+          <span class="ix-status v-nofit">Too large</span>
+          <span class="ix-size">~1.4 TB</span>
+          <span class="ix-meta">exceeds both machines</span>
+        </a>
+        <a class="ix-row v-nofit" href="#m-qwen3-8-max">
+          <span class="ix-name">Qwen3.8-Max</span>
+          <span class="ix-status v-nofit">Too large</span>
+          <span class="ix-size">~1.2 TB</span>
+          <span class="ix-meta">exceeds both machines</span>
+        </a>
+        <a class="ix-row v-nofit" href="#m-deepseek-v4-pro">
+          <span class="ix-name">DeepSeek V4 Pro</span>
+          <span class="ix-status v-nofit">Too large</span>
+          <span class="ix-size">~800 GB</span>
+          <span class="ix-meta">exceeds both machines</span>
+        </a>
+    </div>
+  </nav>
+
+    <section class="model v-ready" id="glm47">
       <div class="model-head">
         <div class="model-id">
           <h2>GLM-4.7</h2>
@@ -216,7 +308,7 @@
         </li>
       </ul>
     </section>
-    <section class="model v-ready">
+    <section class="model v-ready" id="glm47f">
       <div class="model-head">
         <div class="model-id">
           <h2>GLM-4.7-Flash</h2>
@@ -252,7 +344,7 @@
         </li>
       </ul>
     </section>
-    <section class="model v-degraded">
+    <section class="model v-degraded" id="qwen38">
       <div class="model-head">
         <div class="model-id">
           <h2>Qwen3.8-27B</h2>
@@ -369,7 +461,7 @@
         </li>
       </ul>
     </section>
-    <section class="model v-blocked">
+    <section class="model v-blocked" id="m3">
       <div class="model-head">
         <div class="model-id">
           <h2>MiniMax M3</h2>
@@ -405,7 +497,7 @@
         </li>
       </ul>
     </section>
-    <section class="model v-blocked">
+    <section class="model v-blocked" id="v4flash">
       <div class="model-head">
         <div class="model-id">
           <h2>DeepSeek V4 Flash</h2>
@@ -459,7 +551,7 @@
         </li>
       </ul>
     </section>
-    <section class="model v-blocked">
+    <section class="model v-blocked" id="glm52">
       <div class="model-head">
         <div class="model-id">
           <h2>GLM-5.2</h2>
@@ -517,19 +609,19 @@
   <div class="panel">
     <h2>Too large for this hardware</h2>
     <ul class="nofit">
-      <li class="nofit-row">
+      <li class="nofit-row" id="m-kimi-k3">
         <div class="nofit-head"><h4>Kimi K3</h4><span class="nofit-mem">~1.4 TB @ 4-bit</span></div>
         <p class="nofit-arch">MoE 2.8T / 104B active &middot; Terminal-Bench 2.1 88.3 · MCPMark-Verified 94.5 · LiveBench Coding 81.45</p>
         <p>The best open-weight agentic model there is, and roughly 3x what two of these machines can hold.</p>
         <div class="srcs"><a class="src" href="https://huggingface.co/moonshotai/Kimi-K3" target="_blank" rel="noopener">moonshotai/Kimi-K3</a><a class="src" href="https://www.morphllm.com/best-open-source-llm" target="_blank" rel="noopener">Benchmark roundup</a></div>
       </li>
-      <li class="nofit-row">
+      <li class="nofit-row" id="m-qwen3-8-max">
         <div class="nofit-head"><h4>Qwen3.8-Max</h4><span class="nofit-mem">~1.2 TB @ 4-bit</span></div>
         <p class="nofit-arch">MoE 2.4T / 95B active &middot; Open weights shipped 2026-08-12 · repo is gated (HTTP 401 without access)</p>
         <p>No longer API-only, but still ~600 GB even at 2-bit, so it clears neither one box nor both.</p>
         <div class="srcs"><a class="src" href="https://huggingface.co/Qwen/Qwen3.8-Max" target="_blank" rel="noopener">Qwen/Qwen3.8-Max</a><a class="src" href="https://www.explainx.ai/blog/qwen3-8-max-open-weights-live-hugging-face-august-2026" target="_blank" rel="noopener">Release coverage</a></div>
       </li>
-      <li class="nofit-row">
+      <li class="nofit-row" id="m-deepseek-v4-pro">
         <div class="nofit-head"><h4>DeepSeek V4 Pro</h4><span class="nofit-mem">~800 GB @ 4-bit</span></div>
         <p class="nofit-arch">MoE 1.6T / 49B active &middot; SWE-bench Verified 80.6%</p>
         <p>Exceeds 512 GB pooled by ~300 GB. Would need ~2.5-bit, below where tool-call formatting stays reliable.</p>
@@ -643,7 +735,30 @@
 
   <footer>
     Polled twice daily against the GitHub API; state changes only &mdash; open&rarr;closed, merged, new release tag.
-    This page is republished when the watch finds a change, so an older date above means nothing has moved,
-    not that the watch stopped. The watch is session-scoped and does not survive the Claude Code session that armed it.
+    The clock above counts from the last <em>content</em> change, not the last check &mdash; the page is only
+    republished when something actually moves, so a large number there means the watchlist has been quiet. The watch is session-scoped and does not survive the Claude Code session that armed it.
   </footer>
 </div>
+
+<script>
+  (function () {
+    var el = document.querySelector("time.ago");
+    if (!el) return;
+    var t = Date.parse(el.getAttribute("datetime"));
+    if (isNaN(t)) return;
+    var abs = el.textContent;
+    function render() {
+      var mins = Math.floor((Date.now() - t) / 60000);
+      if (mins < 0) mins = 0;
+      var out;
+      if (mins < 1) out = "just now";
+      else if (mins < 60) out = mins + "m ago";
+      else if (mins < 1440) out = Math.floor(mins / 60) + "h " + (mins % 60) + "m ago";
+      else out = Math.floor(mins / 1440) + "d " + Math.floor((mins % 1440) / 60) + "h ago";
+      el.textContent = out;
+      el.title = abs;
+    }
+    render();
+    setInterval(render, 60000);
+  })();
+</script>
