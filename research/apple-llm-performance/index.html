@@ -285,6 +285,8 @@
   .ctx th:last-child, .ctx td:last-child { text-align: right; padding-right: 0; }
   .ctx-n { font-family: "IBM Plex Mono", ui-monospace, monospace; color: var(--ink); font-weight: 600; }
   .ctx-n.none { color: var(--critical); font-weight: 400; }
+  .ctx-cap td { border-top: 1px solid var(--line); font-weight: 500; color: var(--ink); }
+  .ctx-cap .ctx-n { color: var(--ok); }
   .ctx-why { margin: 0; font-size: .76rem; color: var(--muted); max-width: 46rem; }
 
   .api { margin: 0; display: flex; flex-direction: column; gap: 1px;
@@ -375,7 +377,7 @@
     <h1>Apple LLM Performance Tracker</h1>
     <p class="sub">Select your Mac CPU model, RAM, and machine count below. Then view what AI models
     should run well on it &mdash; and those that won&rsquo;t.
-    <span class="sub-stamp">Updated <time class="ago" datetime="2026-08-26T09:46:08-04:00">2026-08-26 09:46</time>.</span></p>
+    <span class="sub-stamp">Updated <time class="ago" datetime="2026-08-26T09:47:42-04:00">2026-08-26 09:47</time>.</span></p>
   </header>
 
   <div id="rig-sentinel" aria-hidden="true"></div>
@@ -4556,12 +4558,20 @@
     function ctxRows(bpt, maxctx, freeGB) {
       if (!bpt || !maxctx || freeGB <= 0) return [];
       var out = [];
-      [[1, "full"], [0.75, "three quarters"], [0.5, "half"]].forEach(function (f) {
+      [[1, "full"], [0.75, "three quarters"], [0.5, "half"], [0.25, "a quarter"]].forEach(function (f) {
         var tok = Math.round(maxctx * f[0]);
         var per = bpt * tok;                       // bytes
-        var streams = Math.floor((freeGB * 1e9) / per);
-        out.push({ tok: tok, frac: f[1], perGB: per / 1e9, streams: streams });
+        out.push({ tok: tok, frac: f[1], perGB: per / 1e9,
+                   streams: Math.floor((freeGB * 1e9) / per) });
       });
+      // A model can load and still have no room for a quarter of its advertised
+      // window - MiniMax M3 on one 256 GB machine is exactly that. Saying "runs"
+      // above four rows of "does not fit" is useless, so state what does fit.
+      if (out[out.length - 1].streams < 1) {
+        var maxTok = Math.floor((freeGB * 1e9) / bpt);
+        out.push({ tok: maxTok, frac: "largest that fits", cap: true,
+                   perGB: (bpt * maxTok) / 1e9, streams: maxTok >= 2048 ? 1 : 0 });
+      }
       return out;
     }
 
@@ -4692,7 +4702,9 @@
           } else {
             wrap.hidden = false;
             wrap.querySelector("tbody").innerHTML = rows.map(function (c) {
-              return "<tr><td>" + tokFmt(c.tok) + " (" + c.frac + ")</td><td>" +
+              var label = c.cap ? tokFmt(c.tok) + " &mdash; " + c.frac
+                                : tokFmt(c.tok) + " (" + c.frac + ")";
+              return "<tr" + (c.cap ? ' class="ctx-cap"' : "") + "><td>" + label + "</td><td>" +
                      (c.perGB < 1 ? (c.perGB * 1000).toFixed(0) + " MB" : c.perGB.toFixed(1) + " GB") +
                      '</td><td class="ctx-n' + (c.streams < 1 ? ' none' : '') + '">' +
                      (c.streams < 1 ? "does not fit" : c.streams) + "</td></tr>";
