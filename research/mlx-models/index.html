@@ -31,7 +31,7 @@
     --line: #d9e0e8; --line-soft: #e8edf2;
     --accent: #a85a26;
     --critical: #a8352a; --high: #8a5410; --medium: #4a6070; --low: #78838f;
-    --ok: #25704e; --warn: #8a5410;
+    --ok: #25704e; --ok-tint: #e8f5ee; --warn: #8a5410;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
@@ -40,7 +40,7 @@
       --line: #29333d; --line-soft: #202932;
       --accent: #de8a4c;
       --critical: #ef7565; --high: #ddb24f; --medium: #7f97a8; --low: #6d7883;
-      --ok: #59bc88; --warn: #ddb24f;
+      --ok: #59bc88; --ok-tint: #12251c; --warn: #ddb24f;
     }
   }
   :root[data-theme="dark"] {
@@ -49,7 +49,7 @@
     --line: #29333d; --line-soft: #202932;
     --accent: #de8a4c;
     --critical: #ef7565; --high: #ddb24f; --medium: #7f97a8; --low: #6d7883;
-    --ok: #59bc88; --warn: #ddb24f;
+    --ok: #59bc88; --ok-tint: #12251c; --warn: #ddb24f;
   }
   * { box-sizing: border-box; }
   body {
@@ -108,10 +108,11 @@
   .uc-out { margin: 0 0 .9rem; font-size: .87rem; color: var(--ink-2); }
   .uc-out strong { color: var(--ink); font-weight: 600; }
   .uc-out .uc-why { display: block; margin-top: .2rem; font-size: .78rem; color: var(--muted); }
-  .ix-row.uc-best { background: var(--surface-2); box-shadow: inset 3px 0 0 0 var(--accent); }
+  .ix-row.uc-best { background: var(--ok-tint); box-shadow: inset 3px 0 0 0 var(--ok); }
+  .ix-row.uc-best:hover, .ix-row.uc-best:focus-visible { background: var(--ok-tint); }
   .ix-row.uc-best .ix-name::after { content: "best here"; margin-left: .5rem;
     font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: .58rem; letter-spacing: .08em;
-    text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent);
+    text-transform: uppercase; color: var(--ok); border: 1px solid var(--ok);
     border-radius: 3px; padding: .1em .3em; vertical-align: .1em; }
   .ix-row.uc-out-of-scope { opacity: .5; }
   .ix-head { font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: var(--accent);
@@ -371,9 +372,9 @@
   <header>
     <span class="eyebrow">Top Tier Open Weight Models on Apple Silicon</span>
     <h1>Apple LLM Compatibility Tracker</h1>
-    <p class="sub">Select your Mac Studio model, RAM, and machine count below. Then view what AI models
+    <p class="sub">Select your Mac CPU model, RAM, and machine count below. Then view what AI models
     should run well on it &mdash; and those that won&rsquo;t.
-    <span class="sub-stamp">Updated <time class="ago" datetime="2026-08-26T09:05:45-04:00">2026-08-26 09:05</time>.</span></p>
+    <span class="sub-stamp">Updated <time class="ago" datetime="2026-08-26T09:09:19-04:00">2026-08-26 09:09</time>.</span></p>
   </header>
 
   <div id="rig-sentinel" aria-hidden="true"></div>
@@ -4083,6 +4084,208 @@
       warn.textContent = "Past " + PRACTICAL_UNITS + " machines a full Thunderbolt mesh runs out of ports. " +
         "Treat these rows as arithmetic, not a supported setup.";
     } else { warn.hidden = true; }
+
+    function fitDetail(w) {
+      var resident = w + OVERHEAD;
+      var nodes = Math.ceil(resident / perNode);
+      if (resident > cluster) {
+        return { tooBig: true, nodes: nodes, resident: resident, free: 0,
+                 short: "needs " + nodes + " machine" + (nodes === 1 ? "" : "s"),
+                 text: "needs " + nodes + " machine" + (nodes === 1 ? "" : "s") };
+      }
+      if (nodes > 1) {
+        var freeP = cluster - resident;
+        return { tooBig: false, nodes: nodes, resident: resident, free: freeP,
+                 short: fmt(freeP) + " free",
+                 text: "pooled across " + nodes + " of your " + n + ", " + fmt(freeP) + " left for KV" };
+      }
+      var free = perNode - resident;
+      return { tooBig: false, nodes: 1, resident: resident, free: free,
+               short: fmt(free) + " free",
+               text: n > 1 ? fmt(free) + " free for KV per machine, " + n + " independent copies"
+                           : fmt(free) + " free for KV" };
+    }
+
+    // Pick the target build for this cluster - not simply the biggest thing that
+    // fits. Measured KL divergence flattens above 4 bits per weight (0.41 at
+    // Q4_K_XL against 0.24 at Q5 and 0.10 at Q8), so paying an extra 200 GB for
+    // Q8 buys almost nothing and costs the KV headroom that decides how much
+    // context and how many concurrent streams you get. So: the CHEAPEST rung
+    // that still clears 4 bits, and only if none does, the best of what is left.
+    function pick(ladder) {
+      var fits = ladder.filter(function (r) { return r.gb + OVERHEAD <= cluster; });
+      if (!fits.length) return null;
+      var full = fits.filter(function (r) { return r.kind !== "pruned" && r.bpw >= 4; });
+      if (full.length) return full[full.length - 1];   // ladder is largest-first
+      return fits[0];                                  // best available below 4 bpw
+    }
+
+    function band(rung) {
+      if (rung.kind === "pruned") {
+        return { k: "pruned", label: "Expert-pruned",
+                 why: "This build was not quantised down, it was pruned: whole experts were scored and " +
+                      "deleted. The surviving weights are near lossless, and the capacity they came from " +
+                      "is gone. Bits per weight does not describe this loss." };
+      }
+      for (var i = 0; i < BANDS.length; i++) {
+        if (rung.bpw >= BANDS[i][0]) {
+          return { k: BANDS[i][1], label: BANDS[i][2], why: BANDS[i][3] };
+        }
+      }
+      return { k: "unusable", label: "Below agentic-usable", why: "" };
+    }
+
+    function ctxRows(bpt, maxctx, freeGB) {
+      if (!bpt || !maxctx || freeGB <= 0) return [];
+      var out = [];
+      [[1, "full"], [0.75, "three quarters"], [0.5, "half"]].forEach(function (f) {
+        var tok = Math.round(maxctx * f[0]);
+        var per = bpt * tok;                       // bytes
+        var streams = Math.floor((freeGB * 1e9) / per);
+        out.push({ tok: tok, frac: f[1], perGB: per / 1e9, streams: streams });
+      });
+      return out;
+    }
+
+    function tokFmt(t) {
+      return t >= 1000000 ? (t / 1000000).toFixed(t % 1000000 ? 2 : 0) + "M"
+                          : Math.round(t / 1000) + "k";
+    }
+
+    document.querySelectorAll("[data-payload]").forEach(function (el) {
+      var pl;
+      try { pl = JSON.parse(el.getAttribute("data-payload")); } catch (e) { return; }
+      var engs = pl.engines || [];
+
+      var chosen = null, rung = null;
+      for (var i = 0; i < engs.length; i++) {
+        var r = pick(engs[i].ladder);
+        if (r) { chosen = engs[i]; rung = r; break; }
+      }
+      if (!chosen && engs.length) {
+        // nothing fits anywhere: report whichever engine has the smallest build
+        chosen = engs.reduce(function (a, b) {
+          return b.ladder[b.ladder.length - 1].gb < a.ladder[a.ladder.length - 1].gb ? b : a;
+        });
+        rung = chosen.ladder[chosen.ladder.length - 1];
+      }
+      if (!chosen) {
+        var f0 = el.querySelector(".fit");
+        if (f0) f0.textContent = "no build published";
+        return;
+      }
+
+      var f = fitDetail(rung.gb);
+      var bd = band(rung);
+      var cls, label;
+      if (chosen.s === "blocked" || chosen.s === "unknown") {
+        cls = chosen.s; label = chosen.label;
+      } else if (f.tooBig) {
+        cls = "toolarge"; label = "Too large";
+      } else if (bd.k === "unusable") {
+        cls = "blocked"; label = "Too degraded";
+      } else if (bd.k === "mild" || bd.k === "low" || bd.k === "pruned") {
+        cls = "degraded"; label = chosen.s === "ready" ? "Runs, " + bd.label.toLowerCase() : chosen.label;
+      } else {
+        cls = chosen.s; label = chosen.label;
+      }
+
+      if (el.classList.contains("ix-row")) {
+        el.__pick = { model: el.querySelector(".ix-name").textContent.trim(), engine: chosen.name,
+                      engineId: chosen.id, gb: rung.gb, bpw: rung.bpw, band: bd.k,
+                      tooBig: f.tooBig || bd.k === "unusable" || chosen.s === "blocked" };
+        el.className = "ix-row v-" + cls;
+        var st = el.querySelector(".ix-status");
+        st.className = "ix-status v-" + cls;
+        st.textContent = label;
+        el.querySelector(".ix-eng").textContent = chosen.name;
+        el.querySelector(".ix-size").textContent = fmt(rung.gb);
+        el.querySelector(".fit").textContent = f.short;
+        return;
+      }
+
+      el.className = "model v-" + cls;
+      // Open the card on the engine the glance row names for this cluster, so the
+      // two never disagree - unless the reader has already picked a tab by hand.
+      var grp = el.querySelector(".eng");
+      if (grp && !grp.hasAttribute("data-user-picked")) {
+        var want = grp.querySelector('.eng-tab[data-eng="' + chosen.id + '"]');
+        if (want && want.getAttribute("aria-selected") !== "true") {
+          grp.querySelectorAll(".eng-tab").forEach(function (t) {
+            t.setAttribute("aria-selected", t === want ? "true" : "false");
+          });
+          grp.querySelectorAll(".eng-pane").forEach(function (pa) {
+            pa.hidden = pa.getAttribute("data-eng") !== chosen.id;
+          });
+        }
+      }
+      var vb = el.querySelector(".verdict");
+      vb.className = "verdict v-" + cls;
+      vb.textContent = label;
+      var mf = el.querySelector(".model-fit");
+      if (mf) {
+        mf.className = "model-fit" + (f.tooBig ? " toolarge" : "");
+        mf.textContent = f.tooBig
+          ? "Does not fit. Smallest build is " + chosen.name + " at " + fmt(rung.gb) + ", which " + f.text + "."
+          : "Best fit here: " + chosen.name + ", " + fmt(rung.gb) + " resident, " + f.text + ".";
+      }
+
+      // Each engine tab reports its own rung on the same cluster.
+      engs.forEach(function (eng) {
+        var pane = el.querySelector('.eng-pane[data-eng="' + eng.id + '"]');
+        if (!pane) return;
+        var fit = pane.querySelector(".eng-fit");
+        if (!fit || !fit.hasAttribute("data-has-ladder")) return;
+        var r = pick(eng.ladder) || eng.ladder[eng.ladder.length - 1];
+        var pf = fitDetail(r.gb), pb = band(r);
+
+        fit.classList.toggle("toolarge", pf.tooBig);
+        fit.textContent = pf.tooBig
+          ? "Too large: " + fmt(pf.resident) + " resident, " + pf.text + "."
+          : fmt(pf.resident) + " resident on this cluster, " + pf.text + ".";
+
+        var link = pane.querySelector(".build-link"), bpw = pane.querySelector(".build-bpw");
+        if (link) {
+          link.textContent = r.label;
+          link.setAttribute("href", "https://huggingface.co/" + r.repo);
+        }
+        if (bpw) {
+          bpw.textContent = r.kind === "pruned" ? "expert-pruned" : r.bpw.toFixed(2) + " bits/weight";
+          bpw.className = "build-bpw b-" + pb.k;
+        }
+
+        var fid = pane.querySelector(".fidelity");
+        if (fid) {
+          if (pb.k === "full") {
+            fid.hidden = true;
+          } else {
+            fid.hidden = false;
+            fid.className = "fidelity b-" + pb.k;
+            fid.innerHTML = "<strong>" + pb.label + ".</strong> " + pb.why +
+              (eng.note ? " " + eng.note : "");
+          }
+        }
+
+        var wrap = pane.querySelector(".ctx-wrap");
+        if (wrap) {
+          var rows = pf.tooBig ? [] : ctxRows(pl.kv.bpt, pl.kv.maxctx, pf.free);
+          if (!rows.length) {
+            wrap.hidden = true;
+          } else {
+            wrap.hidden = false;
+            wrap.querySelector("tbody").innerHTML = rows.map(function (c) {
+              return "<tr><td>" + tokFmt(c.tok) + " (" + c.frac + ")</td><td>" +
+                     (c.perGB < 1 ? (c.perGB * 1000).toFixed(0) + " MB" : c.perGB.toFixed(1) + " GB") +
+                     '</td><td class="ctx-n' + (c.streams < 1 ? ' none' : '') + '">' +
+                     (c.streams < 1 ? "does not fit" : c.streams) + "</td></tr>";
+            }).join("");
+            wrap.querySelector(".ctx-why").textContent =
+              "KV at fp16: " + (pl.kv.bpt / 1024).toFixed(1) + " KiB per token. " + pl.kv.why +
+              ". Quantising the KV cache to 8-bit doubles every count above.";
+          }
+        }
+      });
+    });
 
     // The winner for the selected job: walk the curated ranking and take the
     // first model that both fits and clears that job's fidelity gate. Ranking is
